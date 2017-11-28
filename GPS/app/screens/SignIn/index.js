@@ -13,24 +13,48 @@ import UserActions from '../../actions';
 import { connect } from 'react-redux';
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {};
+  constructor(props) {
+    super(props);
+    this.state = {
+      emailPhoneNumber: '',
+      password: '',
+    };
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps :', nextProps.isLoading);
+   
   }
-  
-  onButtonClick() {
-    console.log('sign in screen 1');
-    this.props.signInUser();
+
+  onForgotPassowrdPress() {
+    console.log('***** onForgotPassowrdPress ');
+  }
+
+  onLoginPress() {
+    console.log('***** onLoginPress ');
+  }
+
+  onBecomeDriverPress() {
+    console.log('***** onBecomeDriverPress ');
+  }
+
+  updateEmailPhoneNumber(value) {
+    this.setState({ emailPhoneNumber: value });
+  }
+
+  updatePassword(value) {
+    this.setState({ password: value });
   }
 
   render() {
     return (
         <SignIn
-          onButtonClick={() => this.onButtonClick()}
+            onForgotPassowrdPress={() => this.onForgotPassowrdPress()}
+        onLoginPress={() => this.onLoginPress()}
+        onBecomeDriverPress={() => this.onBecomeDriverPress()}
+        updateEmailPhoneNumber={emailPhoneNumber => this.updateEmailPhoneNumber(emailPhoneNumber)}
+        emailPhoneNumber={this.state.emailPhoneNumber}
+        updatePassword={emailPhoneNumber => this.updatePassword(emailPhoneNumber)}
+        password={this.state.password}
         />
     );
   }
