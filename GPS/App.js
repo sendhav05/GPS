@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import runRootSaga from './app/sagas';
+import Navigator from './app/navigator';
 
-import SignIn from './app/screens/SignIn/index';
+import SignIn from './app/screens/Welcome/index';
 
 export default class App extends Component {
   constructor() {
@@ -15,7 +16,7 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <SignIn />
+        <Navigator />
       </Provider>
     );
   }

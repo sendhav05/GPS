@@ -9,13 +9,15 @@
 		"lint": "./node_modules/.bin/eslint \"./app/{**/*, *}.js\""
 	},
 	"dependencies": {
+    	"prop-types": "^15.6.0",
 		"react": "16.0.0",
 		"react-native": "0.50.2",
 		"react-redux": "^5.0.6",
 		"remote-redux-devtools": "^0.5.7",
 		"redux": "^3.6.0",
-    "redux-logger": "^2.7.4",
-    "redux-saga": "^0.14.3"
+		"redux-logger": "^2.7.4",
+		"redux-saga": "^0.14.3",
+		"react-navigation": "^1.0.0-beta.19"
 	},
 	"devDependencies": {
 		"babel-eslint": "^8.0.2",
