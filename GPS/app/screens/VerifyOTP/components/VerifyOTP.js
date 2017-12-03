@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     marginTop: 20,
-    width: 200,
-    height: 100,
+    width: 180,
+    height: 90,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -45,12 +45,12 @@ const styles = StyleSheet.create({
   },
   forgotPasswordText: {
     color: 'rgba(1,130,168,1)',
-    fontSize: 12,
-    fontWeight: '500',
+    fontSize: 11,
+    fontWeight: '400',
   },
   bodyView: {
     flex: 1,
-    marginTop: 50,
+    marginTop: 70,
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: 'rgba(245,172,35,0)',
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
     height: 40,
     width: width - 60,
-    marginTop: 15,
+    marginTop: 30,
     fontSize: 14,
     color: 'black',
     borderWidth: 1,
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,101,70,1)',
     marginLeft: 40,
     marginRight: 40,
-    marginTop: 15,
+    marginTop: 30,
     height: 40,
     width: width - 80,
     alignItems: 'center',
@@ -93,8 +93,7 @@ const styles = StyleSheet.create({
   },
 });
 
-
-const SignIn = props => (
+const VerifyOTP = props => (
   <TouchableOpacity
     activeOpacity={1}
     style={{ flex: 1, justifyContent: 'center' }}
@@ -108,50 +107,35 @@ const SignIn = props => (
             resizeMode="contain"
             source={Images.logo}
           />
-          <View style={styles.textInputView}>
+          <View style={styles.bodyView}>
+            <Text style={styles.forgotPasswordText}>
+              Mobile Number Verification
+            </Text>
             <TextInput
               style={styles.phoneNumberTextInput}
-              placeholder="Email or Phone"
+              placeholder="Enter OTP"
               placeholderTextColor="rgba(70,64,172,1)"
               color="rgba(70,64,172,1)"
-              onChangeText={emailPhoneNumber => props.updateEmailPhoneNumber(emailPhoneNumber)}
-              value={props.emailPhoneNumber}
-              underlineColorAndroid="transparent"
-            />
-            <TextInput
-              style={styles.phoneNumberTextInput}
-              placeholder="Passowrd"
-              placeholderTextColor="rgba(70,64,172,1)"
-              color="rgba(70,64,172,1)"
-              onChangeText={password => props.updatePassword(password)}
-              value={props.password}
+              onChangeText={otpNumber => props.updateOTPNumber(otpNumber)}
+              value={props.otpNumber}
+              keyboardType="number-pad"
               underlineColorAndroid="transparent"
               secureTextEntry={Boolean(true)}
             />
             <TouchableOpacity
-              style={styles.forgotPasswordButton}
-              onPress={() => props.onForgotPassowrdPress()}
-            >
-              <Text style={styles.forgotPasswordText}>
-                forgot password?
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.bodyView}>
-            <TouchableOpacity
               style={styles.loginButton}
-              onPress={() => props.onLoginPress()}
+              onPress={() => props.onVerifyOTPPress()}
             >
               <Text style={styles.buttonText}>
-                Login
+                Verify
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.loginButton}
-              onPress={() => props.onBecomeDriverPress()}
+              onPress={() => props.onResendOTPPress()}
             >
               <Text style={styles.buttonText}>
-                Become a  Driver
+                Resend OTP
               </Text>
             </TouchableOpacity>
           </View>
@@ -161,12 +145,12 @@ const SignIn = props => (
   </TouchableOpacity>
 );
 
-SignIn.propTypes = {
-  onForgotPassowrdPress: PropTypes.func,
+VerifyOTP.propTypes = {
+  onVerifyOTPPress: PropTypes.func,
 };
 
-SignIn.defaultProps = {
-  onForgotPassowrdPress: () => {},
+VerifyOTP.defaultProps = {
+  onVerifyOTPPress: () => {},
 };
 
-export default SignIn;
+export default VerifyOTP;

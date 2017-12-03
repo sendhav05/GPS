@@ -31,14 +31,14 @@ class App extends Component {
 
   onLoginPress() {
     console.log('***** onLoginPress ');
-     const { navigate } = this.props.navigation;
-      navigate('Login');
+    const { navigate } = this.props.navigation;
+    navigate('Login');
   }
 
   onBecomeDriverPress() {
     console.log('***** onBecomeDriverPress ');
-         const { navigate } = this.props.navigation;
-      navigate('Login');
+    const { navigate } = this.props.navigation;
+    navigate('Signup');
   }
 
   updateEmailPhoneNumber(value) {

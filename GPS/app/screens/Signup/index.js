@@ -8,11 +8,11 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
 import runRootSaga from '../../sagas';
-import SignIn from './components/SignIn.js';
+import Signup from './components/Signup';
 import UserActions from '../../actions';
 import { connect } from 'react-redux';
 
-class App extends Component {
+class SignupUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,14 +31,10 @@ class App extends Component {
 
   onLoginPress() {
     console.log('***** onLoginPress ');
-    const { navigate } = this.props.navigation;
-    navigate('VerifyOTP');
   }
 
   onBecomeDriverPress() {
     console.log('***** onBecomeDriverPress ');
-    const { navigate } = this.props.navigation;
-    navigate('Signup');
   }
 
   updateEmailPhoneNumber(value) {
@@ -51,15 +47,15 @@ class App extends Component {
 
   render() {
     return (
-      <SignIn
-        onForgotPassowrdPress={() => this.onForgotPassowrdPress()}
-        onLoginPress={() => this.onLoginPress()}
-        onBecomeDriverPress={() => this.onBecomeDriverPress()}
-        updateEmailPhoneNumber={emailPhoneNumber => this.updateEmailPhoneNumber(emailPhoneNumber)}
-        emailPhoneNumber={this.state.emailPhoneNumber}
-        updatePassword={emailPhoneNumber => this.updatePassword(emailPhoneNumber)}
-        password={this.state.password}
-      />
+        <Signup
+          onForgotPassowrdPress={() => this.onForgotPassowrdPress()}
+          onLoginPress={() => this.onLoginPress()}
+          onBecomeDriverPress={() => this.onBecomeDriverPress()}
+          updateEmailPhoneNumber={emailPhoneNumber => this.updateEmailPhoneNumber(emailPhoneNumber)}
+          emailPhoneNumber={this.state.emailPhoneNumber}
+          updatePassword={emailPhoneNumber => this.updatePassword(emailPhoneNumber)}
+          password={this.state.password}
+        />
     );
   }
 }
@@ -71,6 +67,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = () => UserActions;
 
-const AppScreen = connect(mapStateToProps, mapDispatchToProps)(App);
+const SignupUserScreen = connect(mapStateToProps, mapDispatchToProps)(SignupUser);
 
-export default AppScreen;
+export default SignupUserScreen;

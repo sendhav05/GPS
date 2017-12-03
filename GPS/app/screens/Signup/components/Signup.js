@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   textInputView: {
     marginTop: 60,
-    height: 100,
+    height: 250,
     justifyContent: 'flex-start',
   },
   forgotPasswordButton: {
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
 });
 
 
-const SignIn = props => (
+const Signup = props => (
   <TouchableOpacity
     activeOpacity={1}
     style={{ flex: 1, justifyContent: 'center' }}
@@ -111,13 +111,35 @@ const SignIn = props => (
           <View style={styles.textInputView}>
             <TextInput
               style={styles.phoneNumberTextInput}
-              placeholder="Email or Phone"
+              placeholder="Name"
               placeholderTextColor="rgba(70,64,172,1)"
               color="rgba(70,64,172,1)"
               onChangeText={emailPhoneNumber => props.updateEmailPhoneNumber(emailPhoneNumber)}
               value={props.emailPhoneNumber}
               underlineColorAndroid="transparent"
             />
+            <TextInput
+              style={styles.phoneNumberTextInput}
+              placeholder="Email"
+              keyboardType="email-address"
+              placeholderTextColor="rgba(70,64,172,1)"
+              color="rgba(70,64,172,1)"
+              onChangeText={password => props.updatePassword(password)}
+              value={props.password}
+              underlineColorAndroid="transparent"
+              secureTextEntry={Boolean(true)}
+            />
+            <TextInput
+              style={styles.phoneNumberTextInput}
+              placeholder="Phone"
+              keyboardType="phone-pad"
+              placeholderTextColor="rgba(70,64,172,1)"
+              color="rgba(70,64,172,1)"
+              onChangeText={password => props.updatePassword(password)}
+              value={props.password}
+              underlineColorAndroid="transparent"
+              secureTextEntry={Boolean(true)}
+            />  
             <TextInput
               style={styles.phoneNumberTextInput}
               placeholder="Passowrd"
@@ -127,31 +149,25 @@ const SignIn = props => (
               value={props.password}
               underlineColorAndroid="transparent"
               secureTextEntry={Boolean(true)}
+            />  
+            <TextInput
+              style={styles.phoneNumberTextInput}
+              placeholder="Confirm Passowrd"
+              placeholderTextColor="rgba(70,64,172,1)"
+              color="rgba(70,64,172,1)"
+              onChangeText={password => props.updatePassword(password)}
+              value={props.password}
+              underlineColorAndroid="transparent"
+              secureTextEntry={Boolean(true)}
             />
-            <TouchableOpacity
-              style={styles.forgotPasswordButton}
-              onPress={() => props.onForgotPassowrdPress()}
-            >
-              <Text style={styles.forgotPasswordText}>
-                forgot password?
-              </Text>
-            </TouchableOpacity>
           </View>
           <View style={styles.bodyView}>
             <TouchableOpacity
               style={styles.loginButton}
-              onPress={() => props.onLoginPress()}
+              onPress={() => props.onSignupUserPress()}
             >
               <Text style={styles.buttonText}>
-                Login
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.loginButton}
-              onPress={() => props.onBecomeDriverPress()}
-            >
-              <Text style={styles.buttonText}>
-                Become a  Driver
+                Register
               </Text>
             </TouchableOpacity>
           </View>
@@ -161,12 +177,12 @@ const SignIn = props => (
   </TouchableOpacity>
 );
 
-SignIn.propTypes = {
+Signup.propTypes = {
   onForgotPassowrdPress: PropTypes.func,
 };
 
-SignIn.defaultProps = {
+Signup.defaultProps = {
   onForgotPassowrdPress: () => {},
 };
 
-export default SignIn;
+export default Signup;
