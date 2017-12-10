@@ -9,13 +9,12 @@ import {
   TextInput,
   Keyboard,
   Dimensions,
-  KeyboardAvoidingView,
-  Platform,
 } from 'react-native';
 import Images from '../../../assets/images';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { BlueColor } from '../../../utils/constants';
 
 const { width } = Dimensions.get('window');
-const keyboardBehavior = (Platform.OS === 'ios' ? 'position' : null);
 
 const styles = StyleSheet.create({
   container: {
@@ -60,7 +59,7 @@ const styles = StyleSheet.create({
     width: width - 60,
     marginTop: 25,
     fontSize: 14,
-    color: 'black',
+    color: BlueColor,
     borderWidth: 1,
     borderColor: 'lightgrey',
     borderRadius: 25,
@@ -109,7 +108,7 @@ const Signup = props => (
     onPress={() => Keyboard.dismiss()}
   >
     <View style={styles.container}>
-      <KeyboardAvoidingView behavior={keyboardBehavior} >
+      <KeyboardAwareScrollView>
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => props.onBacnkPress()}
@@ -131,9 +130,8 @@ const Signup = props => (
               style={styles.phoneNumberTextInput}
               placeholder="Name"
               placeholderTextColor="rgba(70,64,172,1)"
-              color="rgba(70,64,172,1)"
-              onChangeText={emailPhoneNumber => props.updateEmailPhoneNumber(emailPhoneNumber)}
-              value={props.emailPhoneNumber}
+              onChangeText={name => props.updateName(name)}
+              value={props.name}
               underlineColorAndroid="transparent"
             />
             <TextInput
@@ -141,9 +139,8 @@ const Signup = props => (
               placeholder="Email"
               keyboardType="email-address"
               placeholderTextColor="rgba(70,64,172,1)"
-              color="rgba(70,64,172,1)"
-              onChangeText={password => props.updatePassword(password)}
-              value={props.password}
+              onChangeText={email => props.updateEmail(email)}
+              value={props.email}
               underlineColorAndroid="transparent"
               secureTextEntry={Boolean(true)}
             />
@@ -152,9 +149,8 @@ const Signup = props => (
               placeholder="Phone"
               keyboardType="phone-pad"
               placeholderTextColor="rgba(70,64,172,1)"
-              color="rgba(70,64,172,1)"
-              onChangeText={password => props.updatePassword(password)}
-              value={props.password}
+              onChangeText={phone => props.updatePhone(phone)}
+              value={props.phone}
               underlineColorAndroid="transparent"
               secureTextEntry={Boolean(true)}
             />  
@@ -162,7 +158,6 @@ const Signup = props => (
               style={styles.phoneNumberTextInput}
               placeholder="Passowrd"
               placeholderTextColor="rgba(70,64,172,1)"
-              color="rgba(70,64,172,1)"
               onChangeText={password => props.updatePassword(password)}
               value={props.password}
               underlineColorAndroid="transparent"
@@ -172,9 +167,8 @@ const Signup = props => (
               style={styles.phoneNumberTextInput}
               placeholder="Confirm Passowrd"
               placeholderTextColor="rgba(70,64,172,1)"
-              color="rgba(70,64,172,1)"
-              onChangeText={password => props.updatePassword(password)}
-              value={props.password}
+              onChangeText={confirmPassowrd => props.updateConfirmPassword(confirmPassowrd)}
+              value={props.confirmPassowrd}
               underlineColorAndroid="transparent"
               secureTextEntry={Boolean(true)}
             />
@@ -190,7 +184,7 @@ const Signup = props => (
             </TouchableOpacity>
           </View>
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </View>
   </TouchableOpacity>
 );

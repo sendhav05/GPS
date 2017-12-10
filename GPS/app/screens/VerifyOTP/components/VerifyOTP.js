@@ -13,6 +13,7 @@ import {
   Platform,
 } from 'react-native';
 import Images from '../../../assets/images';
+import { BlueColor } from '../../../utils/constants';
 
 const { width } = Dimensions.get('window');
 const keyboardBehavior = (Platform.OS === 'ios' ? 'position' : null);
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     width: width - 60,
     marginTop: 30,
     fontSize: 14,
-    color: 'black',
+    color: BlueColor,
     borderWidth: 1,
     borderColor: 'lightgrey',
     borderRadius: 25,
@@ -134,7 +135,6 @@ const VerifyOTP = props => (
               style={styles.phoneNumberTextInput}
               placeholder="Enter OTP"
               placeholderTextColor="rgba(70,64,172,1)"
-              color="rgba(70,64,172,1)"
               onChangeText={otpNumber => props.updateOTPNumber(otpNumber)}
               value={props.otpNumber}
               keyboardType="number-pad"

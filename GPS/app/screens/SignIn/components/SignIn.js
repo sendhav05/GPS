@@ -9,13 +9,13 @@ import {
   TextInput,
   Keyboard,
   Dimensions,
-  KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Images from '../../../assets/images';
+import { BlueColor } from '../../../utils/constants';
 
 const { width } = Dimensions.get('window');
-const keyboardBehavior = (Platform.OS === 'ios' ? 'position' : null);
 
 const styles = StyleSheet.create({
   container: {
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     width: width - 60,
     marginTop: 15,
     fontSize: 14,
-    color: 'black',
+    color: BlueColor,
     borderWidth: 1,
     borderColor: 'lightgrey',
     borderRadius: 25,
@@ -110,7 +110,7 @@ const SignIn = props => (
     onPress={() => Keyboard.dismiss()}
   >
     <View style={styles.container}>
-      <KeyboardAvoidingView behavior={keyboardBehavior} scroll>
+      <KeyboardAwareScrollView>
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => props.onBacnkPress()}
@@ -132,7 +132,6 @@ const SignIn = props => (
               style={styles.phoneNumberTextInput}
               placeholder="Email or Phone"
               placeholderTextColor="rgba(70,64,172,1)"
-              color="rgba(70,64,172,1)"
               onChangeText={emailPhoneNumber => props.updateEmailPhoneNumber(emailPhoneNumber)}
               value={props.emailPhoneNumber}
               underlineColorAndroid="transparent"
@@ -141,7 +140,6 @@ const SignIn = props => (
               style={styles.phoneNumberTextInput}
               placeholder="Passowrd"
               placeholderTextColor="rgba(70,64,172,1)"
-              color="rgba(70,64,172,1)"
               onChangeText={password => props.updatePassword(password)}
               value={props.password}
               underlineColorAndroid="transparent"
@@ -175,7 +173,7 @@ const SignIn = props => (
             </TouchableOpacity>
           </View>
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </View>
   </TouchableOpacity>
 );

@@ -16,8 +16,11 @@ class SignupUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      emailPhoneNumber: '',
+      name: '',
+      email: '',
+      phone: '',
       password: '',
+      confirmPassword: '',
     };
   }
 
@@ -42,12 +45,24 @@ class SignupUser extends Component {
     goBack(null);
   }
 
-  updateEmailPhoneNumber(value) {
-    this.setState({ emailPhoneNumber: value });
+  updateName(value) {
+    this.setState({ name: value });
+  }
+
+  updateEmail(value) {
+    this.setState({ email: value });
+  }
+
+  updatePhone(value) {
+    this.setState({ phone: value });
   }
 
   updatePassword(value) {
     this.setState({ password: value });
+  }
+
+  updateConfirmPassword(value) {
+    this.setState({ confirmPassword: value });
   }
 
   render() {
@@ -57,10 +72,16 @@ class SignupUser extends Component {
         onSignupPress={() => this.onSignupPress()}
         onBacnkPress={() => this.onBacnkPress()}
         onBecomeDriverPress={() => this.onBecomeDriverPress()}
-        updateEmailPhoneNumber={emailPhoneNumber => this.updateEmailPhoneNumber(emailPhoneNumber)}
-        emailPhoneNumber={this.state.emailPhoneNumber}
-        updatePassword={emailPhoneNumber => this.updatePassword(emailPhoneNumber)}
+        updateName={name => this.updateName(name)}
+        name={this.state.name}
+        updateEmail={email => this.updateEmail(email)}
+        email={this.state.email}
+        updatePhone={phone => this.updatePhone(phone)}
+        phone={this.state.phone}
+        updatePassword={password => this.updatePassword(password)}
         password={this.state.password}
+        updateConfirmPassword={confirmPassword => this.updateConfirmPassword(confirmPassword)}
+        confirmPassword={this.state.confirmPassword}
       />
     );
   }
