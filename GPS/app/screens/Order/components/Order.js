@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -10,7 +9,9 @@ import {
   Keyboard,
   Dimensions,
 } from 'react-native';
+import PropTypes from 'prop-types';
 import Images from '../../../assets/images';
+import NavBar from '../../../components/NavBar';
 
 const { width } = Dimensions.get('window');
 const brownOrangeColor = 'rgba(255,101,70,1)';
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   productView: {
-    marginTop: 70,
+    marginTop: 20,
     height: 170,
     width,
     flexDirection: 'row',
@@ -103,9 +104,16 @@ const styles = StyleSheet.create({
   },
 });
 
-
 const Order = props => (
   <View style={styles.container}>
+    <NavBar
+      leftMenuIcon={Images.backArrow}
+      leftMenuPress={() => props.onBacnkPress()}
+      title="Order"
+      isShowRightIcon={Boolean(true)}
+      rightMenuIcon={Images.editOder}
+      rightMenuPress={() => props.onEditOrderPress()}
+    />
     <View style={styles.productView}>
       <View
         style={styles.logo}
@@ -154,7 +162,7 @@ const Order = props => (
         </View>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => props.onDeliveryAddressPress()}
+        onPress={() => props.onChoosePaymentPress()}
       >
         <View style={styles.cellView}>
           <Text style={styles.productCountText}>

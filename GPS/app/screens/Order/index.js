@@ -25,20 +25,25 @@ class OrderView extends Component {
    
   }
 
-  onForgotPassowrdPress() {
-    console.log('***** onForgotPassowrdPress ');
+  onChoosePaymentPress() {
+    console.log('***** onChoosePaymentPress ');
   }
 
-  onLoginPress() {
-    console.log('***** onLoginPress ');
-    const { navigate } = this.props.navigation;
-    navigate('Login');
+  onDeliveryAddressPress() {
+    console.log('***** onDeliveryAddressPress ');
   }
 
-  onBecomeDriverPress() {
-    console.log('***** onBecomeDriverPress ');
-    const { navigate } = this.props.navigation;
-    navigate('Signup');
+  onOrderPress() {
+    console.log('***** onOrderPress ');
+  }
+
+  onBacnkPress() {
+    const { goBack } = this.props.navigation;
+    goBack(null);
+  }
+
+  onEditOrderPress() {
+    console.log('***** onEditOrderPress ');
   }
 
   updateEmailPhoneNumber(value) {
@@ -52,9 +57,11 @@ class OrderView extends Component {
   render() {
     return (
       <Order
-        onForgotPassowrdPress={() => this.onForgotPassowrdPress()}
-        onLoginPress={() => this.onLoginPress()}
-        onBecomeDriverPress={() => this.onBecomeDriverPress()}
+        onChoosePaymentPress={() => this.onChoosePaymentPress()}
+        onDeliveryAddressPress={() => this.onDeliveryAddressPress()}
+        onBacnkPress={() => this.onBacnkPress()}
+        onEditOrderPress={() => this.onEditOrderPress()}
+        onOrderPress={() => this.onOrderPress()}
         updateEmailPhoneNumber={emailPhoneNumber => this.updateEmailPhoneNumber(emailPhoneNumber)}
         emailPhoneNumber={this.state.emailPhoneNumber}
         updatePassword={emailPhoneNumber => this.updatePassword(emailPhoneNumber)}
