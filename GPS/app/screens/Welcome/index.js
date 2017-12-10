@@ -32,13 +32,13 @@ class App extends Component {
   onLoginPress() {
     console.log('***** onLoginPress ');
     const { navigate } = this.props.navigation;
-    navigate('Login');
+    navigate('Login', { isFromCustomer: true });
   }
 
   onBecomeDriverPress() {
     console.log('***** onBecomeDriverPress ');
     const { navigate } = this.props.navigation;
-    navigate('Signup');
+    navigate('Order', { isFromCustomer: true });
   }
 
   updateEmailPhoneNumber(value) {
@@ -51,15 +51,15 @@ class App extends Component {
 
   render() {
     return (
-        <Welcome
-          onForgotPassowrdPress={() => this.onForgotPassowrdPress()}
-          onLoginPress={() => this.onLoginPress()}
-          onBecomeDriverPress={() => this.onBecomeDriverPress()}
-          updateEmailPhoneNumber={emailPhoneNumber => this.updateEmailPhoneNumber(emailPhoneNumber)}
-          emailPhoneNumber={this.state.emailPhoneNumber}
-          updatePassword={emailPhoneNumber => this.updatePassword(emailPhoneNumber)}
-          password={this.state.password}
-        />
+      <Welcome
+        onForgotPassowrdPress={() => this.onForgotPassowrdPress()}
+        onLoginPress={() => this.onLoginPress()}
+        onBecomeDriverPress={() => this.onBecomeDriverPress()}
+        updateEmailPhoneNumber={emailPhoneNumber => this.updateEmailPhoneNumber(emailPhoneNumber)}
+        emailPhoneNumber={this.state.emailPhoneNumber}
+        updatePassword={emailPhoneNumber => this.updatePassword(emailPhoneNumber)}
+        password={this.state.password}
+      />
     );
   }
 }

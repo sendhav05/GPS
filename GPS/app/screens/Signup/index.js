@@ -29,12 +29,17 @@ class SignupUser extends Component {
     console.log('***** onForgotPassowrdPress ');
   }
 
-  onLoginPress() {
-    console.log('***** onLoginPress ');
+  onSignupPress() {
+    console.log('***** onSignupPress ');
   }
 
   onBecomeDriverPress() {
     console.log('***** onBecomeDriverPress ');
+  }
+
+  onBacnkPress() {
+    const { goBack } = this.props.navigation;
+    goBack(null);
   }
 
   updateEmailPhoneNumber(value) {
@@ -47,15 +52,16 @@ class SignupUser extends Component {
 
   render() {
     return (
-        <Signup
-          onForgotPassowrdPress={() => this.onForgotPassowrdPress()}
-          onLoginPress={() => this.onLoginPress()}
-          onBecomeDriverPress={() => this.onBecomeDriverPress()}
-          updateEmailPhoneNumber={emailPhoneNumber => this.updateEmailPhoneNumber(emailPhoneNumber)}
-          emailPhoneNumber={this.state.emailPhoneNumber}
-          updatePassword={emailPhoneNumber => this.updatePassword(emailPhoneNumber)}
-          password={this.state.password}
-        />
+      <Signup
+        onForgotPassowrdPress={() => this.onForgotPassowrdPress()}
+        onSignupPress={() => this.onSignupPress()}
+        onBacnkPress={() => this.onBacnkPress()}
+        onBecomeDriverPress={() => this.onBecomeDriverPress()}
+        updateEmailPhoneNumber={emailPhoneNumber => this.updateEmailPhoneNumber(emailPhoneNumber)}
+        emailPhoneNumber={this.state.emailPhoneNumber}
+        updatePassword={emailPhoneNumber => this.updatePassword(emailPhoneNumber)}
+        password={this.state.password}
+      />
     );
   }
 }

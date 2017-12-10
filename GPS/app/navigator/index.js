@@ -3,6 +3,7 @@ import LoginScreen from '../screens/SignIn';
 import WelcomeScreen from '../screens/Welcome';
 import SignupScreen from '../screens/Signup';
 import VerifyOTPScreen from '../screens/VerifyOTP';
+import OrderScreen from '../screens/Order';
 
 const RootNavigator = StackNavigator({
   Welcome: {
@@ -32,6 +33,14 @@ const RootNavigator = StackNavigator({
   VerifyOTP: {
     screen: VerifyOTPScreen,
     key: 'VerifyOTPScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  Order: {
+    screen: OrderScreen,
+    key: 'OrderScreen',
     navigationOptions: {
       header: null,
       gesturesEnabled: false,

@@ -6,14 +6,13 @@
 
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import PropTypes from 'prop-types';
 import { store } from '../../store';
 import runRootSaga from '../../sagas';
-import SignIn from './components/SignIn.js';
+import Order from './components/Order';
 import UserActions from '../../actions';
 import { connect } from 'react-redux';
 
-class App extends Component {
+class OrderView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,6 +22,7 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+   
   }
 
   onForgotPassowrdPress() {
@@ -32,17 +32,13 @@ class App extends Component {
   onLoginPress() {
     console.log('***** onLoginPress ');
     const { navigate } = this.props.navigation;
-    navigate('VerifyOTP');
+    navigate('Login');
   }
 
   onBecomeDriverPress() {
+    console.log('***** onBecomeDriverPress ');
     const { navigate } = this.props.navigation;
     navigate('Signup');
-  }
-
-  onBacnkPress() {
-    const { goBack } = this.props.navigation;
-    goBack(null);
   }
 
   updateEmailPhoneNumber(value) {
@@ -55,39 +51,18 @@ class App extends Component {
 
   render() {
     return (
-      <SignIn
+      <Order
         onForgotPassowrdPress={() => this.onForgotPassowrdPress()}
         onLoginPress={() => this.onLoginPress()}
-        onBacnkPress={() => this.onBacnkPress()}
         onBecomeDriverPress={() => this.onBecomeDriverPress()}
         updateEmailPhoneNumber={emailPhoneNumber => this.updateEmailPhoneNumber(emailPhoneNumber)}
         emailPhoneNumber={this.state.emailPhoneNumber}
         updatePassword={emailPhoneNumber => this.updatePassword(emailPhoneNumber)}
         password={this.state.password}
-        isFromCustomer={this.props.navigation.state.params.isFromCustomer}
       />
     );
   }
 }
-
-App.propTypes = {
-  signInUser: PropTypes.func,
-  userSignupRequest: PropTypes.func,
-  navigation: PropTypes.oneOfType([
-    PropTypes.objectOf(PropTypes.any),
-  ]),
-  userSignupResponse: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.any),
-    PropTypes.objectOf(PropTypes.any),
-  ]),
-};
-
-App.defaultProps = {
-  signInUser: () => {},
-  userSignupRequest: () => {},
-  navigation: {},
-  userSignupResponse: {},
-};
 
 
 const mapStateToProps = state => ({
@@ -96,6 +71,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = () => UserActions;
 
-const AppScreen = connect(mapStateToProps, mapDispatchToProps)(App);
+const OrderViewScreen = connect(mapStateToProps, mapDispatchToProps)(OrderView);
 
-export default AppScreen;
+export default OrderViewScreen;

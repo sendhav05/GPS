@@ -25,9 +25,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   logo: {
-    marginTop: 20,
-    width: 200,
-    height: 100,
+    width: 118,
+    height: 57,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
   },
   bodyView: {
     flex: 1,
-    marginTop: 50,
+    marginTop: 10,
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: 'rgba(245,172,35,0)',
@@ -91,6 +90,16 @@ const styles = StyleSheet.create({
     width: 110,
     height: 30,
   },
+  backButton: {
+    marginLeft: 20,
+    marginTop: 30,
+    height: 40,
+    width: 40,
+  },
+  back: {
+    width: 18,
+    height: 24,
+  },
 });
 
 
@@ -101,7 +110,17 @@ const SignIn = props => (
     onPress={() => Keyboard.dismiss()}
   >
     <View style={styles.container}>
-      <KeyboardAvoidingView behavior={keyboardBehavior}>
+      <KeyboardAvoidingView behavior={keyboardBehavior} scroll>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => props.onBacnkPress()}
+        >
+          <Image
+            style={styles.back}
+            resizeMode="contain"
+            source={Images.leftBlueArrow}
+          />
+        </TouchableOpacity>
         <View style={styles.bodyView}>
           <Image
             style={styles.logo}
@@ -137,7 +156,7 @@ const SignIn = props => (
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.bodyView}>
+          <View style={[styles.bodyView, { marginTop: 50 }]}>
             <TouchableOpacity
               style={styles.loginButton}
               onPress={() => props.onLoginPress()}
@@ -151,7 +170,7 @@ const SignIn = props => (
               onPress={() => props.onBecomeDriverPress()}
             >
               <Text style={styles.buttonText}>
-                Become a  Driver
+                { props.isFromCustomer ? 'Register' : 'Become a Driver' }
               </Text>
             </TouchableOpacity>
           </View>

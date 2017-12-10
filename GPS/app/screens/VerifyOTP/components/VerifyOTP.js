@@ -25,9 +25,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   logo: {
-    marginTop: 20,
-    width: 180,
-    height: 90,
+    width: 118,
+    height: 57,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
   },
   bodyView: {
     flex: 1,
-    marginTop: 70,
+    marginTop: 25,
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: 'rgba(245,172,35,0)',
@@ -91,6 +90,16 @@ const styles = StyleSheet.create({
     width: 110,
     height: 30,
   },
+  backButton: {
+    marginLeft: 20,
+    marginTop: 30,
+    height: 40,
+    width: 40,
+  },
+  back: {
+    width: 18,
+    height: 24,
+  },
 });
 
 const VerifyOTP = props => (
@@ -101,13 +110,23 @@ const VerifyOTP = props => (
   >
     <View style={styles.container}>
       <KeyboardAvoidingView behavior={keyboardBehavior}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => props.onBacnkPress()}
+        >
+          <Image
+            style={styles.back}
+            resizeMode="contain"
+            source={Images.leftBlueArrow}
+          />
+        </TouchableOpacity>
         <View style={styles.bodyView}>
           <Image
             style={styles.logo}
             resizeMode="contain"
             source={Images.logo}
           />
-          <View style={styles.bodyView}>
+          <View style={[styles.bodyView, { marginTop: 85 }]}>
             <Text style={styles.forgotPasswordText}>
               Mobile Number Verification
             </Text>
@@ -131,7 +150,7 @@ const VerifyOTP = props => (
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.loginButton}
+              style={[styles.loginButton, { marginTop: 20 }]}
               onPress={() => props.onResendOTPPress()}
             >
               <Text style={styles.buttonText}>

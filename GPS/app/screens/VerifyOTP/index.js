@@ -12,7 +12,7 @@ import VerifyOTP from './components/VerifyOTP';
 import UserActions from '../../actions';
 import { connect } from 'react-redux';
 
-class App extends Component {
+class VerifyOTPView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,12 +26,17 @@ class App extends Component {
 
   onVerifyOTPPress() {
     console.log('***** onVerifyOTPPress ');
+    const { navigate } = this.props.navigation;
+    navigate('Order');
   }
 
   onResendOTPPress() {
     console.log('***** onResendOTPPress ');
-    const { navigate } = this.props.navigation;
-    navigate('Signup');
+  }
+
+  onBacnkPress() {
+    const { goBack } = this.props.navigation;
+    goBack(null);
   }
 
   updateOTPNumber(value) {
@@ -43,6 +48,7 @@ class App extends Component {
       <VerifyOTP
         onVerifyOTPPress={() => this.onVerifyOTPPress()}
         onResendOTPPress={() => this.onResendOTPPress()}
+        onBacnkPress={() => this.onBacnkPress()}
         updateOTPNumber={otpNumber => this.updateOTPNumber(otpNumber)}
         otpNumber={this.state.otpNumber}
       />
@@ -57,6 +63,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = () => UserActions;
 
-const AppScreen = connect(mapStateToProps, mapDispatchToProps)(App);
+const VerifyOTPViewScreen = connect(mapStateToProps, mapDispatchToProps)(VerifyOTPView);
 
-export default AppScreen;
+export default VerifyOTPViewScreen;

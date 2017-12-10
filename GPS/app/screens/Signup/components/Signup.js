@@ -25,14 +25,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   logo: {
-    marginTop: 20,
-    width: 200,
-    height: 100,
+    width: 118,
+    height: 57,
     justifyContent: 'center',
     alignItems: 'center',
   },
   textInputView: {
-    marginTop: 60,
+    marginTop: 50,
     height: 250,
     justifyContent: 'flex-start',
   },
@@ -50,7 +49,6 @@ const styles = StyleSheet.create({
   },
   bodyView: {
     flex: 1,
-    marginTop: 50,
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: 'rgba(245,172,35,0)',
@@ -60,7 +58,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
     height: 40,
     width: width - 60,
-    marginTop: 15,
+    marginTop: 25,
     fontSize: 14,
     color: 'black',
     borderWidth: 1,
@@ -91,6 +89,16 @@ const styles = StyleSheet.create({
     width: 110,
     height: 30,
   },
+  backButton: {
+    marginLeft: 20,
+    marginTop: 30,
+    height: 40,
+    width: 40,
+  },
+  back: {
+    width: 18,
+    height: 24,
+  },
 });
 
 
@@ -101,7 +109,17 @@ const Signup = props => (
     onPress={() => Keyboard.dismiss()}
   >
     <View style={styles.container}>
-      <KeyboardAvoidingView behavior={keyboardBehavior}>
+      <KeyboardAvoidingView behavior={keyboardBehavior} >
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => props.onBacnkPress()}
+        >
+          <Image
+            style={styles.back}
+            resizeMode="contain"
+            source={Images.leftBlueArrow}
+          />
+        </TouchableOpacity>
         <View style={styles.bodyView}>
           <Image
             style={styles.logo}
@@ -161,10 +179,10 @@ const Signup = props => (
               secureTextEntry={Boolean(true)}
             />
           </View>
-          <View style={styles.bodyView}>
+          <View style={[styles.bodyView, { marginTop: 100 }]}>
             <TouchableOpacity
               style={styles.loginButton}
-              onPress={() => props.onSignupUserPress()}
+              onPress={() => props.onSignupPress()}
             >
               <Text style={styles.buttonText}>
                 Register
