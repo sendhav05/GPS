@@ -1,4 +1,5 @@
-/* eslint no-unneeded-ternary: 0*/
+/* eslint no-unneeded-ternary: 0 */
+
 const getHeaders = (header, userHeaders) => {
   const headers = userHeaders ? userHeaders : {
     Accept: 'application/json',

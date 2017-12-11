@@ -1,7 +1,6 @@
-/* global fetch:true*/
-/* eslint no-undef: "error"*/
-/* eslint no-underscore-dangle: 0*/
-/* eslint no-unused-vars: 0*/
+/* global fetch:true  */
+/* eslint no-undef: "error" */
+/* eslint no-underscore-dangle: 0 */
 
 function statusHelper(response) {
   if (response.status >= 200 && response.status < 300) {
@@ -10,13 +9,6 @@ function statusHelper(response) {
   return Promise.reject(response);
 }
 
-const responseHandler = url => (response) => {
-  if (response._bodyInit === '' || response._bodyText === '') {
-    return response;
-  }
-  return response.json();
-};
-
 const getApiCall = (url, method, headers) => (
   fetch(url, {
     method,
@@ -24,7 +16,7 @@ const getApiCall = (url, method, headers) => (
   })
     .then(statusHelper)
     .catch(error => error)
-    .then(responseHandler(url))
+    .then(response => response)
 );
 
 const postApiCall = (url, method, headers, body) => (
@@ -35,7 +27,7 @@ const postApiCall = (url, method, headers, body) => (
   })
     .then(statusHelper)
     .catch(error => error)
-    .then(responseHandler(url))
+    .then(response => response)
 );
 
 export const api = (url, method, headers, body) => (

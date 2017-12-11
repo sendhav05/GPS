@@ -21,3 +21,11 @@ export const SmallFontSize = 11;
 // Font name
 export const FontFamilyName = 'Trebuchet MS';
 export const FontFamilyName11 = 'Tw Cen MT';
+
+// Error Message
+
+const constant = {
+  SERVER_ERROR_MESSAGE: 'The request failed due to an internal error.',
+};
+
+export default constant;

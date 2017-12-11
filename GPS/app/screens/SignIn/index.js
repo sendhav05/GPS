@@ -6,23 +6,37 @@
 
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { store } from '../../store';
 import runRootSaga from '../../sagas';
-import SignIn from './components/SignIn.js';
+import SignIn from './components/SignIn';
 import UserActions from '../../actions';
-import { connect } from 'react-redux';
+import { showPopupAlert } from '../../utils/showAlert';
+import constant from '../../utils/constants';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      emailPhoneNumber: '',
-      password: '',
+      emailPhoneNumber: this.props.navigation.state.params.isFromCustomer ? 'praveshdevda19@gmail.com' : 'vikram@gmail.com',
+      password: '123456',
     };
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.userLoginResponse.response && nextProps.userLoginResponse.status === 200 && nextProps.userLoginResponse.response.status === 1) {
+      const { navigate } = this.props.navigation;
+      navigate('VerifyOTP');
+      return;
+    }
+    if (nextProps.userLoginResponse.response && (nextProps.userLoginResponse.status !== 200 || nextProps.userLoginResponse.response.status !== 1)) {
+      if (nextProps.userLoginResponse.response.message && typeof nextProps.userLoginResponse.response.message === 'string') {
+        showPopupAlert(nextProps.userLoginResponse.response.message);
+        return;
+      }
+      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
+    }
   }
 
   onForgotPassowrdPress() {
@@ -30,9 +44,8 @@ class App extends Component {
   }
 
   onLoginPress() {
-    console.log('***** onLoginPress ');
-    const { navigate } = this.props.navigation;
-    navigate('VerifyOTP');
+    const type = this.props.navigation.state.params.isFromCustomer ? 2 : 3;
+    this.props.userLoginRequest(this.state.emailPhoneNumber, this.state.password, type);
   }
 
   onBecomeDriverPress() {
@@ -89,9 +102,9 @@ App.defaultProps = {
   userSignupResponse: {},
 };
 
-
 const mapStateToProps = state => ({
-  isLoading: state.signIn.isLoading,
+  isLoading: state.login.isLoading,
+  userLoginResponse: state.login.userLoginResponse,
 });
 
 const mapDispatchToProps = () => UserActions;
