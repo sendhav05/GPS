@@ -5,6 +5,9 @@
  */
 
 import React, { Component } from 'react';
+import {
+  View,
+} from 'react-native';
 import { Provider } from 'react-redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -14,6 +17,7 @@ import SignIn from './components/SignIn';
 import UserActions from '../../actions';
 import { showPopupAlert } from '../../utils/showAlert';
 import constant from '../../utils/constants';
+import Loader from '../../components/Loader';
 
 class App extends Component {
   constructor(props) {
@@ -68,17 +72,21 @@ class App extends Component {
 
   render() {
     return (
-      <SignIn
-        onForgotPassowrdPress={() => this.onForgotPassowrdPress()}
-        onLoginPress={() => this.onLoginPress()}
-        onBacnkPress={() => this.onBacnkPress()}
-        onBecomeDriverPress={() => this.onBecomeDriverPress()}
-        updateEmailPhoneNumber={emailPhoneNumber => this.updateEmailPhoneNumber(emailPhoneNumber)}
-        emailPhoneNumber={this.state.emailPhoneNumber}
-        updatePassword={emailPhoneNumber => this.updatePassword(emailPhoneNumber)}
-        password={this.state.password}
-        isFromCustomer={this.props.navigation.state.params.isFromCustomer}
-      />
+      <View style={{ flex: 1 }}>
+        <SignIn
+          onForgotPassowrdPress={() => this.onForgotPassowrdPress()}
+          onLoginPress={() => this.onLoginPress()}
+          onBacnkPress={() => this.onBacnkPress()}
+          onBecomeDriverPress={() => this.onBecomeDriverPress()}
+          updateEmailPhoneNumber={emailPhoneNumber => this.updateEmailPhoneNumber(emailPhoneNumber)}
+          emailPhoneNumber={this.state.emailPhoneNumber}
+          updatePassword={emailPhoneNumber => this.updatePassword(emailPhoneNumber)}
+          password={this.state.password}
+          isFromCustomer={this.props.navigation.state.params.isFromCustomer}
+        />
+        {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}  
+      </View>
+    
     );
   }
 }

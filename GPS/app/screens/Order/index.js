@@ -31,6 +31,9 @@ class OrderView extends Component {
 
   onDeliveryAddressPress() {
     console.log('***** onDeliveryAddressPress ');
+    const { navigate } = this.props.navigation;
+    navigate('ChooseAddress');
+    
   }
 
   onOrderPress() {
