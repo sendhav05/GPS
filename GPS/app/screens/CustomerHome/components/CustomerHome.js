@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Order = props => (
+const CustomerHome = props => (
   <View style={styles.container}>
     <NavBar
       leftMenuIcon={Images.backArrow}
@@ -185,12 +185,12 @@ const Order = props => (
   </View>
 );
 
-Order.propTypes = {
+CustomerHome.propTypes = {
   onForgotPassowrdPress: PropTypes.func,
 };
 
-Order.defaultProps = {
+CustomerHome.defaultProps = {
   onForgotPassowrdPress: () => {},
 };
 
-export default Order;
+export default CustomerHome;

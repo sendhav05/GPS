@@ -3,7 +3,7 @@ import LoginScreen from '../screens/SignIn';
 import WelcomeScreen from '../screens/Welcome';
 import SignupScreen from '../screens/Signup';
 import VerifyOTPScreen from '../screens/VerifyOTP';
-import OrderScreen from '../screens/Order';
+import CustomerHomeScreen from '../screens/CustomerHome';
 import ChooseAddressScreen from '../screens/ChooseAddress';
 import CustomerMenuScreen from '../screens/CustomerMenu';
 
@@ -40,9 +40,9 @@ const RootNavigator = StackNavigator({
       gesturesEnabled: false,
     },
   },
-  Order: {
-    screen: OrderScreen,
-    key: 'OrderScreen',
+  CustomerHome: {
+    screen: CustomerHomeScreen,
+    key: 'CustomerHomeScreen',
     navigationOptions: {
       header: null,
       gesturesEnabled: false,
