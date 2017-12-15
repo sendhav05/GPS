@@ -179,7 +179,7 @@ const Order = props => (
       onPress={() => props.onOrderPress()}
     >
       <Text style={styles.buttonText}>
-        Driver
+        Order
       </Text>
     </TouchableOpacity>
   </View>

@@ -38,7 +38,8 @@ class App extends Component {
   onBecomeDriverPress() {
     console.log('***** onBecomeDriverPress ');
     const { navigate } = this.props.navigation;
-    navigate('Login', { isFromCustomer: false });
+   // navigate('Login', { isFromCustomer: false });
+    navigate('CustomerMenu', { isFromCustomer: false });
   }
 
   updateEmailPhoneNumber(value) {

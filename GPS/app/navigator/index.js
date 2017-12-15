@@ -5,6 +5,7 @@ import SignupScreen from '../screens/Signup';
 import VerifyOTPScreen from '../screens/VerifyOTP';
 import OrderScreen from '../screens/Order';
 import ChooseAddressScreen from '../screens/ChooseAddress';
+import CustomerMenuScreen from '../screens/CustomerMenu';
 
 const RootNavigator = StackNavigator({
   Welcome: {
@@ -50,6 +51,14 @@ const RootNavigator = StackNavigator({
   ChooseAddress: {
     screen: ChooseAddressScreen,
     key: 'ChooseAddressScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  CustomerMenu: {
+    screen: CustomerMenuScreen,
+    key: 'CustomerMenuScreen',
     navigationOptions: {
       header: null,
       gesturesEnabled: false,
