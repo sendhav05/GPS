@@ -14,6 +14,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { Provider } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 import { store } from '../../store';
 import runRootSaga from '../../sagas';
 import MenuCell from './components/MenuCell';
@@ -23,15 +24,15 @@ import { connect } from 'react-redux';
 
 import { BlueColor, OrangeColor, ButtonFontSize, GrayColor, HeaderFontSize, WhiteColor, FontFamilyName } from '../../utils/constants';
 
-const { width } = Dimensions.get('window');
-
+const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: WhiteColor,
+    width: width - 40,
   },
   logo: {
     marginTop: 50,
@@ -42,13 +43,13 @@ const styles = StyleSheet.create({
   },
   bodyView: {
     flex: 1,
-    width,
+    width: width - 40,
     marginTop: 90,
     backgroundColor: OrangeColor,
   },
   flatListStyle: {
     flex: 1,
-    width,
+    width: width - 40,
     marginTop: 30,
     backgroundColor: OrangeColor,
   },
@@ -62,10 +63,23 @@ class CustomerMenuView extends Component {
     };
   }
 
+  onCellSelectionPress(selectedItem) {
+    console.log('********** selectedItem', selectedItem);
+    this.props.toggleDrawer();   
+    // const resetAction = NavigationActions.reset({
+    //   index: 0,
+    //   actions: [
+    //     NavigationActions.navigate({ routeName: 'CustomerHome' }),
+    //   ],
+    // });
+    // this.props.navigation.dispatch(resetAction);
+  }
+
   getRenderRow(item) {
     return (
       <MenuCell
         data={item}
+        onCellSelectionPress={selectedItem => this.onCellSelectionPress(selectedItem)}
       />
     );
   }

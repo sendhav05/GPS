@@ -11,6 +11,7 @@ import runRootSaga from '../../sagas';
 import CustomerHome from './components/CustomerHome';
 import UserActions from '../../actions';
 import { connect } from 'react-redux';
+import drawer from '../../utils/drawer';
 
 class CustomerHomeView extends Component {
   constructor(props) {
@@ -41,8 +42,7 @@ class CustomerHomeView extends Component {
   }
 
   onBacnkPress() {
-    const { goBack } = this.props.navigation;
-    goBack(null);
+    this.props.toggleDrawer();
   }
 
   onEditOrderPress() {
@@ -80,7 +80,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = () => UserActions;
+const drawerConnected = drawer(CustomerHomeView);
 
-const CustomerHomeViewScreen = connect(mapStateToProps, mapDispatchToProps)(CustomerHomeView);
+const CustomerHomeViewScreen = connect(mapStateToProps, mapDispatchToProps)(drawerConnected);
 
 export default CustomerHomeViewScreen;
+

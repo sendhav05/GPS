@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
 const CustomerHome = props => (
   <View style={styles.container}>
     <NavBar
-      leftMenuIcon={Images.backArrow}
+      leftMenuIcon={Images.menu}
       leftMenuPress={() => props.onBacnkPress()}
       title="Order"
       isShowRightIcon={Boolean(true)}

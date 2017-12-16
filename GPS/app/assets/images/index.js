@@ -12,6 +12,7 @@ const logout = require('./logout.png');
 const notifi = require('./notifi.png');
 const order = require('./order.png');
 const review = require('./review.png');
+const menu = require('./menu.png');
 
 const images = {
   logo,
@@ -26,6 +27,7 @@ const images = {
   notifi,
   order,
   review,
+  menu,
 };
 
 export default images;

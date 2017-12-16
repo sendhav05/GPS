@@ -1,11 +1,12 @@
 /* eslint class-methods-use-this: 0 */
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Drawer from 'react-native-drawer';
-import DrawerScreen from '../screen/CustomerMenu';
+import PropTypes from 'prop-types';
+import DrawerScreen from '../screens/CustomerMenu';
 
 export class DrawerWrapper extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       showDrawer: false,
       isOpenDrawer: false,

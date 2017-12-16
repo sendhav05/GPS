@@ -31,15 +31,21 @@ const style = StyleSheet.create({
 });
 
 const MenuCell = props => (
-  <View style={style.user}>
-    <Image
-      source={props.data.item.icon}
-      style={style.profilePic}
-    />
-    <Text style={style.userTitle}>
-      {props.data.item.name}
-    </Text>
-  </View>
+  <TouchableOpacity
+    activeOpacity={1}
+    style={{ flex: 1, justifyContent: 'center' }}
+    onPress={() => props.onCellSelectionPress(props.data.item)}
+  >
+    <View style={style.user}>
+      <Image
+        source={props.data.item.icon}
+        style={style.profilePic}
+      />
+      <Text style={style.userTitle}>
+        {props.data.item.name}
+      </Text>
+    </View>
+  </TouchableOpacity>
 );
 
 MenuCell.propTypes = {

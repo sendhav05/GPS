@@ -29,8 +29,8 @@ export const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   leftNavBarIcon: {
-    width: 16,
-    height: 16,
+    width: 25,
+    height: 22,
   },
   rightNavBarIcon: {
     width: 25,
@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
     color: WhiteColor,
     alignSelf: 'center',
     fontFamily: FontFamilyName,
-    marginLeft: (width / 2) - 52,
+    marginLeft: (width / 2) - 62,
   },
   agenda: {
     fontSize: 14,
