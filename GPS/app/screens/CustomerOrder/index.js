@@ -8,12 +8,12 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
 import runRootSaga from '../../sagas';
-import CustomerHome from './components/CustomerHome';
+import CustomerOrder from './components/CustomerOrder';
 import UserActions from '../../actions';
 import { connect } from 'react-redux';
 import drawer from '../../utils/drawer';
 
-class CustomerHomeView extends Component {
+class CustomerOrderView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -61,7 +61,7 @@ class CustomerHomeView extends Component {
 
   render() {
     return (
-      <CustomerHome
+      <CustomerOrder
         onChoosePaymentPress={() => this.onChoosePaymentPress()}
         onDeliveryAddressPress={() => this.onDeliveryAddressPress()}
         onBacnkPress={() => this.onBacnkPress()}
@@ -82,9 +82,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = () => UserActions;
-//const drawerConnected = drawer(CustomerHomeView);
+//const drawerConnected = drawer(CustomerOrderView);
 
-const CustomerHomeViewScreen = connect(mapStateToProps, mapDispatchToProps)(CustomerHomeView);
+const CustomerOrderViewScreen = connect(mapStateToProps, mapDispatchToProps)(CustomerOrderView);
 
-export default CustomerHomeViewScreen;
+export default CustomerOrderViewScreen;
 

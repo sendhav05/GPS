@@ -28,11 +28,10 @@ const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
-    height,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: WhiteColor,
-    width: width - 40,
   },
   logo: {
     marginTop: 50,
@@ -43,13 +42,12 @@ const styles = StyleSheet.create({
   },
   bodyView: {
     flex: 1,
-    width: width - 40,
     marginTop: 90,
     backgroundColor: OrangeColor,
+    width: width - 95,
   },
   flatListStyle: {
     flex: 1,
-    width: width - 40,
     marginTop: 30,
     backgroundColor: OrangeColor,
   },
@@ -65,7 +63,13 @@ class CustomerMenuView extends Component {
 
   onCellSelectionPress(selectedItem) {
     console.log('********** selectedItem', selectedItem);
-    this.props.toggleDrawer();   
+    const { navigate } = this.props.navigation;
+    if (selectedItem.name == 'Orders') {
+      navigate('CustomerOrder');
+    } else {
+      navigate('CustomerHome');
+    }
+    //this.props.toggleDrawer();   
     // const resetAction = NavigationActions.reset({
     //   index: 0,
     //   actions: [

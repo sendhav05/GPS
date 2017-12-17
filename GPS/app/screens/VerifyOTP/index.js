@@ -26,8 +26,9 @@ class VerifyOTPView extends Component {
 
   onVerifyOTPPress() {
     console.log('***** onVerifyOTPPress ');
+   // this.props.navigation.navigate('drawerStack')
     const { navigate } = this.props.navigation;
-    navigate('CustomerHome');
+    navigate('drawerStack');
   }
 
   onResendOTPPress() {
