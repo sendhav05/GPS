@@ -21,6 +21,7 @@ const style = StyleSheet.create({
   profilePic: {
     width: 40,
     height: 40,
+    marginLeft: 10,
   },
   userTitle: {
     fontFamily: FontFamilyName,

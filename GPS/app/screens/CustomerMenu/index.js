@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 import {
   View,
   Image,
-  Text,
+  Platform,
   FlatList,
   StyleSheet,
   Dimensions,
@@ -26,10 +26,11 @@ import { BlueColor, OrangeColor, ButtonFontSize, GrayColor, HeaderFontSize, Whit
 
 const { width, height } = Dimensions.get('window');
 
+const leftPadding = (Platform.OS === 'android') ? 56 : 64;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: WhiteColor,
   },
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 90,
     backgroundColor: OrangeColor,
-    width: width - 95,
+    width: width - leftPadding,
   },
   flatListStyle: {
     flex: 1,
@@ -69,14 +70,6 @@ class CustomerMenuView extends Component {
     } else {
       navigate('CustomerHome');
     }
-    //this.props.toggleDrawer();   
-    // const resetAction = NavigationActions.reset({
-    //   index: 0,
-    //   actions: [
-    //     NavigationActions.navigate({ routeName: 'CustomerHome' }),
-    //   ],
-    // });
-    // this.props.navigation.dispatch(resetAction);
   }
 
   getRenderRow(item) {

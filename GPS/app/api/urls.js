@@ -4,10 +4,10 @@ export const authenticationUrl = () => {
   return url;
 };
 
-const getBaseUrl = 'http://itinformatix.com/gpsapi/api/';
+const getBaseUrl = 'http://itinformatix.com/gpsapi/index.php/api/';
 
 export const loginUrl = (email, password, type) => {
-  const url = `${getBaseUrl}/del/login`;
+  const url = `${getBaseUrl}/login`;
   let param = null;
   if (email) {
     if (param) {

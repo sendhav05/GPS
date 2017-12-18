@@ -23,15 +23,15 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      emailPhoneNumber: this.props.navigation.state.params.isFromCustomer ? 'praveshdevda19@gmail.com' : 'vikram@gmail.com',
+      emailPhoneNumber: this.props.navigation.state.params.isFromCustomer ? 'customer@gmail.com' : 'driver@gmail.com',
       password: '123456',
     };
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.userLoginResponse.response && nextProps.userLoginResponse.status === 200 && nextProps.userLoginResponse.response.status === 1) {
-      const { navigate } = this.props.navigation;
-      navigate('VerifyOTP');
+      // const { navigate } = this.props.navigation;
+      // navigate('VerifyOTP');
       return;
     }
     if (nextProps.userLoginResponse.response && (nextProps.userLoginResponse.status !== 200 || nextProps.userLoginResponse.response.status !== 1)) {
@@ -41,6 +41,8 @@ class App extends Component {
       }
       showPopupAlert(constant.SERVER_ERROR_MESSAGE);
     }
+    const { navigate } = this.props.navigation;
+    navigate('VerifyOTP');
   }
 
   onForgotPassowrdPress() {

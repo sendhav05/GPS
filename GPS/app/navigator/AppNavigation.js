@@ -1,5 +1,10 @@
-import React from 'react'
-import { Text, Animated, Easing } from 'react-native'
+import React from 'react';
+import {
+  Dimensions,
+  Animated,
+  Easing,
+  Platform,
+} from 'react-native';
 import { StackNavigator, DrawerNavigator } from 'react-navigation'
 // import LoginScreen from '../Containers/LoginScreen'
 // import SignupScreen from '../Containers/SignupScreen'
@@ -31,8 +36,10 @@ const noTransitionConfig = () => ({
 const DrawerStack = DrawerNavigator({
   CustomerHome: { screen: CustomerHomeScreen },
   CustomerOrder: { screen: CustomerOrderScreen },
+  ChooseAddress: { screen: ChooseAddressScreen },
 }, {
   gesturesEnabled: false,
+  drawerWidth: Dimensions.get('window').width - (Platform.OS === 'android' ? 56 : 64),
   contentComponent: (props) => <CustomerMenuScreen {...props} />
 })
 
@@ -76,6 +83,7 @@ const LoginStack = StackNavigator({
       gesturesEnabled: false,
     },
   },
+  
 }, {
   headerMode: 'float',
   navigationOptions: {
