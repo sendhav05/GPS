@@ -11,66 +11,57 @@ import runRootSaga from '../../sagas';
 import CustomerOrder from './components/CustomerOrder';
 import UserActions from '../../actions';
 import { connect } from 'react-redux';
-import drawer from '../../utils/drawer';
+import OrderCell from './components/OrderCell';
 
 class CustomerOrderView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      emailPhoneNumber: '',
-      password: '',
+      leftMenuItems: [{ time: '04:00 PM', name: 'Mr. Sham', address: '12, 3rt floor rajagi salai, Kanchipuram' },
+        { time: '04:00 PM', name: 'Mr. Raheja', address: '12, 3rt floor rajagi salai, Kanchipuram' },
+        { time: '04:00 PM', name: 'Mr. Jhon', address: '12, 3rt floor rajagi salai, Kanchipuram' },
+        { time: '04:00 PM', name: 'Mr. Kumar', address: '12, 3rt floor rajagi salai, Kanchipuram' }],
     };
   }
 
   componentWillReceiveProps(nextProps) {
-   
+
   }
 
-  onChoosePaymentPress() {
-    console.log('***** onChoosePaymentPress ');
+  onCellSelectionPress(selectedItem) {
+    console.log('********** selectedItem', selectedItem);
   }
 
-  onDeliveryAddressPress() {
-    console.log('***** onDeliveryAddressPress ');
-    const { navigate } = this.props.navigation;
-    navigate('ChooseAddress');
-    
+  onPendingOrderPress() {
+    console.log('********** selectedItem');
   }
 
-  onOrderPress() {
-    console.log('***** onOrderPress ');
+  onCompletedOrderPres() {
+    console.log('********** selectedItem');
   }
 
-  onBacnkPress() {
-    //this.props.toggleDrawer();
+  onLeftMenuPress() {
     const { navigate } = this.props.navigation;
     navigate('DrawerOpen');
   }
 
-  onEditOrderPress() {
-    console.log('***** onEditOrderPress ');
-  }
-
-  updateEmailPhoneNumber(value) {
-    this.setState({ emailPhoneNumber: value });
-  }
-
-  updatePassword(value) {
-    this.setState({ password: value });
+  getRenderRow(item) {
+    return (
+      <OrderCell
+        data={item}
+        onCellSelectionPress={selectedItem => this.onCellSelectionPress(selectedItem)}
+      />
+    );
   }
 
   render() {
     return (
       <CustomerOrder
-        onChoosePaymentPress={() => this.onChoosePaymentPress()}
-        onDeliveryAddressPress={() => this.onDeliveryAddressPress()}
-        onBacnkPress={() => this.onBacnkPress()}
-        onEditOrderPress={() => this.onEditOrderPress()}
-        onOrderPress={() => this.onOrderPress()}
-        updateEmailPhoneNumber={emailPhoneNumber => this.updateEmailPhoneNumber(emailPhoneNumber)}
-        emailPhoneNumber={this.state.emailPhoneNumber}
-        updatePassword={emailPhoneNumber => this.updatePassword(emailPhoneNumber)}
-        password={this.state.password}
+        onLeftMenuPress={() => this.onLeftMenuPress()}
+        onPendingOrderPress={() => this.onPendingOrderPress()}
+        onCompletedOrderPres={() => this.onCompletedOrderPres()}
+        getRenderRow={item => this.getRenderRow(item)}
+        leftMenuItems={this.state.leftMenuItems}
       />
     );
   }
@@ -78,11 +69,9 @@ class CustomerOrderView extends Component {
 
 
 const mapStateToProps = state => ({
-  isLoading: state.signIn.isLoading,
 });
 
 const mapDispatchToProps = () => UserActions;
-//const drawerConnected = drawer(CustomerOrderView);
 
 const CustomerOrderViewScreen = connect(mapStateToProps, mapDispatchToProps)(CustomerOrderView);
 

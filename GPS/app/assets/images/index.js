@@ -13,6 +13,7 @@ const notifi = require('./notifi.png');
 const order = require('./order.png');
 const review = require('./review.png');
 const menu = require('./menu.png');
+const grayRightArrow = require('./gray_right_arrow.png');
 
 const images = {
   logo,
@@ -28,6 +29,7 @@ const images = {
   order,
   review,
   menu,
+  grayRightArrow,
 };
 
 export default images;

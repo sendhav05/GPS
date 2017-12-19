@@ -11,7 +11,6 @@ import runRootSaga from '../../sagas';
 import CustomerHome from './components/CustomerHome';
 import UserActions from '../../actions';
 import { connect } from 'react-redux';
-import drawer from '../../utils/drawer';
 
 class CustomerHomeView extends Component {
   constructor(props) {
@@ -42,7 +41,6 @@ class CustomerHomeView extends Component {
   }
 
   onBacnkPress() {
-    //this.props.toggleDrawer();
     const { navigate } = this.props.navigation;
     navigate('DrawerOpen');
   }
