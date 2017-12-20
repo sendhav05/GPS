@@ -5,7 +5,7 @@ import {
   Easing,
   Platform,
 } from 'react-native';
-import { StackNavigator, DrawerNavigator } from 'react-navigation'
+import { StackNavigator, DrawerNavigator } from 'react-navigation';
 // import LoginScreen from '../Containers/LoginScreen'
 // import SignupScreen from '../Containers/SignupScreen'
 // import ForgottenPasswordScreen from '../Containers/ForgottenPasswordScreen'
@@ -28,9 +28,9 @@ const noTransitionConfig = () => ({
   transitionSpec: {
     duration: 0,
     timing: Animated.timing,
-    easing: Easing.step0
-  }
-})
+    easing: Easing.step0,
+  },
+});
 
 // drawer stack
 const DrawerStack = DrawerNavigator({
@@ -40,14 +40,14 @@ const DrawerStack = DrawerNavigator({
 }, {
   gesturesEnabled: false,
   drawerWidth: Dimensions.get('window').width - (Platform.OS === 'android' ? 56 : 64),
-  contentComponent: (props) => <CustomerMenuScreen {...props} />
-})
+  contentComponent: props => <CustomerMenuScreen {...props} />,
+});
 
 const DrawerNavigation = StackNavigator({
-  DrawerStack: { screen: DrawerStack }
+  DrawerStack: { screen: DrawerStack },
 }, {
   headerMode: 'none',
-})
+});
 
 // login stack
 const LoginStack = StackNavigator({
@@ -83,25 +83,25 @@ const LoginStack = StackNavigator({
       gesturesEnabled: false,
     },
   },
-  
+
 }, {
   headerMode: 'float',
   navigationOptions: {
-    headerStyle: {backgroundColor: 'red'},
-    title: 'You are not logged in'
-  }
-})
+    headerStyle: { backgroundColor: 'red' },
+    title: 'You are not logged in',
+  },
+});
 
 // Manifest of possible screens
 const PrimaryNav = StackNavigator({
   loginStack: { screen: LoginStack },
-  drawerStack: { screen: DrawerNavigation }
+  drawerStack: { screen: DrawerNavigation },
 }, {
   // Default config for all screens
   headerMode: 'none',
   title: 'Main',
   initialRouteName: 'loginStack',
-  transitionConfig: noTransitionConfig
-})
+  transitionConfig: noTransitionConfig,
+});
 
-export default PrimaryNav
+export default PrimaryNav;

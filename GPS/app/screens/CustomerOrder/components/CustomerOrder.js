@@ -67,7 +67,7 @@ const CustomerOrder = props => (
     <NavBar
       leftMenuIcon={Images.menu}
       leftMenuPress={() => props.onLeftMenuPress()}
-      title="Order"
+      title="Orders"
       isShowRightIcon={Boolean(false)}
       rightMenuIcon={Images.editOder}
     />

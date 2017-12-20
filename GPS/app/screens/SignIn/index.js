@@ -42,7 +42,7 @@ class App extends Component {
       showPopupAlert(constant.SERVER_ERROR_MESSAGE);
     }
     const { navigate } = this.props.navigation;
-    navigate('VerifyOTP');
+    navigate('VerifyOTP', { isFromCustomer: this.props.navigation.state.params.isFromCustomer });
   }
 
   onForgotPassowrdPress() {

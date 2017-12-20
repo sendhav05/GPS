@@ -22,7 +22,7 @@ import UserActions from '../../actions';
 import Images from '../../assets/images';
 import { connect } from 'react-redux';
 
-import { BlueColor, OrangeColor, ButtonFontSize, GrayColor, HeaderFontSize, WhiteColor, FontFamilyName } from '../../utils/constants';
+import constants, { BlueColor, OrangeColor, ButtonFontSize, GrayColor, HeaderFontSize, WhiteColor, FontFamilyName } from '../../utils/constants';
 
 const { width, height } = Dimensions.get('window');
 
@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
   flatListStyle: {
     flex: 1,
     marginTop: 30,
+    marginBottom: 10,
     backgroundColor: OrangeColor,
   },
 });
@@ -58,17 +59,37 @@ class CustomerMenuView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      leftMenuItems: [{ icon: Images.home, name: 'Home' }, { icon: Images.order, name: 'Orders' }],
+      leftMenuItems: this.props.navigation.state.params.isFromCustomer
+        ? [{ icon: Images.home, name: 'Home' },
+          { icon: Images.order, name: 'Orders' },
+          { icon: Images.logout, name: 'Logout' }]
+        : [{ icon: Images.home, name: 'Home' },
+          { icon: Images.order, name: 'Orders' },
+          { icon: Images.account, name: 'Accounts' },
+          { icon: Images.earn, name: 'Earnings' },
+          { icon: Images.review, name: 'Performance/Reviews' },
+          { icon: Images.notifi, name: 'Notifications' },
+          { icon: Images.logout, name: 'Logout' }],
     };
+  }
+
+  componentDidMount() {
+    console.log('############### propp ', this.props.navigation.state.params.isFromCustomer);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('############### propp ', this.props.navigation.state.params.isFromCustomer);
   }
 
   onCellSelectionPress(selectedItem) {
     console.log('********** selectedItem', selectedItem);
     const { navigate } = this.props.navigation;
-    if (selectedItem.name == 'Orders') {
-      navigate('CustomerOrder');
-    } else {
+    if (selectedItem.name === 'Home') {
       navigate('CustomerHome');
+    } else if (selectedItem.name === 'Logout') {
+      this.logout();
+    } else if (selectedItem.name === 'Orders') {
+      navigate('CustomerOrder');
     }
   }
 
@@ -81,7 +102,17 @@ class CustomerMenuView extends Component {
     );
   }
 
+  logout() {
+    const actionToDispatch = NavigationActions.reset({
+      index: 0,
+      key: null, // black magic
+      actions: [NavigationActions.navigate({ routeName: 'loginStack' })],
+    });
+    this.props.navigation.dispatch(actionToDispatch);
+  }
+
   render() {
+    const type = this.props.navigation.state.params.isFromCustomer;
     return (
       <View style={styles.container}>
         <Image
@@ -95,7 +126,7 @@ class CustomerMenuView extends Component {
             data={this.state.leftMenuItems}
             renderItem={data => this.getRenderRow(data)}
             keyExtractor={item => item.name}
-            scrollEnabled={Boolean(false)}
+            scrollEnabled={Boolean(!type)}
           />
         </View>
       </View>
