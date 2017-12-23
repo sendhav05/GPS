@@ -7,6 +7,7 @@
 import React, { Component } from 'react';
 import {
   Keyboard,
+  View,
 } from 'react-native';
 import { connect } from 'react-redux';
 import UserActions from '../../actions';
@@ -14,6 +15,7 @@ import Signup from './components/Signup';
 import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
 import constant from '../../utils/constants';
 import Utils from '../../utils/utils';
+import Loader from '../../components/Loader';
 
 class SignupUser extends Component {
   constructor(props) {
@@ -113,7 +115,7 @@ class SignupUser extends Component {
       showPopupAlert('Please enter correct passowrd');
       return false;
     }
-    if (this.state.password === this.state.confirmPassword) {
+    if (this.state.password !== this.state.confirmPassword) {
       showPopupAlert('Password does not match the confirm password');
       return false;
     }
@@ -122,22 +124,25 @@ class SignupUser extends Component {
 
   render() {
     return (
-      <Signup
-        onForgotPassowrdPress={() => this.onForgotPassowrdPress()}
-        onSignupPress={() => this.onSignupPress()}
-        onBacnkPress={() => this.onBacnkPress()}
-        onBecomeDriverPress={() => this.onBecomeDriverPress()}
-        updateName={name => this.updateName(name)}
-        name={this.state.name}
-        updateEmail={email => this.updateEmail(email)}
-        email={this.state.email}
-        updatePhone={phone => this.updatePhone(phone)}
-        phone={this.state.phone}
-        updatePassword={password => this.updatePassword(password)}
-        password={this.state.password}
-        updateConfirmPassword={confirmPassword => this.updateConfirmPassword(confirmPassword)}
-        confirmPassword={this.state.confirmPassword}
-      />
+      <View style={{ flex: 1 }}>
+        <Signup
+          onForgotPassowrdPress={() => this.onForgotPassowrdPress()}
+          onSignupPress={() => this.onSignupPress()}
+          onBacnkPress={() => this.onBacnkPress()}
+          onBecomeDriverPress={() => this.onBecomeDriverPress()}
+          updateName={name => this.updateName(name)}
+          name={this.state.name}
+          updateEmail={email => this.updateEmail(email)}
+          email={this.state.email}
+          updatePhone={phone => this.updatePhone(phone)}
+          phone={this.state.phone}
+          updatePassword={password => this.updatePassword(password)}
+          password={this.state.password}
+          updateConfirmPassword={confirmPassword => this.updateConfirmPassword(confirmPassword)}
+          confirmPassword={this.state.confirmPassword}
+        />
+        {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
+      </View>
     );
   }
 }
