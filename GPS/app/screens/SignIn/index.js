@@ -7,42 +7,43 @@
 import React, { Component } from 'react';
 import {
   View,
+  Keyboard,
 } from 'react-native';
-import { Provider } from 'react-redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { store } from '../../store';
-import runRootSaga from '../../sagas';
 import SignIn from './components/SignIn';
 import UserActions from '../../actions';
-import { showPopupAlert } from '../../utils/showAlert';
+import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
 import constant from '../../utils/constants';
 import Loader from '../../components/Loader';
+import Utils from '../../utils/utils';
+
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      emailPhoneNumber: this.props.navigation.state.params.isFromCustomer ? 'customer@gmail.com' : 'driver@gmail.com',
-      password: '123456',
+      emailPhoneNumber: '',
+      password: '',
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.userLoginResponse.response && nextProps.userLoginResponse.status === 200 && nextProps.userLoginResponse.response.status === 1) {
-      // const { navigate } = this.props.navigation;
-      // navigate('VerifyOTP');
-      return;
-    }
-    if (nextProps.userLoginResponse.response && (nextProps.userLoginResponse.status !== 200 || nextProps.userLoginResponse.response.status !== 1)) {
+    if (!nextProps.isLoading
+      && nextProps.userLoginResponse.response
+      && nextProps.userLoginResponse.status === 200
+      && nextProps.userLoginResponse.response.status === 1) {
+      const { navigate } = this.props.navigation;
+      navigate('VerifyOTP', { isFromCustomer: this.props.navigation.state.params.isFromCustomer });
+    } else if (!nextProps.isLoading && nextProps.userLoginResponse.response
+      && (nextProps.userLoginResponse.status !== 200
+      || nextProps.userLoginResponse.response.status !== 1)) {
       if (nextProps.userLoginResponse.response.message && typeof nextProps.userLoginResponse.response.message === 'string') {
         showPopupAlert(nextProps.userLoginResponse.response.message);
         return;
       }
       showPopupAlert(constant.SERVER_ERROR_MESSAGE);
     }
-    const { navigate } = this.props.navigation;
-    navigate('VerifyOTP', { isFromCustomer: this.props.navigation.state.params.isFromCustomer });
   }
 
   onForgotPassowrdPress() {
@@ -50,18 +51,41 @@ class App extends Component {
   }
 
   onLoginPress() {
-    const type = this.props.navigation.state.params.isFromCustomer ? 2 : 3;
-    this.props.userLoginRequest(this.state.emailPhoneNumber, this.state.password, type);
+    const isValid = this.validateAllField();
+    if (isValid) {
+      const utils = new Utils();
+      utils.checkInternetConnectivity((reach) => {
+        if (reach) {
+          const type = this.props.navigation.state.params.isFromCustomer ? 2 : 3;
+          this.props.userLoginRequest(this.state.emailPhoneNumber, this.state.password, type);
+          Keyboard.dismiss();
+        } else {
+          showPopupAlertWithTile(constant.OFFLINE_TITLE, constants.OFFLINE_MESSAGE);
+        }
+      });
+    }
   }
 
   onBecomeDriverPress() {
     const { navigate } = this.props.navigation;
-    navigate('Signup');
+    navigate('Signup', { isFromCustomer: this.props.navigation.state.params.isFromCustomer });
   }
 
   onBacnkPress() {
     const { goBack } = this.props.navigation;
     goBack(null);
+  }
+
+  validateAllField() {
+    if (!this.state.emailPhoneNumber) {
+      showPopupAlert('Please enter correct email or mobile number');
+      return false;
+    }
+    if (!this.state.password) {
+      showPopupAlert('Please enter correct passowrd');
+      return false;
+    }
+    return true;
   }
 
   updateEmailPhoneNumber(value) {
@@ -88,7 +112,6 @@ class App extends Component {
         />
         {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}  
       </View>
-    
     );
   }
 }

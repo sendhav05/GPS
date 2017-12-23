@@ -12,6 +12,17 @@ export const showPopupAlert = (message) => {
   );
 };
 
+export const showPopupAlertWithTile = (title, message) => {
+  Alert.alert(
+    title,
+    message,
+    [
+      { text: 'OK' },
+    ],
+  );
+};
+
+
 export const showOptionAlert = (message, buttonOk, buttonCancel, action) => {
   Alert.alert(
     '',

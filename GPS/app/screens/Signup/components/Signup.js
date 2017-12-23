@@ -132,7 +132,6 @@ const Signup = props => (
               placeholderTextColor="rgba(70,64,172,1)"
               onChangeText={name => props.updateName(name)}
               value={props.name}
-              underlineColorAndroid="transparent"
             />
             <TextInput
               style={styles.phoneNumberTextInput}
@@ -142,7 +141,6 @@ const Signup = props => (
               onChangeText={email => props.updateEmail(email)}
               value={props.email}
               underlineColorAndroid="transparent"
-              secureTextEntry={Boolean(true)}
             />
             <TextInput
               style={styles.phoneNumberTextInput}
@@ -152,7 +150,6 @@ const Signup = props => (
               onChangeText={phone => props.updatePhone(phone)}
               value={props.phone}
               underlineColorAndroid="transparent"
-              secureTextEntry={Boolean(true)}
             />  
             <TextInput
               style={styles.phoneNumberTextInput}
