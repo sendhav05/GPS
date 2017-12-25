@@ -4,7 +4,8 @@ import { store } from '../store';
 import { userLoginRequest,
   userSignupRequest,
   resetUserSignupData,
-  fetchWareHouseRequest }
+  fetchWareHouseRequest,
+  fetchCategoryRequest }
   from './Authentication';
 
 const actions = {
@@ -12,6 +13,7 @@ const actions = {
   userSignupRequest,
   resetUserSignupData,
   fetchWareHouseRequest,
+  fetchCategoryRequest,
 };
 
 export default bindActionCreators(actions, store.dispatch);

@@ -9,15 +9,15 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import WareHouseList from './components/WareHouseList';
+import CategoryList from './components/CategoryList';
 import UserActions from '../../actions';
-import WareHouseListCell from './components/WareHouseListCell';
+import CategoryListCell from './components/CategoryListCell';
 import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
 import constant from '../../utils/constants';
 import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
 
-class WareHouseView extends Component {
+class CategoryView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,12 +26,10 @@ class WareHouseView extends Component {
   }
 
   componentDidMount() {
-    console.log('********** componentDidMount');
-
     const utils = new Utils();
     utils.checkInternetConnectivity((reach) => {
       if (reach) {
-        this.props.fetchWareHouseRequest();
+        this.props.fetchCategoryRequest(this.props.navigation.state.params.selectedWareHouseItem.warehouse_id);
       } else {
         showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
       }
@@ -39,18 +37,19 @@ class WareHouseView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('********** componentWillReceiveProps');
 
     if (!nextProps.isLoading
-      && nextProps.wareHouseResponse.response
-      && nextProps.wareHouseResponse.status === 200) {
-      // && nextProps.wareHouseResponse.response.status === 1) {
-      this.setState({ dataArray: nextProps.wareHouseResponse.response.data });
-    } else if (!nextProps.isLoading && nextProps.wareHouseResponse.response
-      && (nextProps.wareHouseResponse.status !== 200
-      || nextProps.wareHouseResponse.response.status !== 1)) {
-      if (nextProps.wareHouseResponse.response.message && typeof nextProps.wareHouseResponse.response.message === 'string') {
-        showPopupAlert(nextProps.wareHouseResponse.response.message);
+      && nextProps.categoryListResponse.response
+      && nextProps.categoryListResponse.status === 200) {
+      // && nextProps.categoryListResponse.response.status === 1) {
+        console.log('******** data', nextProps.categoryListResponse.response.data);
+
+      this.setState({ dataArray: nextProps.categoryListResponse.response.data });
+    } else if (!nextProps.isLoading && nextProps.categoryListResponse.response
+      && (nextProps.categoryListResponse.status !== 200
+      || nextProps.categoryListResponse.response.status !== 1)) {
+      if (nextProps.categoryListResponse.response.message && typeof nextProps.categoryListResponse.response.message === 'string') {
+        showPopupAlert(nextProps.categoryListResponse.response.message);
         return;
       }
       showPopupAlert(constant.SERVER_ERROR_MESSAGE);
@@ -59,18 +58,16 @@ class WareHouseView extends Component {
 
   onCellSelectionPress(selectedItem) {
     console.log('********** selectedItem', selectedItem);
-    const { navigate } = this.props.navigation;
-    navigate('CategoryList', { selectedWareHouseItem: selectedItem });
   }
 
-  onLeftMenuPress() {
-    const { navigate } = this.props.navigation;
-    navigate('DrawerOpen');
+  onBacnkPress() {
+    const { goBack } = this.props.navigation;
+    goBack(null);
   }
 
   getRenderRow(item) {
     return (
-      <WareHouseListCell
+      <CategoryListCell
         data={item}
         onCellSelectionPress={selectedItem => this.onCellSelectionPress(selectedItem)}
       />
@@ -81,8 +78,8 @@ class WareHouseView extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <WareHouseList
-          onLeftMenuPress={() => this.onLeftMenuPress()}
+        <CategoryList
+          onBacnkPress={() => this.onBacnkPress()}
           getRenderRow={item => this.getRenderRow(item)}
           dataArray={this.state.dataArray}
         />
@@ -94,13 +91,13 @@ class WareHouseView extends Component {
 
 
 const mapStateToProps = state => ({
-  isLoading: state.wareHouse.isLoading,
-  wareHouseResponse: state.wareHouse.wareHouseResponse,
+  isLoading: state.category.isLoading,
+  categoryListResponse: state.category.categoryListResponse,
 });
 
 const mapDispatchToProps = () => UserActions;
 
-const WareHouseViewScreen = connect(mapStateToProps, mapDispatchToProps)(WareHouseView);
+const CategoryViewScreen = connect(mapStateToProps, mapDispatchToProps)(CategoryView);
 
-export default WareHouseViewScreen;
+export default CategoryViewScreen;
 

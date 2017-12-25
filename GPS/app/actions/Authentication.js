@@ -1,5 +1,5 @@
 
-import { loginUrl, signupUrl, wareHoueUrl } from '../api/urls';
+import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -15,6 +15,9 @@ export const WARE_HOUSE_REQUEST = 'WARE_HOUSE_REQUEST';
 export const WARE_HOUSE_SUCCESS = 'WARE_HOUSE_SUCCESS';
 export const WARE_HOUSE_FAILURE = 'WARE_HOUSE_FAILURE';
 
+export const CATEGORY_LIST_REQUEST = 'CATEGORY_LIST_REQUEST';
+export const CATEGORY_LIST_SUCCESS = 'CATEGORY_LIST_SUCCESS';
+export const CATEGORY_LIST_FAILURE = 'CATEGORY_LIST_FAILURE';
 
 export const userLoginRequest = (email, password, type) => {
   const url = loginUrl(email, password, type);
@@ -40,5 +43,13 @@ export const fetchWareHouseRequest = () => {
   return postApiAction({
     types: [WARE_HOUSE_REQUEST, WARE_HOUSE_SUCCESS, WARE_HOUSE_FAILURE],
     url: wareHoueUrl,
+  });
+};
+
+export const fetchCategoryRequest = (id) => {
+  const url = categoryListUrl(id);
+  return postApiAction({
+    types: [CATEGORY_LIST_REQUEST, CATEGORY_LIST_SUCCESS, CATEGORY_LIST_FAILURE],
+    url,
   });
 };

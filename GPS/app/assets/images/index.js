@@ -14,6 +14,7 @@ const order = require('./order.png');
 const review = require('./review.png');
 const menu = require('./menu.png');
 const grayRightArrow = require('./gray_right_arrow.png');
+const noImage = require('./no_image.png');
 
 const images = {
   logo,
@@ -30,6 +31,7 @@ const images = {
   review,
   menu,
   grayRightArrow,
+  noImage,
 };
 
 export default images;

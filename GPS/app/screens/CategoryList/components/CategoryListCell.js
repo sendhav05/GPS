@@ -19,29 +19,27 @@ const style = StyleSheet.create({
     flex: 1,
     height: 70,
   },
-  profilePic: {
+  rightArrow: {
     width: 16,
     height: 28,
     marginLeft: width - 40,
     marginTop: 21,
     position: 'absolute',
   },
+  profilePic: {
+    width: 50,
+    height: 50,
+    marginLeft: 10,
+    marginTop: 10,
+    position: 'absolute',
+  },
   userTitle: {
     fontFamily: FontFamilyName,
     fontSize: ButtonFontSize,
     color: BlueColor,
-    marginLeft: 10,
+    marginLeft: 70,
     marginRight: 50,
-    marginTop: 22,
-    position: 'absolute',
-
-  },
-  time: {
-    fontFamily: FontFamilyName,
-    fontSize: ButtonFontSize,
-    color: OrangeColor,
-    marginLeft: width - 250,
-    marginTop: 8,
+    marginTop: 15,
     position: 'absolute',
 
   },
@@ -49,9 +47,9 @@ const style = StyleSheet.create({
     fontFamily: FontFamilyName,
     fontSize: SmallFontSize,
     color: '#a9a9a8',
-    marginLeft: 40,
+    marginLeft: 70,
     marginRight: 50,
-    marginTop: 46,
+    marginTop: 40,
     position: 'absolute',
   },
   dividerLine: {
@@ -62,7 +60,7 @@ const style = StyleSheet.create({
   },
 });
 
-const WareHouseListCell = props => (
+const CategoryListCell = props => (
   <TouchableOpacity
     activeOpacity={1}
     style={{ flex: 1, justifyContent: 'center' }}
@@ -71,26 +69,27 @@ const WareHouseListCell = props => (
     <View style={style.user}>
       <Image
         source={Images.grayRightArrow}
+        style={style.rightArrow}
+      />
+      <Image
+        source={Images.noImage}
         style={style.profilePic}
       />
       <Text style={style.userTitle} numberOfLines={1} ellipsizeMode="tail" >
-        {props.data.item.name}
+        {props.data.item.category_name}
       </Text>
-      <Text style={style.time}>
-        {`Contact: ${props.data.item.contact}`}
-      </Text>
-      <Text style={style.address} numberOfLines={1} ellipsizeMode="tail" >
-        {`${props.data.item.address}, ${props.data.item.city}, ${props.data.item.state}`}
+      <Text style={style.address} numberOfLines={1} ellipsizeMode="head" >
+        {props.data.item.description}
       </Text>
     </View>
     <View style={[style.dividerLine]} />
   </TouchableOpacity>
 );
 
-WareHouseListCell.propTypes = {
+CategoryListCell.propTypes = {
 };
 
-WareHouseListCell.defaultProps = {
+CategoryListCell.defaultProps = {
 };
 
-export default WareHouseListCell;
+export default CategoryListCell;

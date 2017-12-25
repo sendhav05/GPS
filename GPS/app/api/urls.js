@@ -75,3 +75,9 @@ export const signupUrl = (email, password, type, phone, name) => {
 };
 
 export const wareHoueUrl = 'http://itinformatix.com/gpsapi/index.php/api/warehouse';
+
+
+export const categoryListUrl = (id) => {
+  const url = `${getBaseUrl}/category?warehouse_id=${id}`;
+  return url;
+};
