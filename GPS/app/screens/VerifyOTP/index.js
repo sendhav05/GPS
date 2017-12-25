@@ -5,12 +5,10 @@
  */
 
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import { store } from '../../store';
-import runRootSaga from '../../sagas';
+import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 import VerifyOTP from './components/VerifyOTP';
 import UserActions from '../../actions';
-import { connect } from 'react-redux';
 
 class VerifyOTPView extends Component {
   constructor(props) {
@@ -25,6 +23,13 @@ class VerifyOTPView extends Component {
   }
 
   onVerifyOTPPress() {
+    // const actionToDispatch = NavigationActions.reset({
+    //   index: 0,
+    //   key: null, // black magic
+    //   actions: [NavigationActions.navigate({ routeName: 'drawerStack', params: { isFromCustomer: this.props.navigation.state.params.isFromCustomer }})],
+    // });
+    // this.props.navigation.dispatch(actionToDispatch);
+
     const { navigate } = this.props.navigation;
     navigate('drawerStack', { isFromCustomer: this.props.navigation.state.params.isFromCustomer });
   }

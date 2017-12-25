@@ -109,7 +109,7 @@ const CustomerHome = props => (
     <NavBar
       leftMenuIcon={Images.backArrow}
       leftMenuPress={() => props.onBacnkPress()}
-      title="Order"
+      title={props.selectedProductItem.name}
       isShowRightIcon={Boolean(true)}
       rightMenuIcon={Images.editOder}
       rightMenuPress={() => props.onEditOrderPress()}
@@ -125,11 +125,11 @@ const CustomerHome = props => (
       </View>
       <View style={styles.productCountView}>
         <Text style={styles.productCountText}>
-          100
+          {props.selectedProductItem.quantity}
         </Text>
       </View>
       <Text style={styles.productCountText}>
-        200 $
+        {`${props.selectedProductItem.price} $`}
       </Text>
     </View>
     <View style={styles.bodyView}>
@@ -138,7 +138,7 @@ const CustomerHome = props => (
           Delivery Charge
         </Text>
         <Text style={styles.productCountText}>
-          20 $
+        {`${props.deliveryCharge} $`}
         </Text>
       </View>
       <View style={styles.cellView}>
@@ -146,7 +146,7 @@ const CustomerHome = props => (
           Total
         </Text>
         <Text style={[styles.productCountText, { fontSize: 24, color: brownOrangeColor }]}>
-          220 $
+          {`${props.totalPrice} $`}
         </Text>
       </View>
       <TouchableOpacity

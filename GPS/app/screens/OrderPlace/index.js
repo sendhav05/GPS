@@ -12,6 +12,8 @@ import OrderPlace from './components/OrderPlace';
 import UserActions from '../../actions';
 import { connect } from 'react-redux';
 
+const deliveryCharge = 10;
+
 class OrderPlaceView extends Component {
   constructor(props) {
     super(props);
@@ -58,6 +60,7 @@ class OrderPlaceView extends Component {
   }
 
   render() {
+    const totalPrice = deliveryCharge + Number(this.props.navigation.state.params.selectedProductItem.price);
     return (
       <OrderPlace
         onChoosePaymentPress={() => this.onChoosePaymentPress()}
@@ -69,6 +72,9 @@ class OrderPlaceView extends Component {
         emailPhoneNumber={this.state.emailPhoneNumber}
         updatePassword={emailPhoneNumber => this.updatePassword(emailPhoneNumber)}
         password={this.state.password}
+        selectedProductItem={this.props.navigation.state.params.selectedProductItem}
+        totalPrice={totalPrice}
+        deliveryCharge={deliveryCharge}
       />
     );
   }

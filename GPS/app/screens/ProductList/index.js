@@ -29,7 +29,7 @@ class ProductListView extends Component {
     const utils = new Utils();
     utils.checkInternetConnectivity((reach) => {
       if (reach) {
-        this.props.fetchProductRequest(this.props.navigation.state.params.selectedProductItem.category_id);
+        this.props.fetchProductRequest(this.props.navigation.state.params.selectedCategoryItem.category_id);
       } else {
         showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
       }

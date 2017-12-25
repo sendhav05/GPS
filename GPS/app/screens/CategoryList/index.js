@@ -60,7 +60,7 @@ class CategoryView extends Component {
 
   onCellSelectionPress(selectedItem) {
     const { navigate } = this.props.navigation;
-    navigate('ProductList', { selectedProductItem: selectedItem });
+    navigate('ProductList', { selectedCategoryItem: selectedItem });
   }
 
   onBacnkPress() {
