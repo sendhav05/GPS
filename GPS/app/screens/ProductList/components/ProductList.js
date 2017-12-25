@@ -62,12 +62,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const CategoryList = props => (
+const ProductList = props => (
   <View style={styles.container}>
     <NavBar
       leftMenuIcon={Images.backArrow}
       leftMenuPress={() => props.onBacnkPress()}
-      title="Categories"
+      title="Products"
       isShowRightIcon={Boolean(false)}
       rightMenuIcon={Images.menu}
     />
@@ -76,16 +76,16 @@ const CategoryList = props => (
         style={styles.flatListStyle}
         data={props.dataArray}
         renderItem={data => props.getRenderRow(data)}
-        keyExtractor={item => item.category_id}
+        keyExtractor={item => item.product_id}
       />
     </View>
   </View>
 );
 
-CategoryList.propTypes = {
+ProductList.propTypes = {
 };
 
-CategoryList.defaultProps = {
+ProductList.defaultProps = {
 };
 
-export default CategoryList;
+export default ProductList;

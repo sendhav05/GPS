@@ -26,8 +26,6 @@ class WareHouseView extends Component {
   }
 
   componentDidMount() {
-    console.log('********** componentDidMount');
-
     const utils = new Utils();
     utils.checkInternetConnectivity((reach) => {
       if (reach) {
@@ -39,13 +37,15 @@ class WareHouseView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('********** componentWillReceiveProps');
-
     if (!nextProps.isLoading
       && nextProps.wareHouseResponse.response
       && nextProps.wareHouseResponse.status === 200) {
       // && nextProps.wareHouseResponse.response.status === 1) {
-      this.setState({ dataArray: nextProps.wareHouseResponse.response.data });
+      if (nextProps.wareHouseResponse.response.data.length > 0) {
+        this.setState({ dataArray: nextProps.wareHouseResponse.response.data });
+      } else {
+        showPopupAlert(constant.EMPTY_RECORD_MESSAGE);
+      }
     } else if (!nextProps.isLoading && nextProps.wareHouseResponse.response
       && (nextProps.wareHouseResponse.status !== 200
       || nextProps.wareHouseResponse.response.status !== 1)) {
@@ -58,7 +58,6 @@ class WareHouseView extends Component {
   }
 
   onCellSelectionPress(selectedItem) {
-    console.log('********** selectedItem', selectedItem);
     const { navigate } = this.props.navigation;
     navigate('CategoryList', { selectedWareHouseItem: selectedItem });
   }

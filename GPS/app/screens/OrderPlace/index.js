@@ -8,11 +8,11 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
 import runRootSaga from '../../sagas';
-import CustomerHome from './components/CustomerHome';
+import OrderPlace from './components/OrderPlace';
 import UserActions from '../../actions';
 import { connect } from 'react-redux';
 
-class CustomerHomeView extends Component {
+class OrderPlaceView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,8 +41,8 @@ class CustomerHomeView extends Component {
   }
 
   onBacnkPress() {
-    const { navigate } = this.props.navigation;
-    navigate('DrawerOpen');
+    const { goBack } = this.props.navigation;
+    goBack(null);
   }
 
   onEditOrderPress() {
@@ -59,7 +59,7 @@ class CustomerHomeView extends Component {
 
   render() {
     return (
-      <CustomerHome
+      <OrderPlace
         onChoosePaymentPress={() => this.onChoosePaymentPress()}
         onDeliveryAddressPress={() => this.onDeliveryAddressPress()}
         onBacnkPress={() => this.onBacnkPress()}
@@ -79,9 +79,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = () => UserActions;
-//const drawerConnected = drawer(CustomerHomeView);
+//const drawerConnected = drawer(OrderPlaceView);
 
-const CustomerHomeViewScreen = connect(mapStateToProps, mapDispatchToProps)(CustomerHomeView);
+const OrderPlaceViewScreen = connect(mapStateToProps, mapDispatchToProps)(OrderPlaceView);
 
-export default CustomerHomeViewScreen;
+export default OrderPlaceViewScreen;
 

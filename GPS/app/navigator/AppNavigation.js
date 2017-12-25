@@ -6,23 +6,18 @@ import {
   Platform,
 } from 'react-native';
 import { StackNavigator, DrawerNavigator } from 'react-navigation';
-// import LoginScreen from '../Containers/LoginScreen'
-// import SignupScreen from '../Containers/SignupScreen'
-// import ForgottenPasswordScreen from '../Containers/ForgottenPasswordScreen'
-// import Screen1 from '../Containers/Screen1'
-// import Screen2 from '../Containers/Screen2'
-// import Screen3 from '../Containers/Screen3'
 
 import LoginScreen from '../screens/SignIn';
 import WelcomeScreen from '../screens/Welcome';
 import SignupScreen from '../screens/Signup';
 import VerifyOTPScreen from '../screens/VerifyOTP';
-import CustomerHomeScreen from '../screens/CustomerHome';
+import OrderPlaceScreen from '../screens/OrderPlace';
 import ChooseAddressScreen from '../screens/ChooseAddress';
 import CustomerMenuScreen from '../screens/CustomerMenu';
 import CustomerOrderScreen from '../screens/CustomerOrder';
 import WareHouseListScreen from '../screens/WareHouseList';
 import CategoryListScreen from '../screens/CategoryList';
+import ProductListScreen from '../screens/ProductList';
 
 
 // https://github.com/react-community/react-navigation/issues/1254
@@ -38,7 +33,8 @@ const noTransitionConfig = () => ({
 const DrawerStack = DrawerNavigator({
   WareHouseList: { screen: WareHouseListScreen },
   CategoryList: { screen: CategoryListScreen },
-  CustomerHome: { screen: CustomerHomeScreen },
+  ProductList: { screen: ProductListScreen },
+  OrderPlace: { screen: OrderPlaceScreen },
   CustomerOrder: { screen: CustomerOrderScreen },
   ChooseAddress: { screen: ChooseAddressScreen },
 }, {
@@ -82,6 +78,22 @@ const LoginStack = StackNavigator({
   VerifyOTP: {
     screen: VerifyOTPScreen,
     key: 'VerifyOTPScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  CategoryList: {
+    screen: CategoryListScreen,
+    key: 'CategoryListScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  ProductList: {
+    screen: ProductListScreen,
+    key: 'ProductListScreen',
     navigationOptions: {
       header: null,
       gesturesEnabled: false,

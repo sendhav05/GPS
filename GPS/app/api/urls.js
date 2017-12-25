@@ -81,3 +81,9 @@ export const categoryListUrl = (id) => {
   const url = `${getBaseUrl}/category?warehouse_id=${id}`;
   return url;
 };
+
+export const productListUrl = (id) => {
+  const url = `${getBaseUrl}/product?category_id=${id}`;
+  return url;
+};
+

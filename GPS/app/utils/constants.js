@@ -28,6 +28,7 @@ const constant = {
   SERVER_ERROR_MESSAGE: 'The request failed due to an internal error.',
   OFFLINE_TITLE: 'No Internet Connection',
   OFFLINE_MESSAGE: 'Please check your internet connection.',
+  EMPTY_RECORD_MESSAGE: 'Record Not Found.',
 };
 
 export default constant;
