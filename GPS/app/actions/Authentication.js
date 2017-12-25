@@ -1,5 +1,5 @@
 
-import { loginUrl, signupUrl } from '../api/urls';
+import { loginUrl, signupUrl, wareHoueUrl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -10,6 +10,10 @@ export const USER_SIGNUP_REQUEST = 'USER_SIGNUP_REQUEST';
 export const USER_SIGNUP_SUCCESS = 'USER_SIGNUP_SUCCESS';
 export const USER_SIGNUP_FAILURE = 'USER_SIGNUP_FAILURE';
 export const RESET_USER_SIGNUP_DATA = 'USER_SIGNUP_FAILURE';
+
+export const WARE_HOUSE_REQUEST = 'WARE_HOUSE_REQUEST';
+export const WARE_HOUSE_SUCCESS = 'WARE_HOUSE_SUCCESS';
+export const WARE_HOUSE_FAILURE = 'WARE_HOUSE_FAILURE';
 
 
 export const userLoginRequest = (email, password, type) => {
@@ -31,3 +35,10 @@ export const userSignupRequest = (email, password, type, phone, name) => {
 export const resetUserSignupData = () => ({
   type: RESET_USER_SIGNUP_DATA,
 });
+
+export const fetchWareHouseRequest = () => {
+  return postApiAction({
+    types: [WARE_HOUSE_REQUEST, WARE_HOUSE_SUCCESS, WARE_HOUSE_FAILURE],
+    url: wareHoueUrl,
+  });
+};

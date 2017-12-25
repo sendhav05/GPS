@@ -16,63 +16,47 @@ export const styles = StyleSheet.create({
   container: {
     backgroundColor: BlueColor,
     height: 44,
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    marginTop: StatusBarHeight,
-    paddingVertical: 8,
-  },
-  innerContainer: {
+    width,
+    alignSelf: 'center',
     flexDirection: 'row',
-    alignSelf: 'stretch',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginHorizontal: 12,
-    paddingVertical: 8,
+    marginTop: StatusBarHeight,
+    paddingHorizontal: 10,
   },
   leftNavBarIcon: {
     width: 25,
     height: 22,
+    alignSelf: 'center',
+
   },
   rightNavBarIcon: {
     width: 25,
-    height: 25,
-    marginLeft: 20,
+    height: 22,
+    alignSelf: 'center',
   },
   title: {
     fontSize: HeaderFontSize,
     color: WhiteColor,
     alignSelf: 'center',
     fontFamily: FontFamilyName,
-    marginLeft: (width / 2) - 62,
-  },
-  agenda: {
-    fontSize: 14,
-    color: '#2544A7',
-    fontFamily: FontFamilyName,
-    fontWeight: 'bold',
-  },
-  navBarViewStyle: {
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    flexDirection: 'row',
-    flex: 1,
   },
 });
 
-const NavBar = ({ leftMenuIcon, leftMenuPress, title, isShowRightIcon, rightMenuIcon, rightMenuPress }) => (
+const NavBar = ({
+ leftMenuIcon, leftMenuPress, title, isShowRightIcon, rightMenuIcon, rightMenuPress 
+}) => (
   <View style={styles.container}>
-    <View style={styles.innerContainer}>
-      <TouchableOpacity onPress={leftMenuPress}>
-        <Image style={styles.leftNavBarIcon} source={leftMenuIcon} />
+    <TouchableOpacity onPress={leftMenuPress}>
+      <Image style={styles.leftNavBarIcon} source={leftMenuIcon} />
+    </TouchableOpacity>
+    <Text style={styles.title}>{title}</Text>
+    {isShowRightIcon ?
+      <TouchableOpacity onPress={rightMenuPress}>
+        <Image style={styles.rightNavBarIcon} source={rightMenuIcon} />
       </TouchableOpacity>
-      <Text style={styles.title}>{title}</Text>
-      <View style={styles.navBarViewStyle}>
-        {isShowRightIcon &&
-          <TouchableOpacity onPress={rightMenuPress}>
-            <Image style={styles.rightNavBarIcon} source={rightMenuIcon} />
-          </TouchableOpacity>
-        }
-      </View>
-    </View>
+      : <View style={styles.rightNavBarIcon} />
+    }
   </View>
 );
 

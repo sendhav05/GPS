@@ -5,39 +5,59 @@
  */
 
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import { store } from '../../store';
-import runRootSaga from '../../sagas';
-import CustomerOrder from './components/CustomerOrder';
-import UserActions from '../../actions';
+import {
+  View,
+} from 'react-native';
 import { connect } from 'react-redux';
-import OrderCell from './components/OrderCell';
+import WareHouseList from './components/WareHouseList';
+import UserActions from '../../actions';
+import WareHouseListCell from './components/WareHouseListCell';
+import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
+import constant from '../../utils/constants';
+import Loader from '../../components/Loader';
+import Utils from '../../utils/utils';
 
-class CustomerOrderView extends Component {
+class WareHouseView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      leftMenuItems: [{ time: '04:00 PM', name: 'Mr. Sham', address: '12, 3rt floor rajagi salai, Kanchipuram' },
-        { time: '04:00 PM', name: 'Mr. Raheja', address: '12, 3rt floor rajagi salai, Kanchipuram' },
-        { time: '04:00 PM', name: 'Mr. Jhon', address: '12, 3rt floor rajagi salai, Kanchipuram' },
-        { time: '04:00 PM', name: 'Mr. Kumar', address: '12, 3rt floor rajagi salai, Kanchipuram' }],
+      dataArray: [],
     };
+  }
+
+  componentDidMount() {
+    const utils = new Utils();
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        this.props.fetchWareHouseRequest();
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
+    });
   }
 
   componentWillReceiveProps(nextProps) {
 
+    if (!nextProps.isLoading
+      && nextProps.wareHouseResponse.response
+      && nextProps.wareHouseResponse.status === 200) {
+      // && nextProps.wareHouseResponse.response.status === 1) {
+        console.log('******** data', nextProps.wareHouseResponse.response.data);
+
+      this.setState({ dataArray: nextProps.wareHouseResponse.response.data });
+    } else if (!nextProps.isLoading && nextProps.wareHouseResponse.response
+      && (nextProps.wareHouseResponse.status !== 200
+      || nextProps.wareHouseResponse.response.status !== 1)) {
+      if (nextProps.wareHouseResponse.response.message && typeof nextProps.wareHouseResponse.response.message === 'string') {
+        showPopupAlert(nextProps.wareHouseResponse.response.message);
+        return;
+      }
+      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
+    }
   }
 
   onCellSelectionPress(selectedItem) {
     console.log('********** selectedItem', selectedItem);
-  }
-
-  onPendingOrderPress() {
-    console.log('********** selectedItem');
-  }
-
-  onCompletedOrderPres() {
-    console.log('********** selectedItem');
   }
 
   onLeftMenuPress() {
@@ -47,33 +67,38 @@ class CustomerOrderView extends Component {
 
   getRenderRow(item) {
     return (
-      <OrderCell
+      <WareHouseListCell
         data={item}
         onCellSelectionPress={selectedItem => this.onCellSelectionPress(selectedItem)}
       />
+
     );
   }
 
   render() {
+    console.log('******** render', this.state.dataArray);
     return (
-      <CustomerOrder
-        onLeftMenuPress={() => this.onLeftMenuPress()}
-        onPendingOrderPress={() => this.onPendingOrderPress()}
-        onCompletedOrderPres={() => this.onCompletedOrderPres()}
-        getRenderRow={item => this.getRenderRow(item)}
-        leftMenuItems={this.state.leftMenuItems}
-      />
+      <View style={{ flex: 1 }}>
+        <WareHouseList
+          onLeftMenuPress={() => this.onLeftMenuPress()}
+          getRenderRow={item => this.getRenderRow(item)}
+          dataArray={this.state.dataArray}
+        />
+        {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
+      </View>
     );
   }
 }
 
 
 const mapStateToProps = state => ({
+  isLoading: state.wareHouse.isLoading,
+  wareHouseResponse: state.wareHouse.wareHouseResponse,
 });
 
 const mapDispatchToProps = () => UserActions;
 
-const CustomerOrderViewScreen = connect(mapStateToProps, mapDispatchToProps)(CustomerOrderView);
+const WareHouseViewScreen = connect(mapStateToProps, mapDispatchToProps)(WareHouseView);
 
-export default CustomerOrderViewScreen;
+export default WareHouseViewScreen;
 

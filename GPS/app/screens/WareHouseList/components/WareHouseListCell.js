@@ -60,7 +60,7 @@ const style = StyleSheet.create({
   },
 });
 
-const OrderCell = props => (
+const WareHouseListCell = props => (
   <TouchableOpacity
     activeOpacity={1}
     style={{ flex: 1, justifyContent: 'center' }}
@@ -75,20 +75,20 @@ const OrderCell = props => (
         {props.data.item.name}
       </Text>
       <Text style={style.time}>
-        {`Delivery Time: ${props.data.item.time}`}
+        {`Contact: ${props.data.item.contact}`}
       </Text>
       <Text style={style.address}>
-        {props.data.item.address}
+        {`${props.data.item.address}, ${props.data.item.city}, ${props.data.item.state}`}
       </Text>
     </View>
     <View style={[style.dividerLine]} />
   </TouchableOpacity>
 );
 
-OrderCell.propTypes = {
+WareHouseListCell.propTypes = {
 };
 
-OrderCell.defaultProps = {
+WareHouseListCell.defaultProps = {
 };
 
-export default OrderCell;
+export default WareHouseListCell;

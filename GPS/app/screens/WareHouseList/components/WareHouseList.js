@@ -62,48 +62,30 @@ const styles = StyleSheet.create({
   },
 });
 
-const CustomerOrder = props => (
+const WareHouseList = props => (
   <View style={styles.container}>
     <NavBar
       leftMenuIcon={Images.menu}
       leftMenuPress={() => props.onLeftMenuPress()}
-      title="Orders"
+      title="Ware House"
       isShowRightIcon={Boolean(false)}
-      rightMenuIcon={Images.editOder}
+      rightMenuIcon={Images.menu}
     />
-    <View style={styles.headerView}>
-      <TouchableOpacity
-        style={styles.pendingOrderButton}
-        onPress={() => props.onPendingOrderPress()}
-      >
-        <Text style={styles.buttonText}>
-          Pending
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.CompletedOrderButton}
-        onPress={() => props.onCompletedOrderPres()}
-      >
-        <Text style={styles.buttonText}>
-          Completed
-        </Text>
-      </TouchableOpacity>
-    </View>
     <View style={styles.bodyView}>
       <FlatList
         style={styles.flatListStyle}
-        data={props.leftMenuItems}
+        data={props.dataArray}
         renderItem={data => props.getRenderRow(data)}
-        keyExtractor={item => item.name}
+        keyExtractor={item => item.warehouse_id}
       />
     </View>
   </View>
 );
 
-CustomerOrder.propTypes = {
+WareHouseList.propTypes = {
 };
 
-CustomerOrder.defaultProps = {
+WareHouseList.defaultProps = {
 };
 
-export default CustomerOrder;
+export default WareHouseList;

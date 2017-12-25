@@ -63,7 +63,7 @@ class SignupUser extends Component {
           this.props.userSignupRequest(this.state.email, this.state.password, type, this.state.phone, this.state.name);
           Keyboard.dismiss();
         } else {
-          showPopupAlertWithTile(constant.OFFLINE_TITLE, constants.OFFLINE_MESSAGE);
+          showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
         }
       });
     }

@@ -23,8 +23,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      emailPhoneNumber: '',
-      password: '',
+      emailPhoneNumber: 'N@gmail.com',
+      password: '123456',
     };
   }
 
@@ -60,7 +60,7 @@ class App extends Component {
           this.props.userLoginRequest(this.state.emailPhoneNumber, this.state.password, type);
           Keyboard.dismiss();
         } else {
-          showPopupAlertWithTile(constant.OFFLINE_TITLE, constants.OFFLINE_MESSAGE);
+          showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
         }
       });
     }
