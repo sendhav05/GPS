@@ -1,6 +1,6 @@
 
 export const authenticationUrl = () => {
-  const url = `https://test.com`;
+  const url = 'https://test.com';
   return url;
 };
 
@@ -73,3 +73,5 @@ export const signupUrl = (email, password, type, phone, name) => {
   }
   return url;
 };
+
+export const wareHoueUrl = 'http://itinformatix.com/gpsapi/index.php/api/warehouse';

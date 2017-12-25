@@ -148,7 +148,6 @@ class SignupUser extends Component {
 }
 
 SignupUser.defaultProps = {
-  signInUser: () => {},
   userSignupRequest: () => {},
   navigation: {},
   userSignupResponse: {},

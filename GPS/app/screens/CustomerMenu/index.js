@@ -85,7 +85,7 @@ class CustomerMenuView extends Component {
     console.log('********** selectedItem', selectedItem);
     const { navigate } = this.props.navigation;
     if (selectedItem.name === 'Home') {
-      navigate('CustomerHome');
+      navigate('WareHouseList');
     } else if (selectedItem.name === 'Logout') {
       this.logout();
     } else if (selectedItem.name === 'Orders') {
@@ -135,7 +135,6 @@ class CustomerMenuView extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLoading: state.signIn.isLoading,
 });
 
 const mapDispatchToProps = () => UserActions;

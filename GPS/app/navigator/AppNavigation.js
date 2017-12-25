@@ -21,6 +21,7 @@ import CustomerHomeScreen from '../screens/CustomerHome';
 import ChooseAddressScreen from '../screens/ChooseAddress';
 import CustomerMenuScreen from '../screens/CustomerMenu';
 import CustomerOrderScreen from '../screens/CustomerOrder';
+import WareHouseListScreen from '../screens/WareHouseList';
 
 
 // https://github.com/react-community/react-navigation/issues/1254
@@ -34,6 +35,7 @@ const noTransitionConfig = () => ({
 
 // drawer stack
 const DrawerStack = DrawerNavigator({
+  WareHouseList: { screen: WareHouseListScreen },
   CustomerHome: { screen: CustomerHomeScreen },
   CustomerOrder: { screen: CustomerOrderScreen },
   ChooseAddress: { screen: ChooseAddressScreen },

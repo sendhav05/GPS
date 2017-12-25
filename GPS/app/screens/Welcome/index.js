@@ -66,7 +66,6 @@ class App extends Component {
 
 
 const mapStateToProps = state => ({
-  isLoading: state.signIn.isLoading,
 });
 
 const mapDispatchToProps = () => UserActions;

@@ -117,7 +117,6 @@ class App extends Component {
 }
 
 App.propTypes = {
-  signInUser: PropTypes.func,
   userSignupRequest: PropTypes.func,
   navigation: PropTypes.oneOfType([
     PropTypes.objectOf(PropTypes.any),
@@ -129,7 +128,6 @@ App.propTypes = {
 };
 
 App.defaultProps = {
-  signInUser: () => {},
   userSignupRequest: () => {},
   navigation: {},
   userSignupResponse: {},
