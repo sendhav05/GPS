@@ -70,7 +70,7 @@ class ChooseAddressView extends Component {
   }
 
   updatePinCode(value) {
-    this.setState({ chooseCity: value });
+    this.setState({ pinCode: value });
   }
 
   updateLandMark(value) {
@@ -90,15 +90,15 @@ class ChooseAddressView extends Component {
         />
         <ChooseAddress
           headerTitle="Default Address"
-          updateAddLineOne={() => this.updateAddLineOne()}
+          updateAddLineOne={addLineOne => this.updateAddLineOne(addLineOne)}
           addLineOne={this.state.addLineOne}
-          updateAddLineTwo={() => this.updateAddLineTwo()}
+          updateAddLineTwo={addLineTwo => this.updateAddLineTwo(addLineTwo)}
           addLineTwo={this.state.addLineTwo}
-          updateChooseCity={() => this.updateChooseCity()}
+          updateChooseCity={chooseCity => this.updateChooseCity(chooseCity)}
           chooseCity={this.state.chooseCity}
-          updatePinCode={() => this.updatePinCode()}
+          updatePinCode={pinCode => this.updatePinCode(pinCode)}
           pinCode={this.state.pinCode}
-          updateLandMark={() => this.updateLandMark()}
+          updateLandMark={landMark => this.updateLandMark(landMark)}
           landMark={this.state.landMark}
         />
       </View>

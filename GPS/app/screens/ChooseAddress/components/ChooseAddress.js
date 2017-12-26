@@ -63,6 +63,8 @@ const ChooseAddress = props => (
         onChangeText={addLineOne => props.updateAddLineOne(addLineOne)}
         value={props.addLineOne}
         underlineColorAndroid="transparent"
+        autoCapitalize="characters"
+        autoCorrect={Boolean(true)}
       />
       <TextInput
         style={styles.textInput}
@@ -71,6 +73,8 @@ const ChooseAddress = props => (
         onChangeText={addLineTwo => props.updateAddLineTwo(addLineTwo)}
         value={props.addLineTwo}
         underlineColorAndroid="transparent"
+        autoCapitalize="characters"
+        autoCorrect={Boolean(true)}
       />
       <TextInput
         style={styles.textInput}
@@ -79,6 +83,8 @@ const ChooseAddress = props => (
         onChangeText={chooseCity => props.updateChooseCity(chooseCity)}
         value={props.chooseCity}
         underlineColorAndroid="transparent"
+        autoCapitalize="characters"
+        autoCorrect={Boolean(true)}
       />
       <TextInput
         style={styles.textInput}
@@ -86,7 +92,7 @@ const ChooseAddress = props => (
         placeholderTextColor={BlueColor}
         onChangeText={pinCode => props.updatePinCode(pinCode)}
         value={props.pinCode}
-        keyboardType="number-pad"
+        keyboardType="numeric"
         underlineColorAndroid="transparent"
       />
       <TextInput
@@ -96,6 +102,8 @@ const ChooseAddress = props => (
         onChangeText={landMark => props.updateLandMark(landMark)}
         value={props.landMark}
         underlineColorAndroid="transparent"
+        autoCapitalize="characters"
+        autoCorrect={Boolean(true)}
       />
     </View>
   </View>
