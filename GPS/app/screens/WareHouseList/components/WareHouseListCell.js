@@ -19,29 +19,36 @@ const style = StyleSheet.create({
     flex: 1,
     height: 70,
   },
-  profilePic: {
+  rightArrow: {
     width: 16,
     height: 28,
     marginLeft: width - 40,
     marginTop: 21,
     position: 'absolute',
   },
+  profilePic: {
+    width: 50,
+    height: 50,
+    marginLeft: 10,
+    marginTop: 10,
+    position: 'absolute',
+  },
   userTitle: {
     fontFamily: FontFamilyName,
     fontSize: ButtonFontSize,
     color: BlueColor,
-    marginLeft: 10,
+    marginLeft: 70,
     marginRight: 50,
-    marginTop: 22,
+    marginTop: 11,
     position: 'absolute',
 
   },
   time: {
     fontFamily: FontFamilyName,
-    fontSize: ButtonFontSize,
+    fontSize: SmallFontSize,
     color: OrangeColor,
-    marginLeft: width - 250,
-    marginTop: 8,
+    marginLeft: width - 170,
+    marginTop: 28,
     position: 'absolute',
 
   },
@@ -49,9 +56,9 @@ const style = StyleSheet.create({
     fontFamily: FontFamilyName,
     fontSize: SmallFontSize,
     color: '#a9a9a8',
-    marginLeft: 40,
+    marginLeft: 70,
     marginRight: 50,
-    marginTop: 46,
+    marginTop: 44,
     position: 'absolute',
   },
   dividerLine: {
@@ -70,8 +77,12 @@ const WareHouseListCell = props => (
   >
     <View style={style.user}>
       <Image
-        source={Images.grayRightArrow}
+        source={Images.noImage}
         style={style.profilePic}
+      />
+      <Image
+        source={Images.grayRightArrow}
+        style={style.rightArrow}
       />
       <Text style={style.userTitle} numberOfLines={1} ellipsizeMode="tail" >
         {props.data.item.name}
