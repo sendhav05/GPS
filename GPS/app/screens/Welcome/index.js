@@ -5,12 +5,10 @@
  */
 
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import { store } from '../../store';
-import runRootSaga from '../../sagas';
+import { connect } from 'react-redux';
 import Welcome from './components/Welcome';
 import UserActions from '../../actions';
-import { connect } from 'react-redux';
+import Utils from '../../utils/utils';
 
 class App extends Component {
   constructor(props) {
@@ -30,14 +28,16 @@ class App extends Component {
   }
 
   onLoginPress() {
-    console.log('***** onLoginPress ');
     const { navigate } = this.props.navigation;
+    const utils = new Utils();
+    utils.setFlowFromCustomer(true);
     navigate('Login', { isFromCustomer: true });
   }
 
   onBecomeDriverPress() {
-    console.log('***** onBecomeDriverPress ');
     const { navigate } = this.props.navigation;
+    const utils = new Utils();
+    utils.setFlowFromCustomer(false);
     navigate('Login', { isFromCustomer: false });
   }
 

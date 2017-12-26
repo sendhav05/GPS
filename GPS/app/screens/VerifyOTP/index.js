@@ -23,15 +23,15 @@ class VerifyOTPView extends Component {
   }
 
   onVerifyOTPPress() {
-    // const actionToDispatch = NavigationActions.reset({
-    //   index: 0,
-    //   key: null, // black magic
-    //   actions: [NavigationActions.navigate({ routeName: 'drawerStack', params: { isFromCustomer: this.props.navigation.state.params.isFromCustomer }})],
-    // });
-    // this.props.navigation.dispatch(actionToDispatch);
+    const actionToDispatch = NavigationActions.reset({
+      index: 0,
+      key: null, // black magic
+      actions: [NavigationActions.navigate({ routeName: 'drawerStack'})],
+    });
+    this.props.navigation.dispatch(actionToDispatch);
 
-    const { navigate } = this.props.navigation;
-    navigate('drawerStack', { isFromCustomer: this.props.navigation.state.params.isFromCustomer });
+  //  const { navigate } = this.props.navigation;
+  //   navigate('drawerStack', { isFromCustomer: this.props.navigation.state.params.isFromCustomer });
   }
 
   onResendOTPPress() {

@@ -29,14 +29,60 @@ const noTransitionConfig = () => ({
   },
 });
 
+// AppStack stack
+const AppStack = StackNavigator({
+  WareHouseList: {
+    screen: WareHouseListScreen,
+    key: 'WareHouseListScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  CategoryList: {
+    screen: CategoryListScreen,
+    key: 'CategoryListScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  ProductList: {
+    screen: ProductListScreen,
+    key: 'ProductListScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  OrderPlace: {
+    screen: OrderPlaceScreen,
+    key: 'OrderPlaceScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  ChooseAddress: {
+    screen: ChooseAddressScreen,
+    key: 'ChooseAddressScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+}, {
+  headerMode: 'float',
+  navigationOptions: {
+    headerStyle: { backgroundColor: 'red' },
+    title: 'You are not logged in',
+  },
+});
+
 // drawer stack
 const DrawerStack = DrawerNavigator({
-  WareHouseList: { screen: WareHouseListScreen },
-  CategoryList: { screen: CategoryListScreen },
-  ProductList: { screen: ProductListScreen },
-  OrderPlace: { screen: OrderPlaceScreen },
+  WareHouseList: { screen: AppStack },
   CustomerOrder: { screen: CustomerOrderScreen },
-  ChooseAddress: { screen: ChooseAddressScreen },
 }, {
   gesturesEnabled: false,
   drawerWidth: Dimensions.get('window').width - (Platform.OS === 'android' ? 56 : 64),
@@ -45,6 +91,7 @@ const DrawerStack = DrawerNavigator({
 
 const DrawerNavigation = StackNavigator({
   DrawerStack: { screen: DrawerStack },
+  AppStack: { screen: AppStack },
 }, {
   headerMode: 'none',
 });
@@ -83,23 +130,6 @@ const LoginStack = StackNavigator({
       gesturesEnabled: false,
     },
   },
-  CategoryList: {
-    screen: CategoryListScreen,
-    key: 'CategoryListScreen',
-    navigationOptions: {
-      header: null,
-      gesturesEnabled: false,
-    },
-  },
-  ProductList: {
-    screen: ProductListScreen,
-    key: 'ProductListScreen',
-    navigationOptions: {
-      header: null,
-      gesturesEnabled: false,
-    },
-  },
-
 }, {
   headerMode: 'float',
   navigationOptions: {

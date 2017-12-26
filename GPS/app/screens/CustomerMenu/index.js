@@ -12,20 +12,18 @@ import {
   FlatList,
   StyleSheet,
   Dimensions,
+  AsyncStorage,
 } from 'react-native';
-import { Provider } from 'react-redux';
+import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-import { store } from '../../store';
-import runRootSaga from '../../sagas';
 import MenuCell from './components/MenuCell';
 import UserActions from '../../actions';
 import Images from '../../assets/images';
-import { connect } from 'react-redux';
+import Utils from '../../utils/utils';
 
 import constants, { BlueColor, OrangeColor, ButtonFontSize, GrayColor, HeaderFontSize, WhiteColor, FontFamilyName } from '../../utils/constants';
 
 const { width, height } = Dimensions.get('window');
-
 const leftPadding = (Platform.OS === 'android') ? 56 : 64;
 
 const styles = StyleSheet.create({
@@ -59,26 +57,20 @@ class CustomerMenuView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      leftMenuItems: this.props.navigation.state.params.isFromCustomer
-        ? [{ icon: Images.home, name: 'Home' },
-          { icon: Images.order, name: 'Orders' },
-          { icon: Images.logout, name: 'Logout' }]
-        : [{ icon: Images.home, name: 'Home' },
-          { icon: Images.order, name: 'Orders' },
-          { icon: Images.account, name: 'Accounts' },
-          { icon: Images.earn, name: 'Earnings' },
-          { icon: Images.review, name: 'Performance/Reviews' },
-          { icon: Images.notifi, name: 'Notifications' },
-          { icon: Images.logout, name: 'Logout' }],
+      isFromCustomer: true,
+      leftMenuItems: [{ icon: Images.home, name: 'Home' },
+        { icon: Images.order, name: 'Orders' },
+        { icon: Images.logout, name: 'Logout' }],
     };
   }
 
   componentDidMount() {
-    console.log('############### propp ', this.props.navigation.state.params.isFromCustomer);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    console.log('############### propp ', this.props.navigation.state.params.isFromCustomer);
+    const utils = new Utils();
+    utils.isFlowFromCustomer((response) => {
+      this.setState({
+        isFromCustomer: response,
+      }, () => this.refreshData());
+    });
   }
 
   onCellSelectionPress(selectedItem) {
@@ -93,6 +85,7 @@ class CustomerMenuView extends Component {
     }
   }
 
+
   getRenderRow(item) {
     return (
       <MenuCell
@@ -101,6 +94,27 @@ class CustomerMenuView extends Component {
       />
     );
   }
+
+  refreshData() {
+    if (this.state.isFromCustomer) {
+      this.setState({
+        leftMenuItems: [{ icon: Images.home, name: 'Home' },
+          { icon: Images.order, name: 'Orders' },
+          { icon: Images.logout, name: 'Logout' }],
+      });
+    } else {
+      this.setState({
+        leftMenuItems: [{ icon: Images.home, name: 'Home' },
+          { icon: Images.order, name: 'Orders' },
+          { icon: Images.account, name: 'Accounts' },
+          { icon: Images.earn, name: 'Earnings' },
+          { icon: Images.review, name: 'Performance/Reviews' },
+          { icon: Images.notifi, name: 'Notifications' },
+          { icon: Images.logout, name: 'Logout' }],
+      });
+    }
+  }
+
 
   logout() {
     const actionToDispatch = NavigationActions.reset({
@@ -112,7 +126,7 @@ class CustomerMenuView extends Component {
   }
 
   render() {
-    const type = this.props.navigation.state.params.isFromCustomer;
+    const type = this.state.isFromCustomer;
     return (
       <View style={styles.container}>
         <Image
