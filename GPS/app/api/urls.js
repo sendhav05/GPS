@@ -76,7 +76,6 @@ export const signupUrl = (email, password, type, phone, name) => {
 
 export const wareHoueUrl = 'http://itinformatix.com/gpsapi/index.php/api/warehouse';
 
-
 export const categoryListUrl = (id) => {
   const url = `${getBaseUrl}/category?warehouse_id=${id}`;
   return url;
@@ -87,3 +86,30 @@ export const productListUrl = (id) => {
   return url;
 };
 
+export const orderPlaceUrl = (
+  name, contectno, email, pincode, state,
+  city, address, landmark, paymentid, paymenttype, paymentstatus,
+  totallamount, customerid, itemid,
+) => {
+  const url = `${getBaseUrl}/order`;
+  let param = '';
+  if (name) { if (param) { param = `${param}&`; } param = `${param}name=${name}`; }
+  if (contectno) { if (param) { param = `${param}&`; } param = `${param}contect_no=${contectno}`; }
+  if (email) { if (param) { param = `${param}&`; } param = `${param}email=${email}`; }
+  if (pincode) { if (param) { param = `${param}&`; } param = `${param}pin_code=${pincode}`; }
+  if (state) { if (param) { param = `${param}&`; } param = `${param}state=${state}`; }
+  if (city) { if (param) { param = `${param}&`; } param = `${param}city=${city}`; }
+  if (address) { if (param) { param = `${param}&`; } param = `${param}address=${address}`; }
+  if (landmark) { if (param) { param = `${param}&`; } param = `${param}landmark=${landmark}`; }
+  if (paymentid) { if (param) { param = `${param}&`; } param = `${param}payment_id=${paymentid}`; }
+  if (paymenttype) { if (param) { param = `${param}&`; } param = `${param}payment_type=${paymenttype}`; }
+  if (paymentstatus) { if (param) { param = `${param}&`; } param = `${param}payment_status=${paymentstatus}`; }
+  if (totallamount) { if (param) { param = `${param}&`; } param = `${param}totall_amount=${totallamount}`; }
+  if (customerid) { if (param) { param = `${param}&`; } param = `${param}customer_id=${customerid}`; }
+  if (itemid) { if (param) { param = `${param}&`; } param = `${param}item_id=${itemid}`; }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};

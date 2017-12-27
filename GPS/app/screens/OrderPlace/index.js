@@ -5,14 +5,15 @@
  */
 
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import { store } from '../../store';
-import runRootSaga from '../../sagas';
+import { connect } from 'react-redux';
 import OrderPlace from './components/OrderPlace';
 import UserActions from '../../actions';
-import { connect } from 'react-redux';
+import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
+import Utils from '../../utils/utils';
+import constant from '../../utils/constants';
 
 const deliveryCharge = 10;
+let totalPrice = 0;
 
 class OrderPlaceView extends Component {
   constructor(props) {
@@ -24,7 +25,24 @@ class OrderPlaceView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-   
+    if (!nextProps.isLoading
+      && nextProps.orderPlaceResponse.response
+      && nextProps.orderPlaceResponse.status === 200) {
+      // && nextProps.orderPlaceResponse.response.status === 1) {
+      if (nextProps.orderPlaceResponse.response.message && typeof nextProps.orderPlaceResponse.response.message === 'string') {
+        showPopupAlert(nextProps.orderPlaceResponse.response.message);
+        return;
+      }
+      showPopupAlert('Your order send successfully.');
+    } else if (!nextProps.isLoading && nextProps.orderPlaceResponse.response
+      && (nextProps.orderPlaceResponse.status !== 200
+      || nextProps.orderPlaceResponse.response.status !== 1)) {
+      if (nextProps.orderPlaceResponse.response.message && typeof nextProps.orderPlaceResponse.response.message === 'string') {
+        showPopupAlert(nextProps.orderPlaceResponse.response.message);
+        return;
+      }
+      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
+    }
   }
 
   onChoosePaymentPress() {
@@ -32,14 +50,41 @@ class OrderPlaceView extends Component {
   }
 
   onDeliveryAddressPress() {
-    console.log('***** onDeliveryAddressPress ');
     const { navigate } = this.props.navigation;
     navigate('ChooseAddress');
-    
   }
 
   onOrderPress() {
-    console.log('***** onOrderPress ');
+    const name = '';
+    const contectno = '';
+    const email = '';
+    const pincode = '';
+    const state = '';
+    const city = '';
+    const address = '';
+    const landmark = '';
+    const paymentid = 'pid123';
+    const paymenttype = 'online';
+    const paymentstatus = 'pending';
+    const totallamount = totalPrice;
+    const customerid = '';
+    const itemid = '';
+
+    const utils = new Utils();
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        this.props.orderPlaceRequest(
+          name, contectno, email, pincode, state,
+          city, address, landmark, paymentid, paymenttype, paymentstatus,
+          totallamount, customerid, itemid,
+        );
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
+    });
+    showPopupAlert('Your order send successfully.');
+    const { goBack } = this.props.navigation;
+    goBack(null);
   }
 
   onBacnkPress() {
@@ -60,7 +105,7 @@ class OrderPlaceView extends Component {
   }
 
   render() {
-    const totalPrice = deliveryCharge + Number(this.props.navigation.state.params.selectedProductItem.price);
+    totalPrice = deliveryCharge + Number(this.props.navigation.state.params.selectedProductItem.price);
     return (
       <OrderPlace
         onChoosePaymentPress={() => this.onChoosePaymentPress()}
@@ -82,10 +127,11 @@ class OrderPlaceView extends Component {
 
 
 const mapStateToProps = state => ({
+  isLoading: state.orderPlace.isLoading,
+  orderPlaceResponse: state.orderPlace.orderPlaceResponse,
 });
 
 const mapDispatchToProps = () => UserActions;
-//const drawerConnected = drawer(OrderPlaceView);
 
 const OrderPlaceViewScreen = connect(mapStateToProps, mapDispatchToProps)(OrderPlaceView);
 

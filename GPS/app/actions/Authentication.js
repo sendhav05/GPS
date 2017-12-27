@@ -1,5 +1,6 @@
 
-import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl, productListUrl } from '../api/urls';
+import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
+  productListUrl, orderPlaceUrl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -22,6 +23,10 @@ export const CATEGORY_LIST_FAILURE = 'CATEGORY_LIST_FAILURE';
 export const PRODUCT_LIST_REQUEST = 'PRODUCT_LIST_REQUEST';
 export const PRODUCT_LIST_SUCCESS = 'PRODUCT_LIST_SUCCESS';
 export const PRODUCT_LIST_FAILURE = 'PRODUCT_LIST_FAILURE';
+
+export const ORDER_PLACE_REQUEST = 'ORDER_PLACE_REQUEST';
+export const ORDER_PLACE_SUCCESS = 'ORDER_PLACE_SUCCESS';
+export const ORDER_PLACE_FAILURE = 'ORDER_PLACE_FAILURE';
 
 export const userLoginRequest = (email, password, type) => {
   const url = loginUrl(email, password, type);
@@ -62,6 +67,22 @@ export const fetchProductRequest = (id) => {
   const url = productListUrl(id);
   return postApiAction({
     types: [PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAILURE],
+    url,
+  });
+};
+
+export const orderPlaceRequest = (
+  name, contectno, email, pincode, state,
+  city, address, landmark, paymentid, paymenttype, paymentstatus,
+  totallamount, customerid, itemid,
+) => {
+  const url = orderPlaceUrl(
+    name, contectno, email, pincode, state,
+    city, address, landmark, paymentid, paymenttype, paymentstatus,
+    totallamount, customerid, itemid,
+  );
+  return postApiAction({
+    types: [ORDER_PLACE_REQUEST, ORDER_PLACE_SUCCESS, ORDER_PLACE_FAILURE],
     url,
   });
 };
