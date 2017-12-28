@@ -49,8 +49,16 @@ class ChooseAddressView extends Component {
   }
 
   onBacnkPress() {
+    const data = {
+      addLineOne: this.state.addLineOne,
+      addLineTwo: this.state.addLineTwo,
+      chooseCity: this.state.chooseCity,
+      pinCode: this.state.pinCode,
+      landMark: this.state.landMark,
+    };
     const { goBack } = this.props.navigation;
     goBack(null);
+    this.props.navigation.state.params.onSelectAddress({ data });
   }
 
   onEditOrderPress() {

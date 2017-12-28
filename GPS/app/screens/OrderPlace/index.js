@@ -14,6 +14,11 @@ import constant from '../../utils/constants';
 
 const deliveryCharge = 10;
 let totalPrice = 0;
+let pincode = '';
+let state = '';
+let city = '';
+let address = '';
+let landmark = '';
 
 class OrderPlaceView extends Component {
   constructor(props) {
@@ -31,9 +36,13 @@ class OrderPlaceView extends Component {
       // && nextProps.orderPlaceResponse.response.status === 1) {
       if (nextProps.orderPlaceResponse.response.message && typeof nextProps.orderPlaceResponse.response.message === 'string') {
         showPopupAlert(nextProps.orderPlaceResponse.response.message);
+        const { goBack } = this.props.navigation;
+        goBack(null);
         return;
       }
       showPopupAlert('Your order send successfully.');
+      const { goBack } = this.props.navigation;
+      goBack(null);
     } else if (!nextProps.isLoading && nextProps.orderPlaceResponse.response
       && (nextProps.orderPlaceResponse.status !== 200
       || nextProps.orderPlaceResponse.response.status !== 1)) {
@@ -51,40 +60,43 @@ class OrderPlaceView extends Component {
 
   onDeliveryAddressPress() {
     const { navigate } = this.props.navigation;
-    navigate('ChooseAddress');
+    navigate('ChooseAddress', { onSelectAddress: this.onSelectAddress });
+  }
+
+  onSelectAddress(data) {
+    pincode = data.data.pinCode;
+    state = 1;
+    city = 1;
+    address = data.data.addLineTwo;
+    landmark = data.data.landMark;
   }
 
   onOrderPress() {
-    const name = '';
-    const contectno = '';
-    const email = '';
-    const pincode = '';
-    const state = '';
-    const city = '';
-    const address = '';
-    const landmark = '';
+    const name = 'Test data';
+    const contectno = '9200260565';
+    const email = 'test@gmail.com';
     const paymentid = 'pid123';
     const paymenttype = 'online';
     const paymentstatus = 'pending';
     const totallamount = totalPrice;
-    const customerid = '';
-    const itemid = '';
+    const customerid = '1111';
+    const itemid = '1111';
 
-    const utils = new Utils();
-    utils.checkInternetConnectivity((reach) => {
-      if (reach) {
-        this.props.orderPlaceRequest(
-          name, contectno, email, pincode, state,
-          city, address, landmark, paymentid, paymenttype, paymentstatus,
-          totallamount, customerid, itemid,
-        );
-      } else {
-        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
-      }
-    });
-    showPopupAlert('Your order send successfully.');
-    const { goBack } = this.props.navigation;
-    goBack(null);
+    const isValid = this.validateAllField();
+    if (isValid) {
+      const utils = new Utils();
+      utils.checkInternetConnectivity((reach) => {
+        if (reach) {
+          this.props.orderPlaceRequest(
+            name, contectno, email, pincode, state,
+            city, address, landmark, paymentid, paymenttype, paymentstatus,
+            totallamount, customerid, itemid,
+          );
+        } else {
+          showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+        }
+      });
+    }
   }
 
   onBacnkPress() {
@@ -102,6 +114,14 @@ class OrderPlaceView extends Component {
 
   updatePassword(value) {
     this.setState({ password: value });
+  }
+
+  validateAllField() {
+    if (!(pincode && state && city && address)) {
+      showPopupAlert('Please select delivery address.');
+      return false;
+    }
+    return true;
   }
 
   render() {
