@@ -9,6 +9,7 @@ import {
   Keyboard,
   Dimensions,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PropTypes from 'prop-types';
 import Images from '../../../assets/images';
 import NavBar from '../../../components/NavBar';
@@ -42,6 +43,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
   },
+  productPriceView: {
+    height: 52,
+    width: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   logo: {
     width: 161,
     height: 169,
@@ -56,11 +63,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   forgotPasswordButton: {
-    marginTop: 60,
+    marginTop: 80,
   },
   productCountText: {
     color: blueTextColor,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '500',
   },
   bodyView: {
@@ -105,84 +112,100 @@ const styles = StyleSheet.create({
 });
 
 const CustomerHome = props => (
-  <View style={styles.container}>
-    <NavBar
-      leftMenuIcon={Images.backArrow}
-      leftMenuPress={() => props.onBacnkPress()}
-      title={props.selectedProductItem.name}
-      isShowRightIcon={Boolean(true)}
-      rightMenuIcon={Images.editOder}
-      rightMenuPress={() => props.onEditOrderPress()}
-    />
-    <View style={styles.productView}>
-      <View
-        style={styles.logo}
-        resizeMode="contain"
-      >
-        <Text style={[styles.productCountText, { color: 'white', fontSize: 22 }]}>
-          Product
-        </Text>
-      </View>
-      <View style={styles.productCountView}>
-        <Text style={styles.productCountText}>
-          {props.selectedProductItem.quantity}
-        </Text>
-      </View>
-      <Text style={styles.productCountText}>
-        {`${props.selectedProductItem.price} $`}
-      </Text>
-    </View>
-    <View style={styles.bodyView}>
-      <View style={styles.cellView}>
-        <Text style={styles.productCountText}>
-          Delivery Charge
-        </Text>
-        <Text style={styles.productCountText}>
-        {`${props.deliveryCharge} $`}
-        </Text>
-      </View>
-      <View style={styles.cellView}>
-        <Text style={[styles.productCountText, { fontSize: 24 }]}>
-          Total
-        </Text>
-        <Text style={[styles.productCountText, { fontSize: 24, color: brownOrangeColor }]}>
-          {`${props.totalPrice} $`}
-        </Text>
-      </View>
-      <TouchableOpacity
-        onPress={() => props.onDeliveryAddressPress()}
-      >
-        <View style={styles.cellView}>
-          <Text style={styles.productCountText}>
-            Choose Delivery Address
-          </Text>
-          <Text style={styles.productCountText}>
-            >
+  <TouchableOpacity
+    activeOpacity={1}
+    style={{ flex: 1, justifyContent: 'center' }}
+    onPress={() => Keyboard.dismiss()}
+  >
+    <View style={styles.container}>
+      <NavBar
+        leftMenuIcon={Images.backArrow}
+        leftMenuPress={() => props.onBacnkPress()}
+        title={props.selectedProductItem.name}
+        isShowRightIcon={Boolean(true)}
+        rightMenuIcon={Images.editOder}
+        rightMenuPress={() => props.onEditOrderPress()}
+      />
+      <View style={styles.productView}>
+        <View
+          style={styles.logo}
+          resizeMode="contain"
+        >
+          <Text style={[styles.productCountText, { color: 'white', fontSize: 22 }]}>
+            Product
           </Text>
         </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => props.onChoosePaymentPress()}
-      >
-        <View style={styles.cellView}>
+        <View style={styles.productCountView}>
+          <TextInput
+            style={styles.productCountText}
+            keyboardType="numeric"
+            placeholderTextColor="rgba(70,64,172,1)"
+            onChangeText={quantity => props.updateQuantity(quantity)}
+            value={props.quantity}
+            underlineColorAndroid="transparent"
+          />
+        </View>
+        <View style={styles.productPriceView}>
           <Text style={styles.productCountText}>
-            Choose Payment
-          </Text>
-          <Text style={styles.productCountText}>
-            >
+            {`${props.price} $`}
           </Text>
         </View>
-      </TouchableOpacity>
+      </View>
+      <View style={styles.bodyView}>
+        <View style={styles.cellView}>
+          <Text style={styles.productCountText}>
+            Delivery Charge
+          </Text>
+          <Text style={styles.productCountText}>
+            {`${props.deliveryCharge} $`}
+          </Text>
+        </View>
+        <View style={styles.cellView}>
+          <Text style={[styles.productCountText, { fontSize: 24 }]}>
+            Total
+          </Text>
+          <Text style={[styles.productCountText, { fontSize: 24, color: brownOrangeColor }]}>
+            {`${props.totalPrice} $`}
+          </Text>
+        </View>
+        <TouchableOpacity
+          onPress={() => props.onDeliveryAddressPress()}
+        >
+          <View style={styles.cellView}>
+            <Text style={styles.productCountText}>
+              Choose Delivery Address
+            </Text>
+            <Text style={styles.productCountText}>
+              >
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => props.onChoosePaymentPress()}
+        >
+          <View style={styles.cellView}>
+            <Text style={styles.productCountText}>
+              Choose Payment
+            </Text>
+            <Text style={styles.productCountText}>
+              >
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <View style={{ flex: 1, marginTop: 20 }}>
+          <TouchableOpacity
+            style={styles.orderButton}
+            onPress={() => props.onOrderPress()}
+          >
+            <Text style={styles.buttonText}>
+              Order
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
-    <TouchableOpacity
-      style={styles.orderButton}
-      onPress={() => props.onOrderPress()}
-    >
-      <Text style={styles.buttonText}>
-        Order
-      </Text>
-    </TouchableOpacity>
-  </View>
+  </TouchableOpacity>
+
 );
 
 CustomerHome.propTypes = {

@@ -10,8 +10,8 @@ import {
   Keyboard,
   Dimensions,
 } from 'react-native';
-import Images from '../../../assets/images';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Images from '../../../assets/images';
 import { BlueColor } from '../../../utils/constants';
 
 const { width } = Dimensions.get('window');

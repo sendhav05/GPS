@@ -24,8 +24,7 @@ class OrderPlaceView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      emailPhoneNumber: '',
-      password: '',
+      quantity: props.navigation.state.params.selectedProductItem.quantity,
     };
   }
 
@@ -108,12 +107,8 @@ class OrderPlaceView extends Component {
     console.log('***** onEditOrderPress ');
   }
 
-  updateEmailPhoneNumber(value) {
-    this.setState({ emailPhoneNumber: value });
-  }
-
-  updatePassword(value) {
-    this.setState({ password: value });
+  updateQuantity(quantity) {
+    this.setState({ quantity });
   }
 
   validateAllField() {
@@ -125,7 +120,9 @@ class OrderPlaceView extends Component {
   }
 
   render() {
-    totalPrice = deliveryCharge + Number(this.props.navigation.state.params.selectedProductItem.price);
+    const oneItemPrice = Number(this.props.navigation.state.params.selectedProductItem.price);
+    let price = this.state.quantity * oneItemPrice;
+    totalPrice = deliveryCharge + price;
     return (
       <OrderPlace
         onChoosePaymentPress={() => this.onChoosePaymentPress()}
@@ -133,12 +130,11 @@ class OrderPlaceView extends Component {
         onBacnkPress={() => this.onBacnkPress()}
         onEditOrderPress={() => this.onEditOrderPress()}
         onOrderPress={() => this.onOrderPress()}
-        updateEmailPhoneNumber={emailPhoneNumber => this.updateEmailPhoneNumber(emailPhoneNumber)}
-        emailPhoneNumber={this.state.emailPhoneNumber}
-        updatePassword={emailPhoneNumber => this.updatePassword(emailPhoneNumber)}
-        password={this.state.password}
+        updateQuantity={quantity => this.updateQuantity(quantity)}
+        quantity={this.state.quantity}
         selectedProductItem={this.props.navigation.state.params.selectedProductItem}
         totalPrice={totalPrice}
+        price={price}
         deliveryCharge={deliveryCharge}
       />
     );
