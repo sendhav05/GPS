@@ -12,7 +12,6 @@ import {
   FlatList,
   StyleSheet,
   Dimensions,
-  AsyncStorage,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';

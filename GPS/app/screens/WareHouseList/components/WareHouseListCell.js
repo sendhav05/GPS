@@ -39,7 +39,7 @@ const style = StyleSheet.create({
     color: BlueColor,
     marginLeft: 70,
     marginRight: 50,
-    marginTop: 11,
+    marginTop: 8,
     position: 'absolute',
 
   },
@@ -47,7 +47,7 @@ const style = StyleSheet.create({
     fontFamily: FontFamilyName,
     fontSize: SmallFontSize,
     color: OrangeColor,
-    marginLeft: width - 170,
+    marginLeft: 70,
     marginTop: 28,
     position: 'absolute',
 
@@ -85,7 +85,7 @@ const WareHouseListCell = props => (
         style={style.rightArrow}
       />
       <Text style={style.userTitle} numberOfLines={1} ellipsizeMode="tail" >
-        {props.data.item.name}
+        {props.data.item.warehousename}
       </Text>
       <Text style={style.time}>
         {`Contact: ${props.data.item.contact}`}

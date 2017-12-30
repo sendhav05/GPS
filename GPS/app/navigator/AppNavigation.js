@@ -18,6 +18,7 @@ import CustomerOrderScreen from '../screens/CustomerOrder';
 import WareHouseListScreen from '../screens/WareHouseList';
 import CategoryListScreen from '../screens/CategoryList';
 import ProductListScreen from '../screens/ProductList';
+import Utils from '../utils/utils';
 
 
 // https://github.com/react-community/react-navigation/issues/1254
@@ -29,7 +30,7 @@ const noTransitionConfig = () => ({
   },
 });
 
-// AppStack stack
+// *********** Customer AppStack stack ******
 const AppStack = StackNavigator({
   WareHouseList: {
     screen: WareHouseListScreen,
@@ -88,6 +89,9 @@ const DrawerStack = DrawerNavigator({
   drawerWidth: Dimensions.get('window').width - (Platform.OS === 'android' ? 56 : 64),
   contentComponent: props => <CustomerMenuScreen {...props} />,
 });
+
+// *********** Driver AppStack stack ******
+
 
 const DrawerNavigation = StackNavigator({
   DrawerStack: { screen: DrawerStack },
