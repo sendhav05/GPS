@@ -18,7 +18,7 @@ import CustomerOrderScreen from '../screens/CustomerOrder';
 import WareHouseListScreen from '../screens/WareHouseList';
 import CategoryListScreen from '../screens/CategoryList';
 import ProductListScreen from '../screens/ProductList';
-import Utils from '../utils/utils';
+import DriverWareHouseListScreen from '../screens/DriverWareHouseList';
 
 
 // https://github.com/react-community/react-navigation/issues/1254
@@ -90,15 +90,58 @@ const DrawerStack = DrawerNavigator({
   contentComponent: props => <CustomerMenuScreen {...props} />,
 });
 
-// *********** Driver AppStack stack ******
-
-
 const DrawerNavigation = StackNavigator({
   DrawerStack: { screen: DrawerStack },
   AppStack: { screen: AppStack },
 }, {
   headerMode: 'none',
 });
+
+
+// *********** Driver AppStack stack ******
+const DriverAppStack = StackNavigator({
+  DriverWareHouseList: {
+    screen: DriverWareHouseListScreen,
+    key: 'DriverWareHouseListScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  CategoryList: {
+    screen: CategoryListScreen,
+    key: 'CategoryListScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+}, {
+  headerMode: 'float',
+  navigationOptions: {
+    headerStyle: { backgroundColor: 'red' },
+    title: 'You are not logged in',
+  },
+});
+
+// driver drawer stack
+const DriverStack = DrawerNavigator({
+  DriverWareHouseList: { screen: DriverAppStack },
+  CustomerOrder: { screen: CustomerOrderScreen },
+}, {
+  gesturesEnabled: false,
+  drawerWidth: Dimensions.get('window').width - (Platform.OS === 'android' ? 56 : 64),
+  contentComponent: props => <CustomerMenuScreen {...props} />,
+});
+
+const DriverNavigation = StackNavigator({
+  DriverStack: { screen: DriverStack },
+  AppStack: { screen: AppStack },
+}, {
+  headerMode: 'none',
+});
+
+// *********** END *************
 
 // login stack
 const LoginStack = StackNavigator({
@@ -146,6 +189,7 @@ const LoginStack = StackNavigator({
 const PrimaryNav = StackNavigator({
   loginStack: { screen: LoginStack },
   drawerStack: { screen: DrawerNavigation },
+  driverStack: { screen: DriverNavigation },
 }, {
   // Default config for all screens
   headerMode: 'none',

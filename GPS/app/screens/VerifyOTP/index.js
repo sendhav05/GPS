@@ -19,19 +19,26 @@ class VerifyOTPView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-   
+
   }
 
   onVerifyOTPPress() {
-    const actionToDispatch = NavigationActions.reset({
-      index: 0,
-      key: null, // black magic
-      actions: [NavigationActions.navigate({ routeName: 'drawerStack'})],
-    });
-    this.props.navigation.dispatch(actionToDispatch);
-
-  //  const { navigate } = this.props.navigation;
-  //   navigate('drawerStack', { isFromCustomer: this.props.navigation.state.params.isFromCustomer });
+    const type = this.props.navigation.state.params.isFromCustomer;
+    if (type) {
+      const actionToDispatch = NavigationActions.reset({
+        index: 0,
+        key: null, // black magic
+        actions: [NavigationActions.navigate({ routeName: 'drawerStack' })],
+      });
+      this.props.navigation.dispatch(actionToDispatch);
+    } else {
+      const actionToDispatch = NavigationActions.reset({
+        index: 0,
+        key: null, // black magic
+        actions: [NavigationActions.navigate({ routeName: 'driverStack' })],
+      });
+      this.props.navigation.dispatch(actionToDispatch);
+    }
   }
 
   onResendOTPPress() {
