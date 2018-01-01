@@ -19,6 +19,8 @@ import WareHouseListScreen from '../screens/WareHouseList';
 import CategoryListScreen from '../screens/CategoryList';
 import ProductListScreen from '../screens/ProductList';
 import DriverWareHouseListScreen from '../screens/DriverWareHouseList';
+import DriverOrderScreen from '../screens/DriverOrder';
+import OrderDetailScreen from '../screens/OrderDetail';
 
 
 // https://github.com/react-community/react-navigation/issues/1254
@@ -108,9 +110,17 @@ const DriverAppStack = StackNavigator({
       gesturesEnabled: false,
     },
   },
-  CategoryList: {
-    screen: CategoryListScreen,
-    key: 'CategoryListScreen',
+  DriverOrder: {
+    screen: DriverOrderScreen,
+    key: 'DriverOrderScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  OrderDetail: {
+    screen: OrderDetailScreen,
+    key: 'OrderDetailScreen',
     navigationOptions: {
       header: null,
       gesturesEnabled: false,

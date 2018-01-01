@@ -17,6 +17,7 @@ const grayRightArrow = require('./gray_right_arrow.png');
 const noImage = require('./no_image.png');
 const callIcon = require('./call.png');
 const locationIcon = require('./locat.png');
+const addIcon = require('./add.png');
 
 const images = {
   logo,
@@ -36,6 +37,7 @@ const images = {
   noImage,
   callIcon,
   locationIcon,
+  addIcon,
 };
 
 export default images;

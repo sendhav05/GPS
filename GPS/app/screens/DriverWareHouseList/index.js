@@ -83,7 +83,7 @@ class WareHouseView extends Component {
 
   onCellSelectionPress(selectedItem) {
     const { navigate } = this.props.navigation;
-    navigate('CategoryList', { selectedWareHouseItem: selectedItem });
+    navigate('DriverOrder', { selectedWareHouseID: selectedItem.id });
   }
 
   onLeftMenuPress() {
@@ -92,8 +92,9 @@ class WareHouseView extends Component {
   }
 
   onCalloutPress(e) {
-    console.log(e.nativeEvent);
     console.log('****', selectedWareHouseID);
+    const { navigate } = this.props.navigation;
+    navigate('DriverOrder', { selectedWareHouseID });
   }
 
   onPinPress(e) {
