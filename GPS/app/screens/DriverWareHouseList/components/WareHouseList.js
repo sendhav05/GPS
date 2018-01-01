@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginLeft: 15,
     marginRight: 15,
-    borderWidth: 0.1,
+    borderWidth: 0.2,
   },
   mapView: {
     flex: 1,
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginRight: 15,
     marginBottom: 25,
-    borderWidth: 0.1,
+    overflow: 'hidden',
   },
   map: {
     flex: 1,
@@ -101,16 +101,19 @@ const WareHouseList = props => (
     <View style={styles.mapView}>
       <MapView
         style={styles.map}
+        showsUserLocation={Boolean(true)}
         region={props.region}
-        onRegionChange={props.onRegionChange}
       >
         {props.markers.map(marker => (
           <MapView.Marker
+            style={styles.map}
             key={marker.title}
+            identifier={marker.identifier}
             coordinate={marker.coordinate}
             title={marker.title}
             description={marker.description}
-            onCalloutPress={props.onCalloutPress}
+            onPress={e => props.onPinPress(e)}
+            onCalloutPress={e => props.onCalloutPress(e)}
           />
         ))}
       </MapView>

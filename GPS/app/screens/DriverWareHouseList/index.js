@@ -17,24 +17,28 @@ import constant from '../../utils/constants';
 import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
 
+let selectedWareHouseID = '';
+
 class WareHouseView extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dataArray: [],
       region: {
-        latitude: 22.732844,
-        longitude: 75.961675,
-        latitudeDelta: 0.922,
+        latitude: 22.862824,
+        longitude: 75.881695,
+        latitudeDelta: 0.722,
         longitudeDelta: 0.421,
       },
       markers: [{
         coordinate: { longitude: 75.881695, latitude: 22.862824 },
+        identifier: '11',
         title: 'Warehouse 1',
         description: 'Warehouse details wiil be here',
       },
       {
         coordinate: { longitude: 75.965795, latitude: 22.736884 },
+        identifier: '12',
         title: 'Warehouse 2',
         description: 'Warehouse details wiil be here',
       }],
@@ -87,8 +91,14 @@ class WareHouseView extends Component {
     navigate('DrawerOpen');
   }
 
-  onCalloutPress() {
-    console.log('******* calout press');
+  onCalloutPress(e) {
+    console.log(e.nativeEvent);
+    console.log('****', selectedWareHouseID);
+  }
+
+  onPinPress(e) {
+    console.log(e.nativeEvent);
+    selectedWareHouseID = e.nativeEvent.id;
   }
 
   getRenderRow(item) {
@@ -106,7 +116,8 @@ class WareHouseView extends Component {
       <View style={{ flex: 1 }}>
         <WareHouseList
           onLeftMenuPress={() => this.onLeftMenuPress()}
-          onCalloutPress={() => this.onCalloutPress()}
+          onCalloutPress={e => this.onCalloutPress(e)}
+          onPinPress={e => this.onPinPress(e)}
           getRenderRow={item => this.getRenderRow(item)}
           onRegionChange={region => this.onRegionChange(region)}
           region={this.state.region}
