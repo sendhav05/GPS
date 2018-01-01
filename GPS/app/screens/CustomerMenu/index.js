@@ -74,7 +74,25 @@ class CustomerMenuView extends Component {
 
   onCellSelectionPress(selectedItem) {
     console.log('********** selectedItem', selectedItem);
+    if (this.state.isFromCustomer) {
+      this.selectCustomerMenu(selectedItem);
+    } else {
+      this.selectDriverMenu(selectedItem);
+    }
+  }
+
+  getRenderRow(item) {
+    return (
+      <MenuCell
+        data={item}
+        onCellSelectionPress={selectedItem => this.onCellSelectionPress(selectedItem)}
+      />
+    );
+  }
+
+  selectCustomerMenu(selectedItem) {
     const { navigate } = this.props.navigation;
+
     if (selectedItem.name === 'Home') {
       navigate('WareHouseList');
     } else if (selectedItem.name === 'Logout') {
@@ -84,14 +102,16 @@ class CustomerMenuView extends Component {
     }
   }
 
+  selectDriverMenu(selectedItem) {
+    const { navigate } = this.props.navigation;
 
-  getRenderRow(item) {
-    return (
-      <MenuCell
-        data={item}
-        onCellSelectionPress={selectedItem => this.onCellSelectionPress(selectedItem)}
-      />
-    );
+    if (selectedItem.name === 'Home') {
+      navigate('DriverWareHouseList');
+    } else if (selectedItem.name === 'Logout') {
+      this.logout();
+    } else if (selectedItem.name === 'Orders') {
+      navigate('CustomerOrder');
+    }
   }
 
   refreshData() {

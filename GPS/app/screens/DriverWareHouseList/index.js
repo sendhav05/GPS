@@ -22,6 +22,22 @@ class WareHouseView extends Component {
     super(props);
     this.state = {
       dataArray: [],
+      region: {
+        latitude: 22.732844,
+        longitude: 75.961675,
+        latitudeDelta: 0.922,
+        longitudeDelta: 0.421,
+      },
+      markers: [{
+        coordinate: { longitude: 75.881695, latitude: 22.862824 },
+        title: 'Warehouse 1',
+        description: 'Warehouse details wiil be here',
+      },
+      {
+        coordinate: { longitude: 75.965795, latitude: 22.736884 },
+        title: 'Warehouse 2',
+        description: 'Warehouse details wiil be here',
+      }],
     };
   }
 
@@ -57,6 +73,10 @@ class WareHouseView extends Component {
     }
   }
 
+  onRegionChange(region) {
+    this.setState({ region });
+  }
+
   onCellSelectionPress(selectedItem) {
     const { navigate } = this.props.navigation;
     navigate('CategoryList', { selectedWareHouseItem: selectedItem });
@@ -65,6 +85,10 @@ class WareHouseView extends Component {
   onLeftMenuPress() {
     const { navigate } = this.props.navigation;
     navigate('DrawerOpen');
+  }
+
+  onCalloutPress() {
+    console.log('******* calout press');
   }
 
   getRenderRow(item) {
@@ -82,8 +106,12 @@ class WareHouseView extends Component {
       <View style={{ flex: 1 }}>
         <WareHouseList
           onLeftMenuPress={() => this.onLeftMenuPress()}
+          onCalloutPress={() => this.onCalloutPress()}
           getRenderRow={item => this.getRenderRow(item)}
+          onRegionChange={region => this.onRegionChange(region)}
+          region={this.state.region}
           dataArray={this.state.dataArray}
+          markers={this.state.markers}
         />
         {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
       </View>

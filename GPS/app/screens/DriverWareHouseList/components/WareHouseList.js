@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import Images from '../../../assets/images';
 import NavBar from '../../../components/NavBar';
 import { BlueColor, OrangeColor, ButtonFontSize, GrayColor, HeaderFontSize, WhiteColor, FontFamilyName } from '../../../utils/constants';
+import MapView from 'react-native-maps';
 
 const { width, height } = Dimensions.get('window');
 
@@ -41,6 +42,10 @@ const styles = StyleSheet.create({
     marginRight: 15,
     marginBottom: 25,
     borderWidth: 0.1,
+  },
+  map: {
+    flex: 1,
+    borderRadius: 5,
   },
   headerView: {
     height: 40,
@@ -94,12 +99,21 @@ const WareHouseList = props => (
       />
     </View>
     <View style={styles.mapView}>
-      <FlatList
-        style={styles.flatListStyle}
-        data={props.dataArray}
-        renderItem={data => props.getRenderRow(data)}
-        keyExtractor={item => item.warehouse_id}
-      />
+      <MapView
+        style={styles.map}
+        region={props.region}
+        onRegionChange={props.onRegionChange}
+      >
+        {props.markers.map(marker => (
+          <MapView.Marker
+            key={marker.title}
+            coordinate={marker.coordinate}
+            title={marker.title}
+            description={marker.description}
+            onCalloutPress={props.onCalloutPress}
+          />
+        ))}
+      </MapView>
     </View>
   </View>
 );
