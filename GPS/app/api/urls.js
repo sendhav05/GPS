@@ -89,12 +89,12 @@ export const productListUrl = (id) => {
 export const orderPlaceUrl = (
   name, contectno, email, pincode, state,
   city, address, landmark, paymentid, paymenttype, paymentstatus,
-  totallamount, customerid, itemid,
+  totallamount, customerid, itemid, warehouseid,
 ) => {
   const url = `${getBaseUrl}/order`;
   let param = '';
   if (name) { if (param) { param = `${param}&`; } param = `${param}name=${name}`; }
-  if (contectno) { if (param) { param = `${param}&`; } param = `${param}contect_no=${contectno}`; }
+  if (contectno) { if (param) { param = `${param}&`; } param = `${param}contact_no=${contectno}`; }
   if (email) { if (param) { param = `${param}&`; } param = `${param}email=${email}`; }
   if (pincode) { if (param) { param = `${param}&`; } param = `${param}pin_code=${pincode}`; }
   if (state) { if (param) { param = `${param}&`; } param = `${param}state=${state}`; }
@@ -107,6 +107,29 @@ export const orderPlaceUrl = (
   if (totallamount) { if (param) { param = `${param}&`; } param = `${param}totall_amount=${totallamount}`; }
   if (customerid) { if (param) { param = `${param}&`; } param = `${param}customer_id=${customerid}`; }
   if (itemid) { if (param) { param = `${param}&`; } param = `${param}item_id=${itemid}`; }
+  if (warehouseid) { if (param) { param = `${param}&`; } param = `${param}warehouse_id=${warehouseid}`; }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
+
+export const driverWareHouseList = (lat, lng) => {
+  const url = `${getBaseUrl}/order/warehouseOrder`;
+  let param = '';
+  if (lat) {
+    if (param) {
+      param = `${param}&`;
+    }
+    param = `lat=${lat}`;
+  }
+  if (lng) {
+    if (param) {
+      param = `${param}&`;
+    }
+    param = `${param}lng=${lng}`;
+  }
 
   if (param) {
     return `${url}?${param}`;

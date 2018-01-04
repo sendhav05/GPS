@@ -19,13 +19,22 @@ let state = '';
 let city = '';
 let address = '';
 let landmark = '';
+let customerid = '1';
 
 class OrderPlaceView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quantity: props.navigation.state.params.selectedProductItem.quantity,
+      quantity: '1',
     };
+  }
+
+
+  componentDidMount() {
+    const utils = new Utils();
+    utils.getCustomerid((response) => {
+      customerid = response;
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -71,6 +80,7 @@ class OrderPlaceView extends Component {
   }
 
   onOrderPress() {
+    const warehouseid = this.props.navigation.state.params.warehouse_id;
     const name = 'Test data';
     const contectno = '9200260565';
     const email = 'test@gmail.com';
@@ -78,8 +88,8 @@ class OrderPlaceView extends Component {
     const paymenttype = 'online';
     const paymentstatus = 'pending';
     const totallamount = totalPrice;
-    const customerid = '1111';
-    const itemid = '1111';
+    const itemiddata = { item_id: this.props.navigation.state.params.selectedProductItem.product_id, quantity: this.state.quantity, amount: totallamount };
+    const itemid = encodeURIComponent(JSON.stringify(itemiddata));
 
     const isValid = this.validateAllField();
     if (isValid) {
@@ -89,7 +99,7 @@ class OrderPlaceView extends Component {
           this.props.orderPlaceRequest(
             name, contectno, email, pincode, state,
             city, address, landmark, paymentid, paymenttype, paymentstatus,
-            totallamount, customerid, itemid,
+            totallamount, customerid, itemid, warehouseid,
           );
         } else {
           showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
@@ -108,12 +118,16 @@ class OrderPlaceView extends Component {
   }
 
   updateQuantity(quantity) {
-    this.setState({ quantity });
+    if (quantity <= this.props.navigation.state.params.selectedProductItem.quantity) {
+      this.setState({ quantity });
+    } else {
+      showPopupAlert('Queantity limit is exceeded.');
+    }
   }
 
   validateAllField() {
     if (!(pincode && state && city && address)) {
-      showPopupAlert('Please select delivery address.');
+      showPopupAlert('Please enter delivery address.');
       return false;
     }
     return true;

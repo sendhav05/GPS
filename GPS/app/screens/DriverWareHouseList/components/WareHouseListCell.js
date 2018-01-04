@@ -79,7 +79,7 @@ const WareHouseListCell = props => (
         />
       </View>
       <Text style={style.userTitle} numberOfLines={1} ellipsizeMode="tail" >
-        {props.data.item.warehousename}
+        {`${props.data.item.distance} mi. ${props.data.item.warehousename}`}
       </Text>
     </View>
     <View style={[style.dividerLine]} />

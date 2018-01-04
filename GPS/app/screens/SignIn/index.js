@@ -23,8 +23,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      emailPhoneNumber: 'D@gmail.com',
-      password: '123456',
+      emailPhoneNumber: '',
+      password: '',
     };
   }
 
@@ -33,6 +33,8 @@ class App extends Component {
       && nextProps.userLoginResponse.response
       && nextProps.userLoginResponse.status === 200
       && nextProps.userLoginResponse.response.status === 1) {
+      const utils = new Utils();
+      utils.setCustomerID(nextProps.userLoginResponse.response.data.user_id);
       const { navigate } = this.props.navigation;
       navigate('VerifyOTP', { isFromCustomer: this.props.navigation.state.params.isFromCustomer });
     } else if (!nextProps.isLoading && nextProps.userLoginResponse.response

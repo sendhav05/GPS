@@ -7,9 +7,26 @@ class Utils extends Component {
     this.state = {};
   }
 
+
+  setCustomerID(value) {
+    AsyncStorage.setItem('CUSTOMER_ID', JSON.stringify(value));
+  }
+
+  async getCustomerid(action) {
+    try {
+      const data = await AsyncStorage.getItem('CUSTOMER_ID');
+      const parsedData = JSON.parse(data);
+      action(parsedData);
+    } catch (error) {
+      action(null);
+    }
+  }
+
+
   setFlowFromCustomer(value) {
     AsyncStorage.setItem('IS_FROM_CUSTOMER', JSON.stringify(value));
   }
+
 
   async isFlowFromCustomer(action) {
     try {

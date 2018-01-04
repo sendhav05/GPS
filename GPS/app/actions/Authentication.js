@@ -1,6 +1,6 @@
 
 import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
-  productListUrl, orderPlaceUrl } from '../api/urls';
+  productListUrl, orderPlaceUrl, driverWareHouseList } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -27,6 +27,10 @@ export const PRODUCT_LIST_FAILURE = 'PRODUCT_LIST_FAILURE';
 export const ORDER_PLACE_REQUEST = 'ORDER_PLACE_REQUEST';
 export const ORDER_PLACE_SUCCESS = 'ORDER_PLACE_SUCCESS';
 export const ORDER_PLACE_FAILURE = 'ORDER_PLACE_FAILURE';
+
+export const DRIVER_WARE_HOUSE_REQUEST = 'DRIVER_WARE_HOUSE_REQUEST';
+export const DRIVER_WARE_HOUSE_SUCCESS = 'DRIVER_WARE_HOUSE_SUCCESS';
+export const DRIVER_WARE_HOUSE_FAILURE = 'DRIVER_WARE_HOUSE_FAILURE';
 
 export const userLoginRequest = (email, password, type) => {
   const url = loginUrl(email, password, type);
@@ -74,16 +78,24 @@ export const fetchProductRequest = (id) => {
 export const orderPlaceRequest = (
   name, contectno, email, pincode, state,
   city, address, landmark, paymentid, paymenttype, paymentstatus,
-  totallamount, customerid, itemid,
+  totallamount, customerid, itemid, warehouseid,
 ) => {
   const url = orderPlaceUrl(
     name, contectno, email, pincode, state,
     city, address, landmark, paymentid, paymenttype, paymentstatus,
-    totallamount, customerid, itemid,
+    totallamount, customerid, itemid, warehouseid,
   );
   console.log('*******', url);
   return postApiAction({
     types: [ORDER_PLACE_REQUEST, ORDER_PLACE_SUCCESS, ORDER_PLACE_FAILURE],
+    url,
+  });
+};
+
+export const fetchDriverWarehouseRequest = (lat, lng) => {
+  const url = driverWareHouseList(lat, lng);
+  return postApiAction({
+    types: [DRIVER_WARE_HOUSE_REQUEST, DRIVER_WARE_HOUSE_SUCCESS, DRIVER_WARE_HOUSE_FAILURE],
     url,
   });
 };

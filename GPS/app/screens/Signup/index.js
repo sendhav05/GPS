@@ -34,8 +34,16 @@ class SignupUser extends Component {
       && nextProps.userSignupResponse.response
       && nextProps.userSignupResponse.status === 200
       && (nextProps.userSignupResponse.response.status === 1 || nextProps.userSignupResponse.response.status === 'success')) {
-      const { navigate } = this.props.navigation;
-      navigate('VerifyOTP', { isFromCustomer: this.props.navigation.state.params.isFromCustomer });
+      console.log('*********** nextProps.userSignupResponse', nextProps.userSignupResponse);
+      const { goBack } = this.props.navigation;
+      goBack(null);
+      if (nextProps.userSignupResponse.response.message && typeof nextProps.userSignupResponse.response.message === 'string') {
+        showPopupAlert(nextProps.userSignupResponse.response.message);
+        return;
+      }
+      showPopupAlert('You have successfully registered in');
+      // const { navigate } = this.props.navigation;
+      // navigate('VerifyOTP', { isFromCustomer: this.props.navigation.state.params.isFromCustomer });
       // this.props.resetUserSignupData();
     } else if (!nextProps.isLoading && nextProps.userSignupResponse.response
       && (nextProps.userSignupResponse.status !== 200

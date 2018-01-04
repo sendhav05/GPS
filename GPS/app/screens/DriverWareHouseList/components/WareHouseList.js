@@ -104,14 +104,14 @@ const WareHouseList = props => (
         showsUserLocation={Boolean(true)}
         region={props.region}
       >
-        {props.markers.map(marker => (
+        {props.dataArray.map(marker => (
           <MapView.Marker
             style={styles.map}
-            key={marker.title}
-            identifier={marker.identifier}
-            coordinate={marker.coordinate}
-            title={marker.title}
-            description={marker.description}
+            key={marker.warehouse_id}
+            identifier={marker.warehouse_id}
+            coordinate={{ longitude: marker.lng ? parseFloat(marker.lng) : 0.0, latitude: marker.lat ? parseFloat(marker.lat) : 0.0 }}
+            title={marker.warehousename}
+            description={marker.address}
             onPress={e => props.onPinPress(e)}
             onCalloutPress={e => props.onCalloutPress(e)}
           />

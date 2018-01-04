@@ -7,7 +7,8 @@ import { userLoginRequest,
   fetchWareHouseRequest,
   fetchCategoryRequest,
   fetchProductRequest,
-  orderPlaceRequest }
+  orderPlaceRequest,
+  fetchDriverWarehouseRequest }
   from './Authentication';
 
 const actions = {
@@ -18,6 +19,7 @@ const actions = {
   fetchCategoryRequest,
   fetchProductRequest,
   orderPlaceRequest,
+  fetchDriverWarehouseRequest,
 };
 
 export default bindActionCreators(actions, store.dispatch);

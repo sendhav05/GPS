@@ -52,19 +52,19 @@ class WareHouseView extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.isLoading
-      && nextProps.wareHouseResponse.response
-      && nextProps.wareHouseResponse.status === 200) {
-      // && nextProps.wareHouseResponse.response.status === 1) {
-      if (nextProps.wareHouseResponse.response.data.length > 0) {
-        this.setState({ dataArray: nextProps.wareHouseResponse.response.data });
+      && nextProps.driverWareHouseResponse.response
+      && nextProps.driverWareHouseResponse.status === 200) {
+      // && nextProps.driverWareHouseResponse.response.status === 1) {
+      if (nextProps.driverWareHouseResponse.response.data.length > 0) {
+        this.setState({ dataArray: nextProps.driverWareHouseResponse.response.data });
       } else {
         showPopupAlert(constant.EMPTY_RECORD_MESSAGE);
       }
-    } else if (!nextProps.isLoading && nextProps.wareHouseResponse.response
-      && (nextProps.wareHouseResponse.status !== 200
-      || nextProps.wareHouseResponse.response.status !== 1)) {
-      if (nextProps.wareHouseResponse.response.message && typeof nextProps.wareHouseResponse.response.message === 'string') {
-        showPopupAlert(nextProps.wareHouseResponse.response.message);
+    } else if (!nextProps.isLoading && nextProps.driverWareHouseResponse.response
+      && (nextProps.driverWareHouseResponse.status !== 200
+      || nextProps.driverWareHouseResponse.response.status !== 1)) {
+      if (nextProps.driverWareHouseResponse.response.message && typeof nextProps.driverWareHouseResponse.response.message === 'string') {
+        showPopupAlert(nextProps.driverWareHouseResponse.response.message);
         return;
       }
       showPopupAlert(constant.SERVER_ERROR_MESSAGE);
@@ -110,7 +110,7 @@ class WareHouseView extends Component {
     const utils = new Utils();
     utils.checkInternetConnectivity((reach) => {
       if (reach) {
-        this.props.fetchWareHouseRequest();
+        this.props.fetchDriverWarehouseRequest();
       } else {
         showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
       }
@@ -136,7 +136,7 @@ class WareHouseView extends Component {
     }, (error) => {
       showPopupAlert(JSON.stringify(error));
     }, {
-      enableHighAccuracy: true,
+      enableHighAccuracy: false,
       timeout: 20000,
       maximumAge: 1000,
     });
@@ -164,8 +164,8 @@ class WareHouseView extends Component {
 
 
 const mapStateToProps = state => ({
-  isLoading: state.wareHouse.isLoading,
-  wareHouseResponse: state.wareHouse.wareHouseResponse,
+  isLoading: state.driverWareHouse.isLoading,
+  driverWareHouseResponse: state.driverWareHouse.driverWareHouseResponse,
 });
 
 const mapDispatchToProps = () => UserActions;

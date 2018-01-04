@@ -60,7 +60,7 @@ class ProductListView extends Component {
 
   onCellSelectionPress(selectedItem) {
     const { navigate } = this.props.navigation;
-    navigate('OrderPlace', { selectedProductItem: selectedItem });
+    navigate('OrderPlace', { selectedProductItem: selectedItem, warehouse_id: this.props.navigation.state.params.warehouse_id });
   }
 
   onBacnkPress() {

@@ -5,6 +5,7 @@ import wareHouse from './wareHouse';
 import category from './category';
 import product from './product';
 import orderPlace from './orderPlace';
+import driverWareHouse from './driverWareHouse';
 
 const reducers = {
   login,
@@ -13,6 +14,7 @@ const reducers = {
   category,
   product,
   orderPlace,
+  driverWareHouse,
 };
 
 export default combineReducers(reducers);

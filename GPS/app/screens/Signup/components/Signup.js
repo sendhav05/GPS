@@ -132,6 +132,7 @@ const Signup = props => (
               placeholderTextColor="rgba(70,64,172,1)"
               onChangeText={name => props.updateName(name)}
               value={props.name}
+              underlineColorAndroid="transparent"
             />
             <TextInput
               style={styles.phoneNumberTextInput}
