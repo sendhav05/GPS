@@ -70,6 +70,7 @@ const CustomerOrder = props => (
       title="Orders"
       isShowRightIcon={Boolean(true)}
       rightMenuIcon={Images.addIcon}
+      rightMenuPress={() => props.onRightButtonPress()}
     />
     <View style={styles.bodyView}>
       <FlatList

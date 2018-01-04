@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+import NavigationExperimental from 'react-native-deprecated-custom-components';
 import WareHouseList from './components/WareHouseList';
 import UserActions from '../../actions';
 import WareHouseListCell from './components/WareHouseListCell';
@@ -46,14 +47,7 @@ class WareHouseView extends Component {
   }
 
   componentDidMount() {
-    const utils = new Utils();
-    utils.checkInternetConnectivity((reach) => {
-      if (reach) {
-        this.props.fetchWareHouseRequest();
-      } else {
-        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
-      }
-    });
+    this.fetchCurrentLocation();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -111,6 +105,43 @@ class WareHouseView extends Component {
 
     );
   }
+
+  getWareHouseDataFromServer() {
+    const utils = new Utils();
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        this.props.fetchWareHouseRequest();
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
+    });
+  }
+
+  fetchCurrentLocation() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      if (position.coords.latitude && position.coords.longitude) {
+        const data = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: this.state.region.latitudeDelta,
+          longitudeDelta: this.state.region.longitudeDelta,
+        };
+
+        console.log('********** value : ', data);
+        console.log('********** value : ', this.state.region);
+        this.setState({ region: data }, () => this.getWareHouseDataFromServer());
+      } else {
+        this.getWareHouseDataFromServer();
+      }
+    }, (error) => {
+      showPopupAlert(JSON.stringify(error));
+    }, {
+      enableHighAccuracy: true,
+      timeout: 20000,
+      maximumAge: 1000,
+    });
+  }
+
 
   render() {
     return (

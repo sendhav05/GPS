@@ -30,6 +30,8 @@ class CustomerOrderView extends Component {
 
   onCellSelectionPress(selectedItem) {
     console.log('********** selectedItem', selectedItem);
+    // const { navigate } = this.props.navigation;
+    // navigate('OrderDetail');
   }
 
   onPendingOrderPress() {
@@ -45,6 +47,11 @@ class CustomerOrderView extends Component {
     goBack(null);
   }
 
+  onRightButtonPress() {
+    // const { navigate } = this.props.navigation;
+    // navigate('OrderDetail');
+  }
+
   getRenderRow(item) {
     return (
       <OrderCell
@@ -58,6 +65,7 @@ class CustomerOrderView extends Component {
     return (
       <CustomerOrder
         onLeftButtonPress={() => this.onLeftButtonPress()}
+        onRightButtonPress={() => this.onRightButtonPress()}
         onPendingOrderPress={() => this.onPendingOrderPress()}
         onCompletedOrderPres={() => this.onCompletedOrderPres()}
         getRenderRow={item => this.getRenderRow(item)}
