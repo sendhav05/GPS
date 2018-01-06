@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     width: 52,
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
     borderColor: 'red',
     borderRadius: 5,
     borderWidth: 1,
@@ -137,7 +138,7 @@ const CustomerHome = props => (
         </View>
         <View style={styles.productCountView}>
           <TextInput
-            style={styles.productCountText}
+            style={[styles.productCountText, { width: 52, height: 52, textAlign: 'center' }]}
             keyboardType="numeric"
             placeholderTextColor="rgba(70,64,172,1)"
             onChangeText={quantity => props.updateQuantity(quantity)}
