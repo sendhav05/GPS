@@ -90,6 +90,9 @@ const DrawerStack = DrawerNavigator({
   gesturesEnabled: false,
   drawerWidth: Dimensions.get('window').width - (Platform.OS === 'android' ? 56 : 64),
   contentComponent: props => <CustomerMenuScreen {...props} />,
+  drawerOpenRoute: 'DrawerOpen',
+  drawerCloseRoute: 'DrawerClose',
+  drawerToggleRoute: 'DrawerToggle',
 });
 
 const DrawerNavigation = StackNavigator({
@@ -142,6 +145,9 @@ const DriverStack = DrawerNavigator({
   gesturesEnabled: false,
   drawerWidth: Dimensions.get('window').width - (Platform.OS === 'android' ? 56 : 64),
   contentComponent: props => <CustomerMenuScreen {...props} />,
+  drawerOpenRoute: 'DrawerOpen',
+  drawerCloseRoute: 'DrawerClose',
+  drawerToggleRoute: 'DrawerToggle',
 });
 
 const DriverNavigation = StackNavigator({
