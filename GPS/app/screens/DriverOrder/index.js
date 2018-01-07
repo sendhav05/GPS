@@ -5,40 +5,70 @@
  */
 
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import { store } from '../../store';
-import runRootSaga from '../../sagas';
+import {
+  View,
+} from 'react-native';
 import CustomerOrder from './components/CustomerOrder';
 import UserActions from '../../actions';
 import { connect } from 'react-redux';
 import OrderCell from './components/OrderCell';
+import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
+import constant from '../../utils/constants';
+import Loader from '../../components/Loader';
+import Utils from '../../utils/utils';
 
 class CustomerOrderView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      leftMenuItems: [{ time: '04:00 PM', name: 'Mr. Sham', address: '12, 3rt floor rajagi salai, Kanchipuram' },
-        { time: '04:00 PM', name: 'Mr. Raheja', address: '12, 3rt floor rajagi salai, Kanchipuram' },
-        { time: '04:00 PM', name: 'Mr. Jhon', address: '12, 3rt floor rajagi salai, Kanchipuram' },
-        { time: '04:00 PM', name: 'Mr. Kumar', address: '12, 3rt floor rajagi salai, Kanchipuram' }],
+      dataArray: [],
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidMount() {
+    const navigationParams = this.props.navigation.state.params;
+    const utils = new Utils();
+    console.log('********** nav', navigationParams.lat);
 
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        this.props.driverOrderListRequest(navigationParams.lat, navigationParams.lng, navigationParams.selectedWareHouseID);
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('********** nextProps.driverOrderListResponse', nextProps.driverOrderListResponse);
+
+    if (!nextProps.isLoading
+      && nextProps.driverOrderListResponse.response
+      && nextProps.driverOrderListResponse.status === 200) {
+      // && nextProps.driverOrderListResponse.response.status === 1) {
+      if (nextProps.driverOrderListResponse.response.data.length > 0) {
+        this.setState({ dataArray: nextProps.driverOrderListResponse.response.data });
+      } else {
+        showPopupAlert(constant.EMPTY_RECORD_MESSAGE);
+      }
+    } else if (!nextProps.isLoading && nextProps.driverOrderListResponse.response
+      && (nextProps.driverOrderListResponse.status !== 200
+      || nextProps.driverOrderListResponse.response.status !== 1)) {
+      if (nextProps.driverOrderListResponse.response.message && typeof nextProps.driverOrderListResponse.response.message === 'string') {
+        showPopupAlert(nextProps.driverOrderListResponse.response.message);
+        return;
+      }
+      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
+    }
   }
 
   onCellSelectionPress(selectedItem) {
     console.log('********** selectedItem', selectedItem);
-    // const { navigate } = this.props.navigation;
-    // navigate('OrderDetail');
+    const { navigate } = this.props.navigation;
+    navigate('OrderDetail', { selectedOrderItem: selectedItem });
   }
 
-  onPendingOrderPress() {
-    console.log('********** selectedItem');
-  }
-
-  onCompletedOrderPres() {
+  onConfirmOrderAddedPress() {
     console.log('********** selectedItem');
   }
 
@@ -63,22 +93,25 @@ class CustomerOrderView extends Component {
 
   render() {
     return (
-      <CustomerOrder
-        onLeftButtonPress={() => this.onLeftButtonPress()}
-        onRightButtonPress={() => this.onRightButtonPress()}
-        onPendingOrderPress={() => this.onPendingOrderPress()}
-        onCompletedOrderPres={() => this.onCompletedOrderPres()}
-        getRenderRow={item => this.getRenderRow(item)}
-        leftMenuItems={this.state.leftMenuItems}
-      />
+      <View style={{ flex: 1 }}>
+        <CustomerOrder
+          onLeftButtonPress={() => this.onLeftButtonPress()}
+          onRightButtonPress={() => this.onRightButtonPress()}
+          onConfirmOrderAddedPress={() => this.onConfirmOrderAddedPress()}
+          getRenderRow={item => this.getRenderRow(item)}
+          dataArray={this.state.dataArray}
+        />
+        {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
+      </View>
     );
   }
 }
 
 
 const mapStateToProps = state => ({
+  isLoading: state.driverOrderList.isLoading,
+  driverOrderListResponse: state.driverOrderList.driverOrderListResponse,
 });
-
 const mapDispatchToProps = () => UserActions;
 
 const CustomerOrderViewScreen = connect(mapStateToProps, mapDispatchToProps)(CustomerOrderView);

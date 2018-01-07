@@ -76,8 +76,10 @@ class WareHouseView extends Component {
   }
 
   onCellSelectionPress(selectedItem) {
+    console.log('**** selectedWareHouseID', selectedWareHouseID);
+
     const { navigate } = this.props.navigation;
-    navigate('DriverOrder', { selectedWareHouseID: selectedItem.id });
+    navigate('DriverOrder', { selectedWareHouseID: selectedItem.warehouse_id, lat: this.state.region.latitude, lng: this.state.region.longitude });
   }
 
   onLeftMenuPress() {
@@ -88,7 +90,7 @@ class WareHouseView extends Component {
   onCalloutPress(e) {
     console.log('****', selectedWareHouseID);
     const { navigate } = this.props.navigation;
-    navigate('DriverOrder', { selectedWareHouseID });
+    navigate('DriverOrder', { selectedWareHouseID, lat: this.state.region.latitude, lng: this.state.region.longitude });
   }
 
   onPinPress(e) {
@@ -110,7 +112,7 @@ class WareHouseView extends Component {
     const utils = new Utils();
     utils.checkInternetConnectivity((reach) => {
       if (reach) {
-        this.props.fetchDriverWarehouseRequest();
+        this.props.fetchDriverWarehouseRequest(this.state.region.latitude, this.state.region.longitude);
       } else {
         showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
       }
@@ -126,12 +128,9 @@ class WareHouseView extends Component {
           latitudeDelta: this.state.region.latitudeDelta,
           longitudeDelta: this.state.region.longitudeDelta,
         };
-
-        console.log('********** value : ', data);
-        console.log('********** value : ', this.state.region);
         this.setState({ region: data }, () => this.getWareHouseDataFromServer());
       } else {
-        this.getWareHouseDataFromServer();
+        showPopupAlert('Not Found Location.');
       }
     }, (error) => {
       showPopupAlert(JSON.stringify(error));

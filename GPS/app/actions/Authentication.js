@@ -1,6 +1,7 @@
 
 import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
-  productListUrl, orderPlaceUrl, driverWareHouseList } from '../api/urls';
+  productListUrl, orderPlaceUrl, driverWareHouseList,
+  driverOrderListUrl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -31,6 +32,10 @@ export const ORDER_PLACE_FAILURE = 'ORDER_PLACE_FAILURE';
 export const DRIVER_WARE_HOUSE_REQUEST = 'DRIVER_WARE_HOUSE_REQUEST';
 export const DRIVER_WARE_HOUSE_SUCCESS = 'DRIVER_WARE_HOUSE_SUCCESS';
 export const DRIVER_WARE_HOUSE_FAILURE = 'DRIVER_WARE_HOUSE_FAILURE';
+
+export const DRIVER_ORDER_LIST_REQUEST = 'DRIVER_ORDER_LIST_REQUEST';
+export const DRIVER_ORDER_LIST_SUCCESS = 'DRIVER_ORDER_LIST_SUCCESS';
+export const DRIVER_ORDER_LIST_FAILURE = 'DRIVER_ORDER_LIST_FAILURE';
 
 export const userLoginRequest = (email, password, type) => {
   const url = loginUrl(email, password, type);
@@ -96,6 +101,15 @@ export const fetchDriverWarehouseRequest = (lat, lng) => {
   const url = driverWareHouseList(lat, lng);
   return postApiAction({
     types: [DRIVER_WARE_HOUSE_REQUEST, DRIVER_WARE_HOUSE_SUCCESS, DRIVER_WARE_HOUSE_FAILURE],
+    url,
+  });
+};
+
+export const driverOrderListRequest = (lat, lng, warehouseid) => {
+  const url = driverOrderListUrl(lat, lng, warehouseid);
+  console.log('******* driverOrderListUrl', url);
+  return postApiAction({
+    types: [DRIVER_ORDER_LIST_REQUEST, DRIVER_ORDER_LIST_SUCCESS, DRIVER_ORDER_LIST_FAILURE],
     url,
   });
 };

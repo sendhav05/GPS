@@ -28,6 +28,11 @@ const styles = StyleSheet.create({
     width,
     marginTop: 10,
   },
+  buttonView: {
+    height: 50,
+    width,
+    marginBottom: 30,
+  },
   headerView: {
     height: 40,
     flexDirection: 'row',
@@ -60,6 +65,18 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     backgroundColor: 'transparent',
   },
+  orderButton: {
+    backgroundColor: OrangeColor,
+    marginLeft: 40,
+    marginRight: 40,
+    marginTop: 15,
+    marginBottom: 30,
+    height: 40,
+    width: width - 80,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 25,
+  },
 });
 
 const CustomerOrder = props => (
@@ -68,17 +85,27 @@ const CustomerOrder = props => (
       leftMenuIcon={Images.backArrow}
       leftMenuPress={() => props.onLeftButtonPress()}
       title="Orders"
-      isShowRightIcon={Boolean(true)}
+      isShowRightIcon={Boolean(false)}
       rightMenuIcon={Images.addIcon}
       rightMenuPress={() => props.onRightButtonPress()}
     />
     <View style={styles.bodyView}>
       <FlatList
         style={styles.flatListStyle}
-        data={props.leftMenuItems}
+        data={props.dataArray}
         renderItem={data => props.getRenderRow(data)}
-        keyExtractor={item => item.name}
+        keyExtractor={item => item.id}
       />
+    </View>
+    <View style={styles.buttonView}>
+      <TouchableOpacity
+        style={styles.orderButton}
+        onPress={() => props.onConfirmOrderAddedPress()}
+      >
+        <Text style={styles.buttonText}>
+          Confirm Orders
+        </Text>
+      </TouchableOpacity>
     </View>
   </View>
 );

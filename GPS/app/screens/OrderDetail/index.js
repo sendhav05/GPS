@@ -12,45 +12,11 @@ import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
 import Utils from '../../utils/utils';
 import constant from '../../utils/constants';
 
-const deliveryCharge = 10;
-let totalPrice = 0;
-let pincode = '';
-let state = '';
-let city = '';
-let address = '';
-let landmark = '';
-
 class OrderPlaceView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quantity: props.navigation.state.params.selectedProductItem.quantity,
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.isLoading
-      && nextProps.orderPlaceResponse.response
-      && nextProps.orderPlaceResponse.status === 200) {
-      // && nextProps.orderPlaceResponse.response.status === 1) {
-      if (nextProps.orderPlaceResponse.response.message && typeof nextProps.orderPlaceResponse.response.message === 'string') {
-        showPopupAlert(nextProps.orderPlaceResponse.response.message);
-        const { goBack } = this.props.navigation;
-        goBack(null);
-        return;
-      }
-      showPopupAlert('Your order send successfully.');
-      const { goBack } = this.props.navigation;
-      goBack(null);
-    } else if (!nextProps.isLoading && nextProps.orderPlaceResponse.response
-      && (nextProps.orderPlaceResponse.status !== 200
-      || nextProps.orderPlaceResponse.response.status !== 1)) {
-      if (nextProps.orderPlaceResponse.response.message && typeof nextProps.orderPlaceResponse.response.message === 'string') {
-        showPopupAlert(nextProps.orderPlaceResponse.response.message);
-        return;
-      }
-      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
-    }
   }
 
   onChoosePaymentPress() {
@@ -103,7 +69,7 @@ class OrderPlaceView extends Component {
     goBack(null);
   }
 
-  onEditOrderPress() {
+  onOrderAddedPress() {
     console.log('***** onEditOrderPress ');
   }
 
@@ -120,22 +86,11 @@ class OrderPlaceView extends Component {
   }
 
   render() {
-    const oneItemPrice = Number(this.props.navigation.state.params.selectedProductItem.price);
-    let price = this.state.quantity * oneItemPrice;
-    totalPrice = deliveryCharge + price;
     return (
       <OrderPlace
-        onChoosePaymentPress={() => this.onChoosePaymentPress()}
-        onDeliveryAddressPress={() => this.onDeliveryAddressPress()}
         onBacnkPress={() => this.onBacnkPress()}
-        onEditOrderPress={() => this.onEditOrderPress()}
-        onOrderPress={() => this.onOrderPress()}
-        updateQuantity={quantity => this.updateQuantity(quantity)}
-        quantity={this.state.quantity}
-        selectedProductItem={this.props.navigation.state.params.selectedProductItem}
-        totalPrice={totalPrice}
-        price={price}
-        deliveryCharge={deliveryCharge}
+        onOrderAddedPress={() => this.onOrderAddedPress()}
+        selectedOrderItem={this.props.navigation.state.params.selectedOrderItem}
       />
     );
   }

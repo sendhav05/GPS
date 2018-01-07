@@ -136,3 +136,31 @@ export const driverWareHouseList = (lat, lng) => {
   }
   return url;
 };
+
+export const driverOrderListUrl = (lat, lng, warehouseid) => {
+  const url = `${getBaseUrl}/order/orderListForDriver`;
+  let param = '';
+  if (lat) {
+    if (param) {
+      param = `${param}&`;
+    }
+    param = `lat=${lat}`;
+  }
+  if (lng) {
+    if (param) {
+      param = `${param}&`;
+    }
+    param = `${param}lng=${lng}`;
+  }
+  if (warehouseid) {
+    if (param) {
+      param = `${param}&`;
+    }
+    param = `${param}warehouse_id=${warehouseid}`;
+  }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};

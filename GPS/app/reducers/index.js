@@ -6,6 +6,7 @@ import category from './category';
 import product from './product';
 import orderPlace from './orderPlace';
 import driverWareHouse from './driverWareHouse';
+import driverOrderList from './driverOrderList';
 
 const reducers = {
   login,
@@ -15,6 +16,7 @@ const reducers = {
   product,
   orderPlace,
   driverWareHouse,
+  driverOrderList,
 };
 
 export default combineReducers(reducers);
