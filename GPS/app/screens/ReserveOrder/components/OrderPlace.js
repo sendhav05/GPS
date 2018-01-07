@@ -229,7 +229,7 @@ const CustomerHome = props => (
             onPress={() => props.onOrderAddedPress()}
           >
             <Text style={styles.buttonText}>
-              { props.selectedOrderItem.isReserved ? 'Remove To My Order List' : 'Add To My Order List' }
+              Add To My Order List
             </Text>
           </TouchableOpacity>
         </View>

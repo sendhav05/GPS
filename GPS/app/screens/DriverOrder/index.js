@@ -17,12 +17,16 @@ import constant from '../../utils/constants';
 import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
 
+const confirmOrders = [];
+let allOrder = [];
+
 class CustomerOrderView extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dataArray: [],
     };
+    this.onAddedOrderItem = this.onAddedOrderItem.bind(this);
   }
 
   componentDidMount() {
@@ -47,7 +51,13 @@ class CustomerOrderView extends Component {
       && nextProps.driverOrderListResponse.status === 200) {
       // && nextProps.driverOrderListResponse.response.status === 1) {
       if (nextProps.driverOrderListResponse.response.data.length > 0) {
-        this.setState({ dataArray: nextProps.driverOrderListResponse.response.data });
+        const items = nextProps.driverOrderListResponse.response.data;
+        items.map((obj) => {
+          obj.isReserved = false;
+          return obj;
+        });
+        allOrder = items;
+        this.setState({ dataArray: items });
       } else {
         showPopupAlert(constant.EMPTY_RECORD_MESSAGE);
       }
@@ -63,13 +73,36 @@ class CustomerOrderView extends Component {
   }
 
   onCellSelectionPress(selectedItem) {
-    console.log('********** selectedItem', selectedItem);
     const { navigate } = this.props.navigation;
-    navigate('OrderDetail', { selectedOrderItem: selectedItem });
+    navigate('OrderDetail', { selectedOrderItem: selectedItem, onAddedOrderItem: this.onAddedOrderItem });
   }
 
   onConfirmOrderAddedPress() {
     console.log('********** selectedItem');
+  }
+
+  onAddedOrderItem(addedOrderItem) {
+    const item = addedOrderItem.addedOrderItem;
+    allOrder = this.state.dataArray;
+
+    if (item.isReserved) {
+      const index = confirmOrders.indexOf(addedOrderItem);
+      if (index !== -1) {
+        confirmOrders.splice(index, 1);
+      }
+      for (let i = 0; i < allOrder.length; i++) {
+        if (allOrder[i].id === item.id) {
+          allOrder[i].isReserved = false;
+        }
+      }
+    } else {
+      confirmOrders.push(item);
+      for (let i = 0; i < allOrder.length; i++) {
+        if (allOrder[i].id === item.id) {
+          allOrder[i].isReserved = true;
+        }
+      }
+    }
   }
 
   onLeftButtonPress() {
