@@ -164,3 +164,31 @@ export const driverOrderListUrl = (lat, lng, warehouseid) => {
   }
   return url;
 };
+
+export const reserveOrderURl = (driverid, orderids, warehouseid) => {
+  const url = `${getBaseUrl}/order/reserveOrders`;
+  let param = '';
+  if (driverid) {
+    if (param) {
+      param = `${param}&`;
+    }
+    param = `driver_id=${driverid}`;
+  }
+  if (orderids) {
+    if (param) {
+      param = `${param}&`;
+    }
+    param = `${param}order_ids=${orderids}`;
+  }
+  if (warehouseid) {
+    if (param) {
+      param = `${param}&`;
+    }
+    param = `${param}warehouse_id=${warehouseid}`;
+  }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};

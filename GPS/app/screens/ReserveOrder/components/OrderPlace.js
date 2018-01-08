@@ -178,7 +178,7 @@ const CustomerHome = props => (
       <View style={styles.confirmButtonView}>
         <TouchableOpacity
           style={styles.confirmButton}
-          onPress={() => props.onGoToPickupPress()}
+          onPress={() => props.onConfirmPress()}
         >
           <Text style={styles.buttonText}>
             Confirm
@@ -186,7 +186,7 @@ const CustomerHome = props => (
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.confirmButton}
-          onPress={() => props.onGoToPickupPress()}
+          onPress={() => props.onCancelPress()}
         >
           <Text style={styles.buttonText}>
             Cancel

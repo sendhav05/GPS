@@ -27,6 +27,19 @@ class Utils extends Component {
     AsyncStorage.setItem('IS_FROM_CUSTOMER', JSON.stringify(value));
   }
 
+  setDriverID(value) {
+    AsyncStorage.setItem('DRIVER_ID', JSON.stringify(value));
+  }
+
+  async getDriverID(action) {
+    try {
+      const data = await AsyncStorage.getItem('DRIVER_ID');
+      const parsedData = JSON.parse(data);
+      action(parsedData);
+    } catch (error) {
+      action(null);
+    }
+  }
 
   async isFlowFromCustomer(action) {
     try {

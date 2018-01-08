@@ -34,7 +34,11 @@ class App extends Component {
       && nextProps.userLoginResponse.status === 200
       && nextProps.userLoginResponse.response.status === 1) {
       const utils = new Utils();
-      utils.setCustomerID(nextProps.userLoginResponse.response.data.user_id);
+      if (this.props.navigation.state.params.isFromCustomer) {
+        utils.setCustomerID(nextProps.userLoginResponse.response.data.user_id);
+      } else {
+        utils.setDriverID(nextProps.userLoginResponse.response.data.user_id);
+      }
       const { navigate } = this.props.navigation;
       navigate('VerifyOTP', { isFromCustomer: this.props.navigation.state.params.isFromCustomer });
     } else if (!nextProps.isLoading && nextProps.userLoginResponse.response

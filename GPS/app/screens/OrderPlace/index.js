@@ -19,7 +19,7 @@ let state = '';
 let city = '';
 let address = '';
 let landmark = '';
-let customerid = '1';
+let customerid = '-1';
 
 class OrderPlaceView extends Component {
   constructor(props) {

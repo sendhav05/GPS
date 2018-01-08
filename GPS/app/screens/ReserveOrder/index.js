@@ -12,6 +12,8 @@ import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
 import Utils from '../../utils/utils';
 import constant from '../../utils/constants';
 
+let driverID = '-1';
+
 class OrderPlaceView extends Component {
   constructor(props) {
     super(props);
@@ -19,11 +21,61 @@ class OrderPlaceView extends Component {
     };
   }
 
+  componentDidMount() {
+    const utils = new Utils();
+    utils.getDriverID((response) => {
+      driverID = response;
+      console.log('***** driverID ', driverID, response);
+
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.isLoading
+      && nextProps.reserveOrderResponse.response
+      && nextProps.reserveOrderResponse.status === 200) {
+      // && nextProps.reserveOrderResponse.response.status === 1) {
+      if (nextProps.reserveOrderResponse.response.message && typeof nextProps.reserveOrderResponse.response.message === 'string') {
+        showPopupAlert(nextProps.reserveOrderResponse.response.message);
+        return;
+      }
+      showPopupAlert('Successfully reserved orders.');
+    } else if (!nextProps.isLoading && nextProps.reserveOrderResponse.response
+      && (nextProps.reserveOrderResponse.status !== 200
+      || nextProps.reserveOrderResponse.response.status !== 1)) {
+      if (nextProps.reserveOrderResponse.response.message && typeof nextProps.reserveOrderResponse.response.message === 'string') {
+        showPopupAlert(nextProps.reserveOrderResponse.response.message);
+        return;
+      }
+      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
+    }
+  }
+
   onCancelPress() {
     console.log('***** onChoosePaymentPress ');
   }
 
   onConfirmPress() {
+    const navigationParams = this.props.navigation.state.params;
+    let orderids = '';
+    const datas = [];
+
+    for (let i = 0; i < navigationParams.confirmOrders.length; i++) {
+      datas.push(navigationParams.confirmOrders[i].id);
+    }
+
+    orderids = datas.toString();
+    console.log('***** orderids ' , orderids);
+    console.log('***** datas ', datas);
+
+    const utils = new Utils();
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        this.props.reserveOrderRequest(driverID, orderids, navigationParams.selectedWareHouseID);
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
+    });
   }
 
   onBacnkPress() {
@@ -50,8 +102,8 @@ class OrderPlaceView extends Component {
 
 
 const mapStateToProps = state => ({
-  isLoading: state.orderPlace.isLoading,
-  orderPlaceResponse: state.orderPlace.orderPlaceResponse,
+  isLoading: state.reserveOrder.isLoading,
+  reserveOrderResponse: state.reserveOrder.reserveOrderResponse,
 });
 
 const mapDispatchToProps = () => UserActions;
