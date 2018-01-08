@@ -32,8 +32,6 @@ class CustomerOrderView extends Component {
   componentDidMount() {
     const navigationParams = this.props.navigation.state.params;
     const utils = new Utils();
-    console.log('********** nav', navigationParams.lat);
-
     utils.checkInternetConnectivity((reach) => {
       if (reach) {
         this.props.driverOrderListRequest(navigationParams.lat, navigationParams.lng, navigationParams.selectedWareHouseID);
@@ -44,8 +42,6 @@ class CustomerOrderView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('********** nextProps.driverOrderListResponse', nextProps.driverOrderListResponse);
-
     if (!nextProps.isLoading
       && nextProps.driverOrderListResponse.response
       && nextProps.driverOrderListResponse.status === 200) {
@@ -56,6 +52,13 @@ class CustomerOrderView extends Component {
           obj.isReserved = false;
           return obj;
         });
+        for (let i = 0; i < items.length; i++) {
+          for (let j = 0; j < confirmOrders.length; j++) {
+            if (items[i].id === confirmOrders[j].id) {
+              items[i].isReserved = true;
+            }
+          }
+        }
         allOrder = items;
         this.setState({ dataArray: items });
       } else {
@@ -78,7 +81,8 @@ class CustomerOrderView extends Component {
   }
 
   onConfirmOrderAddedPress() {
-    console.log('********** selectedItem');
+    const { navigate } = this.props.navigation;
+    navigate('ReserveOrder', { confirmOrders });
   }
 
   onAddedOrderItem(addedOrderItem) {
@@ -86,22 +90,31 @@ class CustomerOrderView extends Component {
     allOrder = this.state.dataArray;
 
     if (item.isReserved) {
-      const index = confirmOrders.indexOf(addedOrderItem);
+      let index = -1;
+      for (let i = 0; i < confirmOrders.length; i++) {
+        if (confirmOrders[i].id === item.id) {
+          index = i;
+        }
+      }
+
       if (index !== -1) {
         confirmOrders.splice(index, 1);
       }
+      console.log('******* confirmOrders', confirmOrders);
       for (let i = 0; i < allOrder.length; i++) {
         if (allOrder[i].id === item.id) {
           allOrder[i].isReserved = false;
         }
       }
-    } else {
+    } else if (confirmOrders.length < 3) {
       confirmOrders.push(item);
       for (let i = 0; i < allOrder.length; i++) {
         if (allOrder[i].id === item.id) {
           allOrder[i].isReserved = true;
         }
       }
+    } else {
+      showPopupAlert('You can not add more than 3 orders.');
     }
   }
 

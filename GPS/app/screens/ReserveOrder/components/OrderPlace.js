@@ -26,11 +26,25 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   productView: {
-    height: 120,
+    height: 130,
     width,
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 20,
+  },
+  confirmButtonView: {
+    height: 40,
+    width,
+    flexDirection: 'row',
+  },
+  confirmButton: {
+    backgroundColor: blueTextColor,
+    marginLeft: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5,
+    width: (width / 2) - 60,
   },
   productCountView: {
     height: 52,
@@ -47,14 +61,6 @@ const styles = StyleSheet.create({
     height: 52,
     width: width - 130,
   },
-  logo: {
-    width: 100,
-    height: 108,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: brownOrangeColor,
-    borderRadius: 10,
-  },
   textInputView: {
     marginTop: 60,
     height: 100,
@@ -68,19 +74,25 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '500',
   },
+  timerText: {
+    fontSize: 12,
+    fontWeight: '500',
+    marginTop: 30,
+  },
   headerText: {
     color: blueTextColor,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '500',
     marginTop: 3,
   },
   bodyView: {
-    flex: 1,
     marginTop: 20,
     width,
-    height: 200,
+    height: 50,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    backgroundColor: 'red',
+
   },
   orderButton: {
     backgroundColor: brownOrangeColor,
@@ -92,7 +104,7 @@ const styles = StyleSheet.create({
     width: width - 80,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 25,
+    borderRadius: 5,
   },
   buttonText: {
     color: 'white',
@@ -114,6 +126,14 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
   },
+  totalView: {
+    height: 20,
+    width,
+    flexDirection: 'row',
+    paddingLeft: 20,
+    paddingRight: 20,
+    marginTop: 30,
+  },
   totalCellView: {
     height: 40,
     width,
@@ -123,6 +143,12 @@ const styles = StyleSheet.create({
     padding: 20,
   },
 });
+
+const OrderView = props => (
+  <Text style={[styles.productCountText, { marginLeft: 80, marginTop: 3 }]}>
+    {`- ${props.order.name}`}
+  </Text>
+);
 
 const CustomerHome = props => (
   <TouchableOpacity
@@ -134,105 +160,62 @@ const CustomerHome = props => (
       <NavBar
         leftMenuIcon={Images.backArrow}
         leftMenuPress={() => props.onBacnkPress()}
-        title={props.selectedOrderItem.name}
+        title="Reserve Orders"
         isShowRightIcon={Boolean(false)}
         rightMenuIcon={Images.editOder}
-        rightMenuPress={() => props.onOrderAddedPress()}
+        rightMenuPress={() => props.onBacnkPress()}
       />
       <View style={styles.productView}>
-        <View
-          style={styles.logo}
-          resizeMode="contain"
-        >
-          <Text style={[styles.productCountText, { color: 'white', fontSize: 22 }]}>
-            Order
-          </Text>
-        </View>
         <View style={styles.productPriceView}>
           <Text style={styles.headerText}>
-            {`Distance: ${(props.selectedOrderItem.distance).toFixed(1)} mi.`}
+            {'No. Of Orders:'}
           </Text>
-          <Text style={styles.headerText}>
-            {`Payment Type: ${(props.selectedOrderItem.payment_type)}`}
-          </Text>
-          <Text style={styles.headerText}>
-            {`Payment Status: ${(props.selectedOrderItem.payment_status)}`}
-          </Text>
-          <Text style={styles.headerText}>
-            {`Date: ${(props.selectedOrderItem.date)}`}
-          </Text>
-          <Text style={styles.headerText}>
-            {`Order Status: ${(props.selectedOrderItem.order_status)}`}
-          </Text>
+          {
+            props.confirmOrders.map(s => <OrderView key={s.id} order={s} />)
+          }
         </View>
       </View>
-      <View style={styles.bodyView}>
-        <View style={styles.cellView}>
-          <Text style={styles.productCountText}>
-            Contact
+      <View style={styles.confirmButtonView}>
+        <TouchableOpacity
+          style={styles.confirmButton}
+          onPress={() => props.onGoToPickupPress()}
+        >
+          <Text style={styles.buttonText}>
+            Confirm
           </Text>
-          <Text style={styles.productCountText}>
-            {`${props.selectedOrderItem.contact_no}`}
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.confirmButton}
+          onPress={() => props.onGoToPickupPress()}
+        >
+          <Text style={styles.buttonText}>
+            Cancel
           </Text>
-        </View>
-        <View style={styles.cellView}>
-          <Text style={styles.productCountText}>
-            Email
+        </TouchableOpacity>
+      </View>
+      <View style={styles.totalView}>
+        <Text style={[styles.productCountText, { fontSize: 20 }]}>
+          Total Order:
+        </Text>
+        <Text style={[styles.productCountText, { fontSize: 20, color: brownOrangeColor, marginLeft: 30 }]}>
+          {`${props.confirmOrders.length}`}
+        </Text>
+      </View>
+      <Text style={[styles.timerText]}>
+        Your orders going to end!
+      </Text>
+      <Text style={[styles.timerText, { fontSize: 20 }]}>
+        57 sec
+      </Text>
+      <View style={{ flex: 1, marginTop: 30 }}>
+        <TouchableOpacity
+          style={styles.orderButton}
+          onPress={() => props.onGoToPickupPress()}
+        >
+          <Text style={styles.buttonText}>
+            Go to Pickup
           </Text>
-          <Text style={styles.productCountText}>
-            {`${props.selectedOrderItem.email}`}
-          </Text>
-        </View>
-        <View style={styles.cellView}>
-          <Text style={styles.productCountText}>
-            Address
-          </Text>
-          <Text style={styles.productCountText}>
-            {`${props.selectedOrderItem.address}`}
-          </Text>
-        </View>
-        <View style={styles.cellView}>
-          <Text style={styles.productCountText}>
-            City
-          </Text>
-          <Text style={styles.productCountText}>
-            {`${props.selectedOrderItem.city}`}
-          </Text>
-        </View>
-        <View style={styles.cellView}>
-          <Text style={styles.productCountText}>
-            Landmark
-          </Text>
-          <Text style={styles.productCountText}>
-            {`${props.selectedOrderItem.landmark}`}
-          </Text>
-        </View>
-        <View style={styles.cellView}>
-          <Text style={styles.productCountText}>
-            State
-          </Text>
-          <Text style={styles.productCountText}>
-            {`${props.selectedOrderItem.state}`}
-          </Text>
-        </View>
-        <View style={styles.totalCellView}>
-          <Text style={[styles.productCountText, { fontSize: 20 }]}>
-            Total
-          </Text>
-          <Text style={[styles.productCountText, { fontSize: 20, color: brownOrangeColor }]}>
-            {`${props.selectedOrderItem.totall_amount} $`}
-          </Text>
-        </View>
-        <View style={{ flex: 1 }}>
-          <TouchableOpacity
-            style={styles.orderButton}
-            onPress={() => props.onOrderAddedPress()}
-          >
-            <Text style={styles.buttonText}>
-              Add To My Order List
-            </Text>
-          </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   </TouchableOpacity>
