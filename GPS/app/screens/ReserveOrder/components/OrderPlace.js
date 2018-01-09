@@ -205,7 +205,7 @@ const CustomerHome = props => (
         Your orders going to end!
       </Text>
       <Text style={[styles.timerText, { fontSize: 20 }]}>
-        57 sec
+        {`${props.currentSecond} sec`}
       </Text>
       <View style={{ flex: 1, marginTop: 30 }}>
         <TouchableOpacity

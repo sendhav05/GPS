@@ -13,11 +13,13 @@ import Utils from '../../utils/utils';
 import constant from '../../utils/constants';
 
 let driverID = '-1';
+let timerId = '';
 
 class OrderPlaceView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentSecond: '60',
     };
   }
 
@@ -26,7 +28,6 @@ class OrderPlaceView extends Component {
     utils.getDriverID((response) => {
       driverID = response;
       console.log('***** driverID ', driverID, response);
-
     });
   }
 
@@ -37,6 +38,7 @@ class OrderPlaceView extends Component {
       // && nextProps.reserveOrderResponse.response.status === 1) {
       if (nextProps.reserveOrderResponse.response.message && typeof nextProps.reserveOrderResponse.response.message === 'string') {
         showPopupAlert(nextProps.reserveOrderResponse.response.message);
+        timerId = setInterval(() => this.setTimePassed(), 1000);
         return;
       }
       showPopupAlert('Successfully reserved orders.');
@@ -57,25 +59,26 @@ class OrderPlaceView extends Component {
 
   onConfirmPress() {
     const navigationParams = this.props.navigation.state.params;
-    let orderids = '';
-    const datas = [];
+    if (navigationParams.confirmOrders.length > 0) {
+      let orderids = '';
+      const datas = [];
 
-    for (let i = 0; i < navigationParams.confirmOrders.length; i++) {
-      datas.push(navigationParams.confirmOrders[i].id);
-    }
-
-    orderids = datas.toString();
-    console.log('***** orderids ' , orderids);
-    console.log('***** datas ', datas);
-
-    const utils = new Utils();
-    utils.checkInternetConnectivity((reach) => {
-      if (reach) {
-        this.props.reserveOrderRequest(driverID, orderids, navigationParams.selectedWareHouseID);
-      } else {
-        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      for (let i = 0; i < navigationParams.confirmOrders.length; i++) {
+        datas.push(navigationParams.confirmOrders[i].id);
       }
-    });
+
+      orderids = datas.toString();
+      const utils = new Utils();
+      utils.checkInternetConnectivity((reach) => {
+        if (reach) {
+          this.props.reserveOrderRequest(driverID, orderids, navigationParams.selectedWareHouseID);
+        } else {
+          showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+        }
+      });
+    } else {
+      showPopupAlert('Please add reserve order.');
+    }
   }
 
   onBacnkPress() {
@@ -84,7 +87,17 @@ class OrderPlaceView extends Component {
   }
 
   onGoToPickupPress() {
-    console.log('***** onEditOrderPress ');
+    clearInterval(timerId);
+  }
+
+  setTimePassed() {
+    if (this.state.currentSecond <= 0) {
+      showPopupAlert('Your order is passed to other driver.');
+      clearInterval(timerId);
+    } else {
+      const decreasedValue = Number(this.state.currentSecond) - 1;
+      this.setState({ currentSecond: decreasedValue });
+    }
   }
 
   render() {
@@ -95,6 +108,7 @@ class OrderPlaceView extends Component {
         onCancelPress={() => this.onCancelPress()}
         onConfirmPress={() => this.onConfirmPress()}
         confirmOrders={this.props.navigation.state.params.confirmOrders}
+        currentSecond={this.state.currentSecond}
       />
     );
   }
