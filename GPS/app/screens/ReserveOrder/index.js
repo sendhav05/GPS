@@ -11,10 +11,13 @@ import OrderPlace from './components/OrderPlace';
 import UserActions from '../../actions';
 import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
 import Utils from '../../utils/utils';
+import LocationUpdate from '../../utils/LocationUpdate';
 import constant from '../../utils/constants';
 
 let driverID = '-1';
 let timerId = '';
+let locationTimerId = '';
+let reserveID = '-1';
 
 class OrderPlaceView extends Component {
   constructor(props) {
@@ -39,6 +42,8 @@ class OrderPlaceView extends Component {
       // && nextProps.reserveOrderResponse.response.status === 1) {
       if (nextProps.reserveOrderResponse.response.message && typeof nextProps.reserveOrderResponse.response.message === 'string') {
         showPopupAlert(nextProps.reserveOrderResponse.response.message);
+        reserveID = nextProps.reserveOrderResponse.response.data.reserve_order_id;
+        console.log('@@@@@@ reserveID', reserveID);
         timerId = setInterval(() => this.setTimePassed(), 1000);
         return;
       }
@@ -59,7 +64,6 @@ class OrderPlaceView extends Component {
   }
 
   onConfirmPress() {
-    
     const navigationParams = this.props.navigation.state.params;
     if (navigationParams.confirmOrders.length > 0) {
       let orderids = '';
@@ -90,6 +94,7 @@ class OrderPlaceView extends Component {
 
   onGoToPickupPress() {
     clearInterval(timerId);
+    locationTimerId = setInterval(() => this.fetchCurrentLocation(), 5000);
     this.handleGetDirections();
   }
 
@@ -133,6 +138,24 @@ class OrderPlaceView extends Component {
     };
     getDirections(data);
   }
+
+  fetchCurrentLocation() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log('@@@@@@@@@@ postion', position);
+      if (position.coords.latitude && position.coords.longitude) {
+        this.props.sendDriverLocationToserverRequest(reserveID, position.coords.latitude, position.coords.longitude);
+      } else {
+        // showPopupAlert('Not Found Location.');
+      }
+    }, (error) => {
+      showPopupAlert(JSON.stringify(error));
+    }, {
+      enableHighAccuracy: false,
+      timeout: 20000,
+      maximumAge: 1000,
+    });
+  }
+
 
   render() {
     return (

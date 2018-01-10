@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   totalView: {
-    height: 20,
+    height: 30,
     width,
     flexDirection: 'row',
     paddingLeft: 20,

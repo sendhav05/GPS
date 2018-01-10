@@ -131,9 +131,9 @@ export const reserveOrderRequest = (driverid, orderids, warehouseid) => {
   });
 };
 
-export const sendDriverLocationToserverRequest = (reserveOrderid, lat, lng) => {
-  const url = sendDriverLocationToserverURl(reserveOrderid, lat, lng);
-  console.log('******* reserveOrderRequest', url);
+export const sendDriverLocationToserverRequest = (reserveID, lat, lng) => {
+  const url = sendDriverLocationToserverURl(reserveID, lat, lng);
+  console.log('******* reserveOrderRequest', url, reserveID);
   return postApiAction({
     types: [DRIVER_LOCATION_REQUEST, DRIVER_LOCATION_SUCCESS, DRIVER_LOCATION_FAILURE],
     url,

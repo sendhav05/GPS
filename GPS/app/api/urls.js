@@ -193,20 +193,20 @@ export const reserveOrderURl = (driverid, orderids, warehouseid) => {
   return url;
 };
 
-export const sendDriverLocationToserverURl = (reserveOrderid, lat, lng) => {
+export const sendDriverLocationToserverURl = (reserveID, lat, lng) => {
   const url = `${getBaseUrl}/order/driverLocation`;
   let param = '';
-  if (reserveOrderid) {
+  if (reserveID) {
     if (param) {
       param = `${param}&`;
     }
-    param = `reserve_order_id=${reserveOrderid}`;
+    param = `reserve_order_id=${reserveID}`;
   }
   if (lat) {
     if (param) {
       param = `${param}&`;
     }
-    param = `lat=${lat}`;
+    param = `${param}lat=${lng}`;
   }
   if (lng) {
     if (param) {

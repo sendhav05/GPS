@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { AsyncStorage, NetInfo } from 'react-native';
 
+
 class Utils extends Component {
   constructor() {
     super();
