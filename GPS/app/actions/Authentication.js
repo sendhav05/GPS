@@ -1,7 +1,7 @@
 
 import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
   productListUrl, orderPlaceUrl, driverWareHouseList,
-  driverOrderListUrl, reserveOrderURl } from '../api/urls';
+  driverOrderListUrl, reserveOrderURl, sendDriverLocationToserverURl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -40,6 +40,11 @@ export const DRIVER_ORDER_LIST_FAILURE = 'DRIVER_ORDER_LIST_FAILURE';
 export const RESERVE_ORDER_REQUEST = 'RESERVE_ORDER_REQUEST';
 export const RESERVE_ORDER_SUCCESS = 'RESERVE_ORDER_SUCCESS';
 export const RESERVE_ORDER_FAILURE = 'RESERVE_ORDER_FAILURE';
+
+export const DRIVER_LOCATION_REQUEST = 'DRIVER_LOCATION_REQUEST';
+export const DRIVER_LOCATION_SUCCESS = 'DRIVER_LOCATION_SUCCESS';
+export const DRIVER_LOCATION_FAILURE = 'DRIVER_LOCATION_FAILURE';
+
 
 export const userLoginRequest = (email, password, type) => {
   const url = loginUrl(email, password, type);
@@ -122,6 +127,15 @@ export const reserveOrderRequest = (driverid, orderids, warehouseid) => {
   console.log('******* reserveOrderRequest', url);
   return postApiAction({
     types: [RESERVE_ORDER_REQUEST, RESERVE_ORDER_SUCCESS, RESERVE_ORDER_FAILURE],
+    url,
+  });
+};
+
+export const sendDriverLocationToserverRequest = (reserveOrderid, lat, lng) => {
+  const url = sendDriverLocationToserverURl(reserveOrderid, lat, lng);
+  console.log('******* reserveOrderRequest', url);
+  return postApiAction({
+    types: [DRIVER_LOCATION_REQUEST, DRIVER_LOCATION_SUCCESS, DRIVER_LOCATION_FAILURE],
     url,
   });
 };

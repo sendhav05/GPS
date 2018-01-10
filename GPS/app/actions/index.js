@@ -10,7 +10,8 @@ import { userLoginRequest,
   orderPlaceRequest,
   fetchDriverWarehouseRequest,
   driverOrderListRequest,
-  reserveOrderRequest }
+  reserveOrderRequest,
+  sendDriverLocationToserverRequest }
   from './Authentication';
 
 const actions = {
@@ -24,6 +25,7 @@ const actions = {
   fetchDriverWarehouseRequest,
   driverOrderListRequest,
   reserveOrderRequest,
+  sendDriverLocationToserverRequest,
 };
 
 export default bindActionCreators(actions, store.dispatch);
