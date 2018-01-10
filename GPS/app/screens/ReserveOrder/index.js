@@ -6,6 +6,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import getDirections from 'react-native-google-maps-directions';
 import OrderPlace from './components/OrderPlace';
 import UserActions from '../../actions';
 import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
@@ -58,6 +59,7 @@ class OrderPlaceView extends Component {
   }
 
   onConfirmPress() {
+    
     const navigationParams = this.props.navigation.state.params;
     if (navigationParams.confirmOrders.length > 0) {
       let orderids = '';
@@ -88,6 +90,7 @@ class OrderPlaceView extends Component {
 
   onGoToPickupPress() {
     clearInterval(timerId);
+    this.handleGetDirections();
   }
 
   setTimePassed() {
@@ -98,6 +101,37 @@ class OrderPlaceView extends Component {
       const decreasedValue = Number(this.state.currentSecond) - 1;
       this.setState({ currentSecond: decreasedValue });
     }
+  }
+
+  handleGetDirections() {
+    const navigationParams = this.props.navigation.state.params;
+    let desLat = 0.0;
+    let desLng = 0.0;
+    for (let i = 0; i < navigationParams.confirmOrders.length; i++) {
+      const item = navigationParams.confirmOrders[i];
+      if (item.lat && item.lng) {
+        desLat = Number(item.lat);
+        desLng = Number(item.lng);
+      }
+    }
+
+    const data = {
+      source: {
+        latitude: navigationParams.lat,
+        longitude: navigationParams.lng,
+      },
+      destination: {
+        latitude: desLat,
+        longitude: desLng,
+      },
+      params: [
+        {
+          key: 'dirflg',
+          value: 'w',
+        },
+      ],
+    };
+    getDirections(data);
   }
 
   render() {

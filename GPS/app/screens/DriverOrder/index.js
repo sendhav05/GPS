@@ -83,7 +83,7 @@ class CustomerOrderView extends Component {
   onConfirmOrderAddedPress() {
     const { navigate } = this.props.navigation;
     const navigationParams = this.props.navigation.state.params;
-    navigate('ReserveOrder', { selectedWareHouseID: navigationParams.selectedWareHouseID, confirmOrders });
+    navigate('ReserveOrder', { selectedWareHouseID: navigationParams.selectedWareHouseID, confirmOrders, lat: navigationParams.lat, lng: navigationParams.lng });
   }
 
   onAddedOrderItem(addedOrderItem) {
