@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import AddressList from './components/AddressList';
 import UserActions from '../../actions';
 import AddressListCell from './components/AddressListCell';
+import SelectedAddressListCell from './components/SelectedAddressListCell';
 import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
 import constant from '../../utils/constants';
 import Loader from '../../components/Loader';
@@ -95,18 +96,42 @@ class AddressListView extends Component {
   onBacnkPress() {
     const { goBack } = this.props.navigation;
     goBack(null);
-    console.log('*****  2 ', selectedAddress);
-
     this.props.navigation.state.params.onSelectAddress({ selectedAddress });
   }
 
+  onEditPress(selectedItem) {
+  }
+
+  onDeletePress(selectedItem) {
+
+  }
+
+  onAddNewAddressPress() {
+    const { navigate } = this.props.navigation;
+    navigate('ChooseAddress', { customerid: this.props.navigation.state.params.customerid });
+  }
+
   getRenderRow(item) {
+    if (!item.item.isSelected) {
+      return (
+        <AddressListCell
+          data={item}
+          onCellSelectionPress={selectedItem => this.onCellSelectionPress(selectedItem)}
+          onBacnkPress={() => this.onBacnkPress()}
+          onEditPress={selectedItem => this.onEditPress(selectedItem)}
+          onDeletePress={selectedItem => this.onDeletePress(selectedItem)}
+        />
+
+      );
+    }
     return (
-      <AddressListCell
+      <SelectedAddressListCell
         data={item}
         onCellSelectionPress={selectedItem => this.onCellSelectionPress(selectedItem)}
+        onBacnkPress={() => this.onBacnkPress()}
+        onEditPress={selectedItem => this.onEditPress(selectedItem)}
+        onDeletePress={selectedItem => this.onDeletePress(selectedItem)}
       />
-
     );
   }
 
@@ -115,6 +140,7 @@ class AddressListView extends Component {
       <View style={{ flex: 1 }}>
         <AddressList
           onBacnkPress={() => this.onBacnkPress()}
+          onAddNewAddressPress={() => this.onAddNewAddressPress()}
           getRenderRow={item => this.getRenderRow(item)}
           dataArray={this.state.dataArray}
           isUpdate={this.state.isUpdate}

@@ -49,16 +49,16 @@ class ChooseAddressView extends Component {
   }
 
   onBacnkPress() {
-    const data = {
-      addLineOne: this.state.addLineOne,
-      addLineTwo: this.state.addLineTwo,
-      chooseCity: this.state.chooseCity,
-      pinCode: this.state.pinCode,
-      landMark: this.state.landMark,
-    };
+    // const data = {
+    //   addLineOne: this.state.addLineOne,
+    //   addLineTwo: this.state.addLineTwo,
+    //   chooseCity: this.state.chooseCity,
+    //   pinCode: this.state.pinCode,
+    //   landMark: this.state.landMark,
+    // };
     const { goBack } = this.props.navigation;
     goBack(null);
-    this.props.navigation.state.params.onSelectAddress({ data });
+   // this.props.navigation.state.params.onSelectAddress({ data });
   }
 
   onEditOrderPress() {
@@ -91,8 +91,8 @@ class ChooseAddressView extends Component {
         <NavBar
           leftMenuIcon={Images.backArrow}
           leftMenuPress={() => this.onBacnkPress()}
-          title="Address"
-          isShowRightIcon={Boolean(true)}
+          title="Add a New Address"
+          isShowRightIcon={Boolean(false)}
           rightMenuIcon={Images.editOder}
           rightMenuPress={() => this.onEditOrderPress()}
         />

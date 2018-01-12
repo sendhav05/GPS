@@ -17,7 +17,7 @@ const { width } = Dimensions.get('window');
 const style = StyleSheet.create({
   user: {
     flex: 1,
-    height: 70,
+    height: 50,
   },
   profilePic: {
     width: 25,
@@ -60,9 +60,46 @@ const style = StyleSheet.create({
     width,
     backgroundColor: 'black',
   },
+  confirmButtonView: {
+    height: 40,
+    width,
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
+  confirmButton: {
+    backgroundColor: BlueColor,
+    marginLeft: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5,
+    width: (width / 2) - 60,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '500',
+    backgroundColor: 'transparent',
+  },
+  orderButton: {
+    backgroundColor: OrangeColor,
+    marginLeft: 40,
+    marginRight: 40,
+    marginBottom: 10,
+    height: 40,
+    width: width - 80,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5,
+  },
+  productCountText: {
+    color: OrangeColor,
+    fontSize: 18,
+    fontWeight: '500',
+  },
 });
 
-const AddressListCell = props => (
+const SelectedAddressListCell = props => (
   <TouchableOpacity
     activeOpacity={1}
     style={{ flex: 1, justifyContent: 'center' }}
@@ -83,14 +120,42 @@ const AddressListCell = props => (
         {`${props.data.item.city}, ${props.data.item.state}, ${props.data.item.pin_code}`}
       </Text>
     </View>
+    <View style={{ flex: 1, marginTop: 20 }}>
+      <TouchableOpacity
+        style={style.orderButton}
+        onPress={() => props.onBacnkPress()}
+      >
+        <Text style={style.buttonText}>
+          Deliver to this address
+        </Text>
+      </TouchableOpacity>
+    </View>
+    <View style={style.confirmButtonView}>
+      <TouchableOpacity
+        style={style.confirmButton}
+        onPress={() => props.onEditPress(props.data.item)}
+      >
+        <Text style={style.buttonText}>
+            Edit
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={style.confirmButton}
+        onPress={() => props.onDeletePress(props.data.item)}
+      >
+        <Text style={style.buttonText}>
+            Delete
+        </Text>
+      </TouchableOpacity>
+    </View>
     <View style={[style.dividerLine]} />
   </TouchableOpacity>
 );
 
-AddressListCell.propTypes = {
+SelectedAddressListCell.propTypes = {
 };
 
-AddressListCell.defaultProps = {
+SelectedAddressListCell.defaultProps = {
 };
 
-export default AddressListCell;
+export default SelectedAddressListCell;

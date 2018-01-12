@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Images from '../../../assets/images';
-import NavBar from '../../../components/NavBar';
+import NavBar from './NavBar';
 import { BlueColor, OrangeColor, ButtonFontSize, GrayColor, HeaderFontSize, WhiteColor, FontFamilyName } from '../../../utils/constants';
 
 const { width } = Dimensions.get('window');
@@ -67,9 +67,10 @@ const AddressList = props => (
     <NavBar
       leftMenuIcon={Images.backArrow}
       leftMenuPress={() => props.onBacnkPress()}
-      title="Choose Address"
-      isShowRightIcon={Boolean(false)}
-      rightMenuIcon={Images.menu}
+      title="Select a delivery address"
+      isShowRightIcon={Boolean(true)}
+      rightMenuIcon={Images.addIcon}
+      rightMenuPress={() => props.onAddNewAddressPress()}
     />
     <View style={styles.bodyView}>
       <FlatList
