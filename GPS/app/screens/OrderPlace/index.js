@@ -21,6 +21,8 @@ let address = '';
 let landmark = '';
 let customerid = '-1';
 
+let selectedAddress = {};
+
 class OrderPlaceView extends Component {
   constructor(props) {
     super(props);
@@ -68,15 +70,21 @@ class OrderPlaceView extends Component {
 
   onDeliveryAddressPress() {
     const { navigate } = this.props.navigation;
-    navigate('ChooseAddress', { onSelectAddress: this.onSelectAddress });
+    navigate('AddressList', { onSelectAddress: this.onSelectAddress, customerid, selectedAddress });
   }
 
-  onSelectAddress(data) {
-    pincode = data.data.pinCode;
-    state = 1;
-    city = 1;
-    address = data.data.addLineTwo;
-    landmark = data.data.landMark;
+  onSelectAddress(sAddress) {
+    console.log('***** data ', sAddress);
+
+    selectedAddress = sAddress.selectedAddress;
+    console.log('***** data 2 ', selectedAddress);
+    console.log('***** data 3', selectedAddress.pin_code);
+
+    pincode = selectedAddress.pin_code;
+    state = selectedAddress.state;
+    city = selectedAddress.city;
+    address = selectedAddress.address;
+    landmark = selectedAddress.landMark;
   }
 
   onOrderPress() {
@@ -126,7 +134,7 @@ class OrderPlaceView extends Component {
   }
 
   validateAllField() {
-    if (!(pincode && state && city && address)) {
+    if (Object.keys(selectedAddress).length === 0) {
       showPopupAlert('Please enter delivery address.');
       return false;
     }

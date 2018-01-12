@@ -9,6 +9,7 @@ import driverWareHouse from './driverWareHouse';
 import driverOrderList from './driverOrderList';
 import reserveOrder from './reserveOrder';
 import driverLocation from './driverLocation';
+import addressList from './addressList';
 
 const reducers = {
   login,
@@ -21,6 +22,7 @@ const reducers = {
   driverOrderList,
   reserveOrder,
   driverLocation,
+  addressList,
 };
 
 export default combineReducers(reducers);

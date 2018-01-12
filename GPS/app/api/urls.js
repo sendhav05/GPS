@@ -220,3 +220,19 @@ export const sendDriverLocationToserverURl = (reserveID, lat, lng) => {
   }
   return url;
 };
+
+export const addressListUrl = (customerid) => {
+  const url = `${getBaseUrl}/customer/listAddress`;
+  let param = '';
+  if (customerid) {
+    if (param) {
+      param = `${param}&`;
+    }
+    param = `customer_id=${customerid}`;
+  }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};

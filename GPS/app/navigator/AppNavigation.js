@@ -22,6 +22,7 @@ import DriverWareHouseListScreen from '../screens/DriverWareHouseList';
 import DriverOrderScreen from '../screens/DriverOrder';
 import OrderDetailScreen from '../screens/OrderDetail';
 import ReserveOrderScreen from '../screens/ReserveOrder';
+import AddressListScreen from '../screens/AddressList';
 
 
 // https://github.com/react-community/react-navigation/issues/1254
@@ -62,6 +63,14 @@ const AppStack = StackNavigator({
   OrderPlace: {
     screen: OrderPlaceScreen,
     key: 'OrderPlaceScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  AddressList: {
+    screen: AddressListScreen,
+    key: 'AddressListScreen',
     navigationOptions: {
       header: null,
       gesturesEnabled: false,

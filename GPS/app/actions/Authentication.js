@@ -1,7 +1,8 @@
 
 import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
   productListUrl, orderPlaceUrl, driverWareHouseList,
-  driverOrderListUrl, reserveOrderURl, sendDriverLocationToserverURl } from '../api/urls';
+  driverOrderListUrl, reserveOrderURl, sendDriverLocationToserverURl,
+  addressListUrl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -45,6 +46,9 @@ export const DRIVER_LOCATION_REQUEST = 'DRIVER_LOCATION_REQUEST';
 export const DRIVER_LOCATION_SUCCESS = 'DRIVER_LOCATION_SUCCESS';
 export const DRIVER_LOCATION_FAILURE = 'DRIVER_LOCATION_FAILURE';
 
+export const ADDRESS_LIST_REQUEST = 'ADDRESS_LIST_REQUEST';
+export const ADDRESS_LIST_SUCCESS = 'ADDRESS_LIST_SUCCESS';
+export const ADDRESS_LIST_FAILURE = 'ADDRESS_LIST_FAILURE';
 
 export const userLoginRequest = (email, password, type) => {
   const url = loginUrl(email, password, type);
@@ -124,7 +128,6 @@ export const driverOrderListRequest = (lat, lng, warehouseid) => {
 
 export const reserveOrderRequest = (driverid, orderids, warehouseid) => {
   const url = reserveOrderURl(driverid, orderids, warehouseid);
-  console.log('******* reserveOrderRequest', url);
   return postApiAction({
     types: [RESERVE_ORDER_REQUEST, RESERVE_ORDER_SUCCESS, RESERVE_ORDER_FAILURE],
     url,
@@ -133,10 +136,18 @@ export const reserveOrderRequest = (driverid, orderids, warehouseid) => {
 
 export const sendDriverLocationToserverRequest = (reserveID, lat, lng) => {
   const url = sendDriverLocationToserverURl(reserveID, lat, lng);
-  console.log('******* reserveOrderRequest', url, reserveID);
   return postApiAction({
     types: [DRIVER_LOCATION_REQUEST, DRIVER_LOCATION_SUCCESS, DRIVER_LOCATION_FAILURE],
     url,
   });
 };
 
+
+export const addressListRequest = (customerid) => {
+  const url = addressListUrl(customerid);
+  console.log('******* addressListUrl', url);
+  return postApiAction({
+    types: [ADDRESS_LIST_REQUEST, ADDRESS_LIST_SUCCESS, ADDRESS_LIST_FAILURE],
+    url,
+  });
+};
