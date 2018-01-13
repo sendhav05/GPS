@@ -7,23 +7,20 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
   TouchableOpacity,
   StyleSheet,
-  Image,
-  TextInput,
   Keyboard,
-  Dimensions,
 } from 'react-native';
-import { Provider } from 'react-redux';
-import { store } from '../../store';
-import runRootSaga from '../../sagas';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { connect } from 'react-redux';
 import ChooseAddress from './components/ChooseAddress';
 import UserActions from '../../actions';
-import { connect } from 'react-redux';
 import NavBar from '../../components/NavBar';
 import Images from '../../assets/images';
-
+import Loader from '../../components/Loader';
+import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
+import Utils from '../../utils/utils';
+import constant from '../../utils/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -37,7 +34,7 @@ class ChooseAddressView extends Component {
     super(props);
     this.state = {
       addLineOne: '',
-      addLineTwo: '',
+      state: '',
       chooseCity: '',
       pinCode: '',
       landMark: '',
@@ -45,21 +42,49 @@ class ChooseAddressView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-   
+    if (!nextProps.isLoading
+      && nextProps.updateAddressListResponse.response
+      && nextProps.updateAddressListResponse.status === 200) {
+      // && nextProps.updateAddressListResponse.response.status === 1) {
+      if (nextProps.updateAddressListResponse.response.message && typeof nextProps.updateAddressListResponse.response.message === 'string') {
+        showPopupAlert(nextProps.updateAddressListResponse.response.message);
+        const { goBack } = this.props.navigation;
+        goBack(null);
+        this.props.navigation.state.params.onAddAddress({ });
+        return;
+      }
+      showPopupAlert('Your order send successfully.');
+      const { goBack } = this.props.navigation;
+      goBack(null);
+    } else if (!nextProps.isLoading && nextProps.updateAddressListResponse.response
+      && (nextProps.updateAddressListResponse.status !== 200
+      || nextProps.updateAddressListResponse.response.status !== 1)) {
+      if (nextProps.updateAddressListResponse.response.message && typeof nextProps.updateAddressListResponse.response.message === 'string') {
+        showPopupAlert(nextProps.updateAddressListResponse.response.message);
+        return;
+      }
+      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
+    }
   }
 
   onBacnkPress() {
-    // const data = {
-    //   addLineOne: this.state.addLineOne,
-    //   addLineTwo: this.state.addLineTwo,
-    //   chooseCity: this.state.chooseCity,
-    //   pinCode: this.state.pinCode,
-    //   landMark: this.state.landMark,
-    // };
     const { goBack } = this.props.navigation;
     goBack(null);
-   // this.props.navigation.state.params.onSelectAddress({ data });
   }
+
+  onAddButtonPress() {
+    const utils = new Utils();
+    const type = 'add';
+    const customerid = this.props.navigation.state.params.customerid;
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        this.props.addAddressListRequest(type, this.state.chooseCity, this.state.pinCode, this.state.state, this.state.addLineOne, this.state.landmark, customerid);
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
+    });
+  }
+
 
   onEditOrderPress() {
     console.log('***** onEditOrderPress ');
@@ -69,8 +94,8 @@ class ChooseAddressView extends Component {
     this.setState({ addLineOne: value });
   }
 
-  updateAddLineTwo(value) {
-    this.setState({ addLineTwo: value });
+  updateState(value) {
+    this.setState({ state: value });
   }
 
   updateChooseCity(value) {
@@ -87,35 +112,46 @@ class ChooseAddressView extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <NavBar
-          leftMenuIcon={Images.backArrow}
-          leftMenuPress={() => this.onBacnkPress()}
-          title="Add a New Address"
-          isShowRightIcon={Boolean(false)}
-          rightMenuIcon={Images.editOder}
-          rightMenuPress={() => this.onEditOrderPress()}
-        />
-        <ChooseAddress
-          headerTitle="Default Address"
-          updateAddLineOne={addLineOne => this.updateAddLineOne(addLineOne)}
-          addLineOne={this.state.addLineOne}
-          updateAddLineTwo={addLineTwo => this.updateAddLineTwo(addLineTwo)}
-          addLineTwo={this.state.addLineTwo}
-          updateChooseCity={chooseCity => this.updateChooseCity(chooseCity)}
-          chooseCity={this.state.chooseCity}
-          updatePinCode={pinCode => this.updatePinCode(pinCode)}
-          pinCode={this.state.pinCode}
-          updateLandMark={landMark => this.updateLandMark(landMark)}
-          landMark={this.state.landMark}
-        />
-      </View>
+      <TouchableOpacity
+        activeOpacity={1}
+        style={{ flex: 1, justifyContent: 'center' }}
+        onPress={() => Keyboard.dismiss()}
+      >
+        <View style={styles.container}>
+          <KeyboardAwareScrollView>
+            <NavBar
+              leftMenuIcon={Images.backArrow}
+              leftMenuPress={() => this.onBacnkPress()}
+              title="Add a New Address"
+              isShowRightIcon={Boolean(false)}
+              rightMenuIcon={Images.editOder}
+              rightMenuPress={() => this.onEditOrderPress()}
+            />
+            <ChooseAddress
+              updateAddLineOne={addLineOne => this.updateAddLineOne(addLineOne)}
+              addLineOne={this.state.addLineOne}
+              updateState={state => this.updateState(state)}
+              state={this.state.state}
+              updateChooseCity={chooseCity => this.updateChooseCity(chooseCity)}
+              chooseCity={this.state.chooseCity}
+              updatePinCode={pinCode => this.updatePinCode(pinCode)}
+              pinCode={this.state.pinCode}
+              updateLandMark={landMark => this.updateLandMark(landMark)}
+              landMark={this.state.landMark}
+              onAddButtonPress={() => this.onAddButtonPress()}
+            />
+            {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
+          </KeyboardAwareScrollView>
+        </View>
+      </TouchableOpacity>
     );
   }
 }
 
 
 const mapStateToProps = state => ({
+  isLoading: state.addressList.isLoading,
+  updateAddressListResponse: state.addressList.updateAddressListResponse,
 });
 
 const mapDispatchToProps = () => UserActions;

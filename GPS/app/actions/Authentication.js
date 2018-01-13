@@ -2,7 +2,7 @@
 import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
   productListUrl, orderPlaceUrl, driverWareHouseList,
   driverOrderListUrl, reserveOrderURl, sendDriverLocationToserverURl,
-  addressListUrl } from '../api/urls';
+  addressListUrl, addAddressListUrl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -49,6 +49,10 @@ export const DRIVER_LOCATION_FAILURE = 'DRIVER_LOCATION_FAILURE';
 export const ADDRESS_LIST_REQUEST = 'ADDRESS_LIST_REQUEST';
 export const ADDRESS_LIST_SUCCESS = 'ADDRESS_LIST_SUCCESS';
 export const ADDRESS_LIST_FAILURE = 'ADDRESS_LIST_FAILURE';
+
+export const ADD_ADDRESS_LIST_REQUEST = 'ADD_ADDRESS_LIST_REQUEST';
+export const ADD_ADDRESS_LIST_SUCCESS = 'ADD_ADDRESS_LIST_SUCCESS';
+export const ADD_ADDRESS_LIST_FAILURE = 'ADD_ADDRESS_LIST_FAILURE';
 
 export const userLoginRequest = (email, password, type) => {
   const url = loginUrl(email, password, type);
@@ -148,6 +152,15 @@ export const addressListRequest = (customerid) => {
   console.log('******* addressListUrl', url);
   return postApiAction({
     types: [ADDRESS_LIST_REQUEST, ADDRESS_LIST_SUCCESS, ADDRESS_LIST_FAILURE],
+    url,
+  });
+};
+
+export const addAddressListRequest = (type, city, pincode, state, address, landmark, customerid) => {
+  const url = addAddressListUrl(type, city, pincode, state, address, landmark, customerid);
+  console.log('******* addAddressListUrl', url);
+  return postApiAction({
+    types: [ADD_ADDRESS_LIST_REQUEST, ADD_ADDRESS_LIST_SUCCESS, ADD_ADDRESS_LIST_FAILURE],
     url,
   });
 };

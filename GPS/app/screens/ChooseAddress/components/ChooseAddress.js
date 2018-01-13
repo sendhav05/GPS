@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
   cellView: {
     width,
     height: 250,
+    marginTop: 20,
     justifyContent: 'flex-start',
   },
   textInput: {
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
     height: 40,
     width: width - 30,
-    marginTop: 10,
+    marginTop: 15,
     fontSize: ButtonFontSize,
     color: BlueColor,
     borderWidth: 1,
@@ -48,17 +49,30 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 15,
   },
+  orderButton: {
+    backgroundColor: OrangeColor,
+    marginLeft: 15,
+    marginRight: 15,
+    height: 40,
+    width: width - 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 25,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '500',
+    backgroundColor: 'transparent',
+  },
 });
 
 const ChooseAddress = props => (
   <View style={styles.bodyView}>
-    <Text style={styles.headerText}>
-      {props.headerTitle}
-    </Text>
     <View style={styles.cellView}>
       <TextInput
         style={styles.textInput}
-        placeholder="Address Line 1"
+        placeholder="Address"
         placeholderTextColor={BlueColor}
         onChangeText={addLineOne => props.updateAddLineOne(addLineOne)}
         value={props.addLineOne}
@@ -68,20 +82,30 @@ const ChooseAddress = props => (
       />
       <TextInput
         style={styles.textInput}
-        placeholder="Address Line 1"
+        placeholder="Landmark"
         placeholderTextColor={BlueColor}
-        onChangeText={addLineTwo => props.updateAddLineTwo(addLineTwo)}
-        value={props.addLineTwo}
+        onChangeText={landMark => props.updateLandMark(landMark)}
+        value={props.landMark}
         underlineColorAndroid="transparent"
         autoCapitalize="characters"
         autoCorrect={Boolean(true)}
       />
       <TextInput
         style={styles.textInput}
-        placeholder="Choose City"
+        placeholder="City"
         placeholderTextColor={BlueColor}
         onChangeText={chooseCity => props.updateChooseCity(chooseCity)}
         value={props.chooseCity}
+        underlineColorAndroid="transparent"
+        autoCapitalize="characters"
+        autoCorrect={Boolean(true)}
+      />
+      <TextInput
+        style={styles.textInput}
+        placeholder="State"
+        placeholderTextColor={BlueColor}
+        onChangeText={state => props.updateState(state)}
+        value={props.state}
         underlineColorAndroid="transparent"
         autoCapitalize="characters"
         autoCorrect={Boolean(true)}
@@ -95,16 +119,16 @@ const ChooseAddress = props => (
         keyboardType="numeric"
         underlineColorAndroid="transparent"
       />
-      <TextInput
-        style={styles.textInput}
-        placeholder="Enter Land Mark"
-        placeholderTextColor={BlueColor}
-        onChangeText={landMark => props.updateLandMark(landMark)}
-        value={props.landMark}
-        underlineColorAndroid="transparent"
-        autoCapitalize="characters"
-        autoCorrect={Boolean(true)}
-      />
+    </View>
+    <View style={{ flex: 1, marginTop: 50 }}>
+      <TouchableOpacity
+        style={styles.orderButton}
+        onPress={() => props.onAddButtonPress()}
+      >
+        <Text style={styles.buttonText}>
+          Add Address
+        </Text>
+      </TouchableOpacity>
     </View>
   </View>
 );

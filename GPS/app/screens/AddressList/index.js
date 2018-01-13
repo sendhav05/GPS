@@ -106,9 +106,22 @@ class AddressListView extends Component {
 
   }
 
+  onAddAddress() {
+    console.log('************* asa');
+    const utils = new Utils();
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        this.props.addressListRequest(this.props.navigation.state.params.customerid);
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
+    });
+    this.reloadAddressData();
+  }
+
   onAddNewAddressPress() {
     const { navigate } = this.props.navigation;
-    navigate('ChooseAddress', { customerid: this.props.navigation.state.params.customerid });
+    navigate('ChooseAddress', { customerid: this.props.navigation.state.params.customerid, onAddAddress: this.onAddAddress });
   }
 
   getRenderRow(item) {

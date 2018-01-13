@@ -236,3 +236,20 @@ export const addressListUrl = (customerid) => {
   }
   return url;
 };
+
+export const addAddressListUrl = (type, city, pincode, state, address, landmark, customerid) => {
+  const url = `${getBaseUrl}/customer/deliveryAddress`;
+  let param = '';
+  if (type) { if (param) { param = `${param}&`; } param = `${param}type=${type}`; }
+  if (city) { if (param) { param = `${param}&`; } param = `${param}city=${city}`; }
+  if (pincode) { if (param) { param = `${param}&`; } param = `${param}pin_code=${pincode}`; }
+  if (state) { if (param) { param = `${param}&`; } param = `${param}state=${state}`; }
+  if (address) { if (param) { param = `${param}&`; } param = `${param}address=${address}`; }
+  if (landmark) { if (param) { param = `${param}&`; } param = `${param}landmark=${landmark}`; }
+  if (customerid) { if (param) { param = `${param}&`; } param = `${param}customer_id=${customerid}`; }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
