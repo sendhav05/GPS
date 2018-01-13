@@ -2,7 +2,7 @@
 import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
   productListUrl, orderPlaceUrl, driverWareHouseList,
   driverOrderListUrl, reserveOrderURl, sendDriverLocationToserverURl,
-  addressListUrl, addAddressListUrl } from '../api/urls';
+  addressListUrl, addAddressListUrl, deleteAddressListUrl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -53,6 +53,12 @@ export const ADDRESS_LIST_FAILURE = 'ADDRESS_LIST_FAILURE';
 export const ADD_ADDRESS_LIST_REQUEST = 'ADD_ADDRESS_LIST_REQUEST';
 export const ADD_ADDRESS_LIST_SUCCESS = 'ADD_ADDRESS_LIST_SUCCESS';
 export const ADD_ADDRESS_LIST_FAILURE = 'ADD_ADDRESS_LIST_FAILURE';
+
+export const DELETE_ADDRESS_LIST_REQUEST = 'DELETE_ADDRESS_LIST_REQUEST';
+export const DELETE_ADDRESS_LIST_SUCCESS = 'DELETE_ADDRESS_LIST_SUCCESS';
+export const DELETE_ADDRESS_LIST_FAILURE = 'DELETE_ADDRESS_LIST_FAILURE';
+
+export const RESET_ADDRESS_DATA = 'RESET_ADDRESS_DATA';
 
 export const userLoginRequest = (email, password, type) => {
   const url = loginUrl(email, password, type);
@@ -156,11 +162,24 @@ export const addressListRequest = (customerid) => {
   });
 };
 
-export const addAddressListRequest = (type, city, pincode, state, address, landmark, customerid) => {
-  const url = addAddressListUrl(type, city, pincode, state, address, landmark, customerid);
-  console.log('******* addAddressListUrl', url);
+export const addAddressListRequest = (type, city, pincode, state, address, landmark, customerid, deliveryid) => {
+  const url = addAddressListUrl(type, city, pincode, state, address, landmark, customerid, deliveryid);
+  console.log('******* addAddressListUrl', url, landmark);
   return postApiAction({
     types: [ADD_ADDRESS_LIST_REQUEST, ADD_ADDRESS_LIST_SUCCESS, ADD_ADDRESS_LIST_FAILURE],
     url,
   });
 };
+
+export const deleteAddressListRequest = (deliveryid) => {
+  const url = deleteAddressListUrl('delete', deliveryid);
+  console.log('******* deleteAddressListUrl', url);
+  return postApiAction({
+    types: [DELETE_ADDRESS_LIST_REQUEST, DELETE_ADDRESS_LIST_SUCCESS, DELETE_ADDRESS_LIST_FAILURE],
+    url,
+  });
+};
+
+export const resetAddressData = () => ({
+  type: RESET_ADDRESS_DATA,
+});

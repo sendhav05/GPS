@@ -84,8 +84,8 @@ const ChooseAddress = props => (
         style={styles.textInput}
         placeholder="Landmark"
         placeholderTextColor={BlueColor}
-        onChangeText={landMark => props.updateLandMark(landMark)}
-        value={props.landMark}
+        onChangeText={landmark => props.updateLandMark(landmark)}
+        value={props.landmark}
         underlineColorAndroid="transparent"
         autoCapitalize="characters"
         autoCorrect={Boolean(true)}

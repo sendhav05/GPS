@@ -237,7 +237,7 @@ export const addressListUrl = (customerid) => {
   return url;
 };
 
-export const addAddressListUrl = (type, city, pincode, state, address, landmark, customerid) => {
+export const addAddressListUrl = (type, city, pincode, state, address, landmark, customerid, deliveryid) => {
   const url = `${getBaseUrl}/customer/deliveryAddress`;
   let param = '';
   if (type) { if (param) { param = `${param}&`; } param = `${param}type=${type}`; }
@@ -247,9 +247,24 @@ export const addAddressListUrl = (type, city, pincode, state, address, landmark,
   if (address) { if (param) { param = `${param}&`; } param = `${param}address=${address}`; }
   if (landmark) { if (param) { param = `${param}&`; } param = `${param}landmark=${landmark}`; }
   if (customerid) { if (param) { param = `${param}&`; } param = `${param}customer_id=${customerid}`; }
+  if (deliveryid) { if (param) { param = `${param}&`; } param = `${param}delivery_id=${deliveryid}`; }
 
   if (param) {
     return `${url}?${param}`;
   }
   return url;
 };
+
+export const deleteAddressListUrl = (type, deliveryid) => {
+  const url = `${getBaseUrl}/customer/deliveryAddress`;
+  let param = '';
+  if (type) { if (param) { param = `${param}&`; } param = `${param}type=${type}`; }
+  if (deliveryid) { if (param) { param = `${param}&`; } param = `${param}delivery_id=${deliveryid}`; }
+
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
+

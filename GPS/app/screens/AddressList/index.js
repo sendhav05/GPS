@@ -3,6 +3,7 @@
  * https://github.com/facebook/react-native
  * @flow
  */
+/* eslint-disable react/sort-comp, react/prop-types */
 
 import React, { Component } from 'react';
 import {
@@ -19,6 +20,8 @@ import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
 
 let selectedAddress = {};
+let customerid = '';
+let isLoadFirstTime = true;
 
 class AddressListView extends Component {
   constructor(props) {
@@ -27,20 +30,16 @@ class AddressListView extends Component {
       dataArray: [],
       isUpdate: false,
     };
+    this.onAddAddress = this.onAddAddress.bind(this);
   }
 
   componentDidMount() {
-    const utils = new Utils();
-    utils.checkInternetConnectivity((reach) => {
-      if (reach) {
-        this.props.addressListRequest(this.props.navigation.state.params.customerid);
-      } else {
-        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
-      }
-    });
+    customerid = this.props.navigation.state.params.customerid;
+    this.reloadAddressData();
   }
 
   componentWillReceiveProps(nextProps) {
+    this.handleDeleteAddressData(nextProps);
     if (!nextProps.isLoading
       && nextProps.addressListResponse.response
       && nextProps.addressListResponse.status === 200) {
@@ -62,7 +61,11 @@ class AddressListView extends Component {
         }
         this.setState({ dataArray: items });
       } else {
-        showPopupAlert(constant.EMPTY_RECORD_MESSAGE);
+        this.setState({ dataArray: [] });
+        if (isLoadFirstTime) {
+          showPopupAlert(constant.EMPTY_RECORD_MESSAGE);
+          isLoadFirstTime = false;
+        }
       }
     } else if (!nextProps.isLoading && nextProps.addressListResponse.response
       && (nextProps.addressListResponse.status !== 200
@@ -75,9 +78,44 @@ class AddressListView extends Component {
     }
   }
 
+  handleDeleteAddressData(nextProps) {
+    if (!nextProps.isLoading
+      && nextProps.deleteAddressListResponse.response
+      && nextProps.deleteAddressListResponse.status === 200) {
+      // && nextProps.deleteAddressListResponse.response.status === 1) {
+      if (nextProps.deleteAddressListResponse.response.message && typeof nextProps.deleteAddressListResponse.response.message === 'string') {
+        showPopupAlert(nextProps.deleteAddressListResponse.response.message);
+        this.props.resetAddressData();
+        this.reloadAddressData();
+        return;
+      }
+      showPopupAlert('Your order send successfully.');
+      const { goBack } = this.props.navigation;
+      goBack(null);
+    } else if (!nextProps.isLoading && nextProps.deleteAddressListResponse.response
+      && (nextProps.deleteAddressListResponse.status !== 200
+      || nextProps.deleteAddressListResponse.response.status !== 1)) {
+      if (nextProps.deleteAddressListResponse.response.message && typeof nextProps.deleteAddressListResponse.response.message === 'string') {
+        showPopupAlert(nextProps.deleteAddressListResponse.response.message);
+        return;
+      }
+      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
+    }
+  }
+
+  reloadAddressData() {
+    const utils = new Utils();
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        this.props.addressListRequest(this.props.navigation.state.params.customerid);
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
+    });
+  }
+
   onCellSelectionPress(selectedItem) {
     selectedAddress = selectedItem;
-    console.log('*****  1 ', selectedAddress);
 
     const someArray = this.state.dataArray;
     const allAddList = someArray.slice(0);
@@ -100,23 +138,23 @@ class AddressListView extends Component {
   }
 
   onEditPress(selectedItem) {
+    const { navigate } = this.props.navigation;
+    navigate('ChooseAddress', { customerid: this.props.navigation.state.params.customerid, onAddAddress: this.onAddAddress, isEdit: true, selectedAddress });
   }
 
   onDeletePress(selectedItem) {
-
-  }
-
-  onAddAddress() {
-    console.log('************* asa');
     const utils = new Utils();
     utils.checkInternetConnectivity((reach) => {
       if (reach) {
-        this.props.addressListRequest(this.props.navigation.state.params.customerid);
+        this.props.deleteAddressListRequest(selectedItem.delivery_id);
       } else {
         showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
       }
     });
-    this.reloadAddressData();
+  }
+
+  onAddAddress() {
+    this.props.addressListRequest(customerid);
   }
 
   onAddNewAddressPress() {
@@ -168,6 +206,7 @@ class AddressListView extends Component {
 const mapStateToProps = state => ({
   isLoading: state.addressList.isLoading,
   addressListResponse: state.addressList.addressListResponse,
+  deleteAddressListResponse: state.addressList.deleteAddressListResponse,
 });
 
 const mapDispatchToProps = () => UserActions;

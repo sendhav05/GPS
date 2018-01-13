@@ -32,12 +32,14 @@ const styles = StyleSheet.create({
 class ChooseAddressView extends Component {
   constructor(props) {
     super(props);
+    const isFromEdit = this.props.navigation.state.params.isEdit;
+    const selectedAddress = this.props.navigation.state.params.selectedAddress;
     this.state = {
-      addLineOne: '',
-      state: '',
-      chooseCity: '',
-      pinCode: '',
-      landMark: '',
+      addLineOne: isFromEdit ? selectedAddress.address : '',
+      state: isFromEdit ? selectedAddress.state : '',
+      chooseCity: isFromEdit ? selectedAddress.city : '',
+      pinCode: isFromEdit ? selectedAddress.pin_code : '',
+      landmark: isFromEdit ? selectedAddress.landmark : '',
     };
   }
 
@@ -47,13 +49,16 @@ class ChooseAddressView extends Component {
       && nextProps.updateAddressListResponse.status === 200) {
       // && nextProps.updateAddressListResponse.response.status === 1) {
       if (nextProps.updateAddressListResponse.response.message && typeof nextProps.updateAddressListResponse.response.message === 'string') {
+        console.log('@@@@@@@@@@@@@@ 1');
+
         showPopupAlert(nextProps.updateAddressListResponse.response.message);
         const { goBack } = this.props.navigation;
         goBack(null);
+        this.props.resetAddressData();
         this.props.navigation.state.params.onAddAddress({ });
         return;
       }
-      showPopupAlert('Your order send successfully.');
+      showPopupAlert('Update address successfully.');
       const { goBack } = this.props.navigation;
       goBack(null);
     } else if (!nextProps.isLoading && nextProps.updateAddressListResponse.response
@@ -61,6 +66,7 @@ class ChooseAddressView extends Component {
       || nextProps.updateAddressListResponse.response.status !== 1)) {
       if (nextProps.updateAddressListResponse.response.message && typeof nextProps.updateAddressListResponse.response.message === 'string') {
         showPopupAlert(nextProps.updateAddressListResponse.response.message);
+        console.log('@@@@@@@@@@@@@@ 2');
         return;
       }
       showPopupAlert(constant.SERVER_ERROR_MESSAGE);
@@ -73,12 +79,23 @@ class ChooseAddressView extends Component {
   }
 
   onAddButtonPress() {
+    console.log('******* this.state.landmark', this.state.landmark);
+
     const utils = new Utils();
-    const type = 'add';
-    const customerid = this.props.navigation.state.params.customerid;
+    const isFromEdit = this.props.navigation.state.params.isEdit;
+    let customerid = this.props.navigation.state.params.customerid;
+    let deliverid = '';
+    let type = '';
+    if (isFromEdit) {
+      type = 'edit';
+      deliverid = this.props.navigation.state.params.selectedAddress.delivery_id;
+    } else {
+      type = 'add';
+      deliverid = '';
+    }
     utils.checkInternetConnectivity((reach) => {
       if (reach) {
-        this.props.addAddressListRequest(type, this.state.chooseCity, this.state.pinCode, this.state.state, this.state.addLineOne, this.state.landmark, customerid);
+        this.props.addAddressListRequest(type, this.state.chooseCity, this.state.pinCode, this.state.state, this.state.addLineOne, this.state.landmark, customerid, deliverid);
       } else {
         showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
       }
@@ -107,7 +124,7 @@ class ChooseAddressView extends Component {
   }
 
   updateLandMark(value) {
-    this.setState({ landMark: value });
+    this.setState({ landmark: value });
   }
 
   render() {
@@ -136,8 +153,8 @@ class ChooseAddressView extends Component {
               chooseCity={this.state.chooseCity}
               updatePinCode={pinCode => this.updatePinCode(pinCode)}
               pinCode={this.state.pinCode}
-              updateLandMark={landMark => this.updateLandMark(landMark)}
-              landMark={this.state.landMark}
+              updateLandMark={landmark => this.updateLandMark(landmark)}
+              landmark={this.state.landmark}
               onAddButtonPress={() => this.onAddButtonPress()}
             />
             {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}

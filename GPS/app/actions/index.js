@@ -13,7 +13,9 @@ import { userLoginRequest,
   reserveOrderRequest,
   sendDriverLocationToserverRequest,
   addressListRequest,
-  addAddressListRequest }
+  addAddressListRequest,
+  deleteAddressListRequest,
+  resetAddressData }
   from './Authentication';
 
 const actions = {
@@ -30,6 +32,8 @@ const actions = {
   sendDriverLocationToserverRequest,
   addressListRequest,
   addAddressListRequest,
+  deleteAddressListRequest,
+  resetAddressData,
 };
 
 export default bindActionCreators(actions, store.dispatch);
