@@ -2,7 +2,8 @@
 import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
   productListUrl, orderPlaceUrl, driverWareHouseList,
   driverOrderListUrl, reserveOrderURl, sendDriverLocationToserverURl,
-  addressListUrl, addAddressListUrl, deleteAddressListUrl } from '../api/urls';
+  addressListUrl, addAddressListUrl, deleteAddressListUrl,
+  orderPutBackUrl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -57,6 +58,11 @@ export const ADD_ADDRESS_LIST_FAILURE = 'ADD_ADDRESS_LIST_FAILURE';
 export const DELETE_ADDRESS_LIST_REQUEST = 'DELETE_ADDRESS_LIST_REQUEST';
 export const DELETE_ADDRESS_LIST_SUCCESS = 'DELETE_ADDRESS_LIST_SUCCESS';
 export const DELETE_ADDRESS_LIST_FAILURE = 'DELETE_ADDRESS_LIST_FAILURE';
+
+export const ORDER_PUT_BACK_REQUEST = 'ORDER_PUT_BACK_REQUEST';
+export const ORDER_PUT_BACK_SUCCESS = 'ORDER_PUT_BACK_SUCCESS';
+export const ORDER_PUT_BACK_FAILURE = 'ORDER_PUT_BACK_FAILURE';
+
 
 export const RESET_ADDRESS_DATA = 'RESET_ADDRESS_DATA';
 
@@ -183,3 +189,13 @@ export const deleteAddressListRequest = (deliveryid) => {
 export const resetAddressData = () => ({
   type: RESET_ADDRESS_DATA,
 });
+
+export const orderPutBackRequest = (orderids) => {
+  const url = orderPutBackUrl(orderids);
+  return postApiAction({
+    types: [ORDER_PUT_BACK_REQUEST, ORDER_PUT_BACK_SUCCESS, ORDER_PUT_BACK_FAILURE],
+    url,
+  });
+};
+
+

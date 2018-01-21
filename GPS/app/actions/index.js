@@ -15,7 +15,8 @@ import { userLoginRequest,
   addressListRequest,
   addAddressListRequest,
   deleteAddressListRequest,
-  resetAddressData }
+  resetAddressData,
+  orderPutBackRequest }
   from './Authentication';
 
 const actions = {
@@ -34,6 +35,7 @@ const actions = {
   addAddressListRequest,
   deleteAddressListRequest,
   resetAddressData,
+  orderPutBackRequest,
 };
 
 export default bindActionCreators(actions, store.dispatch);

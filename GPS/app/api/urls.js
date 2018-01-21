@@ -268,3 +268,18 @@ export const deleteAddressListUrl = (type, deliveryid) => {
   return url;
 };
 
+export const orderPutBackUrl = (orderids) => {
+  const url = `${getBaseUrl}/order/orderPutBack`;
+  let param = '';
+  if (orderids) {
+    if (param) {
+      param = `${param}&`;
+    }
+    param = `order_ids=${orderids}`;
+  }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};

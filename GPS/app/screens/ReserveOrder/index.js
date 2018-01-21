@@ -26,7 +26,7 @@ class OrderPlaceView extends Component {
       currentSecond: '60',
     };
   }
-
+orderPutBackRequest
   componentDidMount() {
     const utils = new Utils();
     utils.getDriverID((response) => {
@@ -102,6 +102,26 @@ class OrderPlaceView extends Component {
     if (this.state.currentSecond <= 0) {
       showPopupAlert('Your order is passed to other driver.');
       clearInterval(timerId);
+
+      const navigationParams = this.props.navigation.state.params;
+      let orderids = '';
+      const datas = [];
+      for (let i = 0; i < navigationParams.confirmOrders.length; i++) {
+        datas.push(navigationParams.confirmOrders[i].id);
+      }
+      orderids = datas.toString();
+      const utils = new Utils();
+      utils.checkInternetConnectivity((reach) => {
+        if (reach) {
+          this.props.orderPutBackRequest(orderids);
+        } else {
+          showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+        }
+      });
+      setTimeout(() => {
+        this.props.navigation.goBack(null);
+        this.props.navigation.goBack(null);
+      }, 50);
     } else {
       const decreasedValue = Number(this.state.currentSecond) - 1;
       this.setState({ currentSecond: decreasedValue });
