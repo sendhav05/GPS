@@ -94,7 +94,7 @@ const CustomerOrder = props => (
         style={styles.flatListStyle}
         data={props.leftMenuItems}
         renderItem={data => props.getRenderRow(data)}
-        keyExtractor={item => item.name}
+        keyExtractor={item => item.order_id}
       />
     </View>
   </View>

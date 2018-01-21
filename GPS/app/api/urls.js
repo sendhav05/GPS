@@ -283,3 +283,35 @@ export const orderPutBackUrl = (orderids) => {
   }
   return url;
 };
+
+export const cutomerCompleteOrdersUrl = (customerid) => {
+  const url = `${getBaseUrl}/order/cutomerCompleteOrders`;
+  let param = '';
+  if (customerid) {
+    if (param) {
+      param = `${param}&`;
+    }
+    param = `customer_id=${customerid}`;
+  }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
+
+export const cutomerPendingOrdersURl = (customerid) => {
+  const url = `${getBaseUrl}/order/cutomerPendingOrders`;
+  let param = '';
+  if (customerid) {
+    if (param) {
+      param = `${param}&`;
+    }
+    param = `customer_id=${customerid}`;
+  }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};

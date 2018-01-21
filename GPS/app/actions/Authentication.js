@@ -3,7 +3,7 @@ import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
   productListUrl, orderPlaceUrl, driverWareHouseList,
   driverOrderListUrl, reserveOrderURl, sendDriverLocationToserverURl,
   addressListUrl, addAddressListUrl, deleteAddressListUrl,
-  orderPutBackUrl } from '../api/urls';
+  orderPutBackUrl, cutomerPendingOrdersURl, cutomerCompleteOrdersUrl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -62,6 +62,14 @@ export const DELETE_ADDRESS_LIST_FAILURE = 'DELETE_ADDRESS_LIST_FAILURE';
 export const ORDER_PUT_BACK_REQUEST = 'ORDER_PUT_BACK_REQUEST';
 export const ORDER_PUT_BACK_SUCCESS = 'ORDER_PUT_BACK_SUCCESS';
 export const ORDER_PUT_BACK_FAILURE = 'ORDER_PUT_BACK_FAILURE';
+
+export const CUSTOMER_COM_ORDER_REQUEST = 'CUSTOMER_COM_ORDER_REQUEST';
+export const CUSTOMER_COM_ORDER_SUCCESS = 'CUSTOMER_COM_ORDER_SUCCESS';
+export const CUSTOMER_COM_ORDER_FAILURE = 'CUSTOMER_COM_ORDER_FAILURE';
+
+export const CUSTOMER_PEN_ORDER_REQUEST = 'CUSTOMER_PEN_ORDER_REQUEST';
+export const CUSTOMER_PEN_ORDER_SUCCESS = 'CUSTOMER_PEN_ORDER_SUCCESS';
+export const CUSTOMER_PEN_ORDER_FAILURE = 'CUSTOMER_PEN_ORDER_FAILURE';
 
 
 export const RESET_ADDRESS_DATA = 'RESET_ADDRESS_DATA';
@@ -198,4 +206,18 @@ export const orderPutBackRequest = (orderids) => {
   });
 };
 
+export const cutomerPendingOrdersRequest = (customerid) => {
+  const url = cutomerPendingOrdersURl(customerid);
+  return postApiAction({
+    types: [CUSTOMER_PEN_ORDER_REQUEST, CUSTOMER_PEN_ORDER_SUCCESS, CUSTOMER_PEN_ORDER_FAILURE],
+    url,
+  });
+};
 
+export const cutomerCompleteOrdersRequest = (customerid) => {
+  const url = cutomerCompleteOrdersUrl(customerid);
+  return postApiAction({
+    types: [CUSTOMER_COM_ORDER_REQUEST, CUSTOMER_COM_ORDER_SUCCESS, CUSTOMER_COM_ORDER_FAILURE],
+    url,
+  });
+};

@@ -18,13 +18,13 @@ const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   bodyView: {
+    flex: 1,
     width,
-    height: 200,
     justifyContent: 'flex-start',
   },
   cellView: {
     width,
-    height: 250,
+    flex: 1,
     marginTop: 20,
     justifyContent: 'flex-start',
   },

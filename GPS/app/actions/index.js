@@ -16,7 +16,9 @@ import { userLoginRequest,
   addAddressListRequest,
   deleteAddressListRequest,
   resetAddressData,
-  orderPutBackRequest }
+  orderPutBackRequest,
+  cutomerPendingOrdersRequest,
+  cutomerCompleteOrdersRequest }
   from './Authentication';
 
 const actions = {
@@ -36,6 +38,8 @@ const actions = {
   deleteAddressListRequest,
   resetAddressData,
   orderPutBackRequest,
+  cutomerPendingOrdersRequest,
+  cutomerCompleteOrdersRequest,
 };
 
 export default bindActionCreators(actions, store.dispatch);
