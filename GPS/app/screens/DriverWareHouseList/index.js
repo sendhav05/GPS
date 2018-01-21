@@ -56,7 +56,13 @@ class WareHouseView extends Component {
       && nextProps.driverWareHouseResponse.status === 200) {
       // && nextProps.driverWareHouseResponse.response.status === 1) {
       if (nextProps.driverWareHouseResponse.response.data.length > 0) {
-        this.setState({ dataArray: nextProps.driverWareHouseResponse.response.data });
+        let arrayDatas = nextProps.driverWareHouseResponse.response.data;
+        if (arrayDatas.length > 0) {
+          arrayDatas.sort(function(obj1, obj2) {
+            return obj1.distance - obj2.distance;
+          });
+        }
+        this.setState({ dataArray: arrayDatas });
       } else {
         showPopupAlert(constant.EMPTY_RECORD_MESSAGE);
       }
@@ -69,6 +75,15 @@ class WareHouseView extends Component {
       }
       showPopupAlert(constant.SERVER_ERROR_MESSAGE);
     }
+  }
+
+  compare(a,b) {
+    console.log('********** data aaa', a, a.distance);
+    if (a.distance < b.distance)
+      return -1;
+    if (a.distance > b.distance)
+      return 1;
+    return 0;
   }
 
   onRegionChange(region) {
