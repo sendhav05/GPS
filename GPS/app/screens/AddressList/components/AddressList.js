@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   bodyView: {
     flex: 1,
     width,
-    marginTop: 10,
+    marginBottom: 70,
   },
   headerView: {
     height: 40,
@@ -60,6 +60,30 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     backgroundColor: 'transparent',
   },
+  orderButton: {
+    backgroundColor: OrangeColor,
+    marginLeft: 40,
+    marginRight: 40,
+    marginTop: 15,
+    marginBottom: 30,
+    height: 40,
+    width: width - 80,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 25,
+  },
+  redButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '500',
+    backgroundColor: 'transparent',
+  },
+  bottomButtonView: {
+    flex: 1,
+    position: 'absolute',
+    bottom: 10,
+    height: 60,
+  },
 });
 
 const AddressList = props => (
@@ -68,7 +92,7 @@ const AddressList = props => (
       leftMenuIcon={Images.backArrow}
       leftMenuPress={() => props.onBacnkPress()}
       title="Select a delivery address"
-      isShowRightIcon={Boolean(true)}
+      isShowRightIcon={Boolean(false)}
       rightMenuIcon={Images.addIcon}
       rightMenuPress={() => props.onAddNewAddressPress()}
     />
@@ -80,6 +104,16 @@ const AddressList = props => (
         renderItem={data => props.getRenderRow(data)}
         keyExtractor={item => item.delivery_id}
       />
+    </View>
+    <View style={styles.bottomButtonView}>
+      <TouchableOpacity
+        style={styles.orderButton}
+        onPress={() => props.onAddNewAddressPress()}
+      >
+        <Text style={styles.redButtonText}>
+          Add New Delivery Address
+        </Text>
+      </TouchableOpacity>
     </View>
   </View>
 );
