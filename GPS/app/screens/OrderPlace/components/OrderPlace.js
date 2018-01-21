@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 161,
-    height: 169,
+    width: 130,
+    height: 138,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: brownOrangeColor,
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
   bodyView: {
     flex: 1,
-    marginTop: 20,
+    marginTop: 5,
     width,
     height: 200,
     justifyContent: 'flex-start',
@@ -193,7 +193,7 @@ const CustomerHome = props => (
             </Text>
           </View>
         </TouchableOpacity>
-        <View style={{ flex: 1, marginTop: 20 }}>
+        <View style={{ flex: 1 }}>
           <TouchableOpacity
             style={styles.orderButton}
             onPress={() => props.onOrderPress()}
