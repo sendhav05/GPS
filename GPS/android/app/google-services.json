@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "345551306385",
+    "firebase_url": "https://gpst-af780.firebaseio.com",
+    "project_id": "gpst-af780",
+    "storage_bucket": "gpst-af780.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345551306385:android:3070a875adf47811",
+        "android_client_info": {
+          "package_name": "com.gps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345551306385-dplk2ag12a17ad7gcnf7onti0in7isig.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGkR5Fw2hHZgE9dTztjr9v269JMfkbuCo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
