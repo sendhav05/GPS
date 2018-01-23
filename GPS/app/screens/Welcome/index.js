@@ -5,10 +5,36 @@
  */
 
 import React, { Component } from 'react';
+import {
+  Platform,
+  AsyncStorage,
+} from 'react-native';
 import { connect } from 'react-redux';
 import Welcome from './components/Welcome';
 import UserActions from '../../actions';
 import Utils from '../../utils/utils';
+import NotificationsIOS, { NotificationsAndroid } from 'react-native-notifications';
+
+// Android Push Notification Screen
+let mainScreen;
+
+function onPushRegistered(deviceToken) {
+  if (mainScreen) {
+    mainScreen.onPushRegistered(deviceToken);
+  }
+}
+
+function onNotificationOpened(notification) {
+  if (mainScreen) {
+    mainScreen.onNotificationOpened(notification);
+  }
+}
+
+if (Platform.OS === 'android') {
+  NotificationsAndroid.setRegistrationTokenUpdateListener(onPushRegistered);
+  NotificationsAndroid.setNotificationOpenedListener(onNotificationOpened);
+}
+
 
 class App extends Component {
   constructor(props) {
@@ -17,10 +43,15 @@ class App extends Component {
       emailPhoneNumber: '',
       password: '',
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-   
+    // Push Notification
+    if (Platform.OS === 'android') {
+      mainScreen = this;
+    } else {
+      NotificationsIOS.addEventListener('remoteNotificationsRegistered', this.onPushRegistered.bind(this));
+      NotificationsIOS.requestPermissions();
+      NotificationsIOS.consumeBackgroundQueue();
+      NotificationsIOS.addEventListener('notificationOpened', this.onNotificationOpened.bind(this));
+    }
   }
 
   onForgotPassowrdPress() {
@@ -47,6 +78,22 @@ class App extends Component {
 
   updatePassword(value) {
     this.setState({ password: value });
+  }
+
+  // iOS Push Notification Method
+  onPushRegistered(deviceToken) {
+    console.log('Device Token Received', deviceToken);
+    AsyncStorage.setItem('DEVICE_TOKEN_PN', JSON.stringify(deviceToken));
+  }
+
+  onNotificationOpened(notification) {
+    const apsData = notification.getData();
+    console.log('notification  apsData', apsData);
+    AsyncStorage.setItem('INVITATION_SCREEN_OPEN', JSON.stringify(true));
+    // const apsData = notification.getData();
+    // if (apsData && apsData.screnName === strings.InvitationScreen) {
+    //   AsyncStorage.setItem('INVITATION_SCREEN_OPEN', JSON.stringify(true));
+    // }
   }
 
   render() {

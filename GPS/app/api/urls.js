@@ -6,7 +6,7 @@ export const authenticationUrl = () => {
 
 const getBaseUrl = 'http://itinformatix.com/gpsapi/index.php/api/';
 
-export const loginUrl = (email, password, type) => {
+export const loginUrl = (email, password, type, deviceToken, deviceType) => {
   const url = `${getBaseUrl}/login`;
   let param = '';
   if (email) {
@@ -27,6 +27,9 @@ export const loginUrl = (email, password, type) => {
     }
     param = `${param}type=${type}`;
   }
+  if (deviceToken) { if (param) { param = `${param}&`; } param = `${param}device_token=${deviceToken}`; }
+  if (deviceType) { if (param) { param = `${param}&`; } param = `${param}device_type=${deviceType}`; }
+
 
   if (param) {
     return `${url}?${param}`;

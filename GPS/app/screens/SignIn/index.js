@@ -8,6 +8,8 @@ import React, { Component } from 'react';
 import {
   View,
   Keyboard,
+  Platform,
+  AsyncStorage,
 } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -18,6 +20,8 @@ import constant from '../../utils/constants';
 import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
 
+const deviceType = (Platform.OS === 'android') ? 'A' : 'I';
+let deviceTokenData = '';
 
 class App extends Component {
   constructor(props) {
@@ -52,6 +56,20 @@ class App extends Component {
     }
   }
 
+  componentDidMount() {
+    console.log('***** componentDidMount ');
+
+    AsyncStorage.getItem('DEVICE_TOKEN_PN').then((deviceToken) => {
+      console.log('***** componentDidMount ', JSON.parse(deviceToken));
+
+      if (deviceToken && JSON.parse(deviceToken)) {
+        deviceTokenData = JSON.parse(deviceToken);
+        console.log('***** deviceTokenData ', deviceTokenData);
+
+      }
+    });
+  }
+
   onForgotPassowrdPress() {
     console.log('***** onForgotPassowrdPress ');
   }
@@ -63,7 +81,7 @@ class App extends Component {
       utils.checkInternetConnectivity((reach) => {
         if (reach) {
           const type = this.props.navigation.state.params.isFromCustomer ? 2 : 3;
-          this.props.userLoginRequest(this.state.emailPhoneNumber, this.state.password, type);
+          this.props.userLoginRequest(this.state.emailPhoneNumber, this.state.password, type, deviceTokenData, deviceType);
           Keyboard.dismiss();
         } else {
           showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);

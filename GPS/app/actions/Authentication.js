@@ -74,8 +74,9 @@ export const CUSTOMER_PEN_ORDER_FAILURE = 'CUSTOMER_PEN_ORDER_FAILURE';
 
 export const RESET_ADDRESS_DATA = 'RESET_ADDRESS_DATA';
 
-export const userLoginRequest = (email, password, type) => {
-  const url = loginUrl(email, password, type);
+export const userLoginRequest = (email, password, type, deviceToken, deviceType) => {
+  const url = loginUrl(email, password, type, deviceToken, deviceType);
+  console.log('******* userLoginRequest', url);
   return postApiAction({
     types: [USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGIN_FAILURE],
     url,
@@ -127,7 +128,6 @@ export const orderPlaceRequest = (
     city, address, landmark, paymentid, paymenttype, paymentstatus,
     totallamount, customerid, itemid, warehouseid,
   );
-  console.log('*******', url);
   return postApiAction({
     types: [ORDER_PLACE_REQUEST, ORDER_PLACE_SUCCESS, ORDER_PLACE_FAILURE],
     url,
@@ -169,7 +169,6 @@ export const sendDriverLocationToserverRequest = (reserveID, lat, lng) => {
 
 export const addressListRequest = (customerid) => {
   const url = addressListUrl(customerid);
-  console.log('******* addressListUrl', url);
   return postApiAction({
     types: [ADDRESS_LIST_REQUEST, ADDRESS_LIST_SUCCESS, ADDRESS_LIST_FAILURE],
     url,
@@ -178,7 +177,6 @@ export const addressListRequest = (customerid) => {
 
 export const addAddressListRequest = (type, city, pincode, state, address, landmark, customerid, deliveryid) => {
   const url = addAddressListUrl(type, city, pincode, state, address, landmark, customerid, deliveryid);
-  console.log('******* addAddressListUrl', url, landmark);
   return postApiAction({
     types: [ADD_ADDRESS_LIST_REQUEST, ADD_ADDRESS_LIST_SUCCESS, ADD_ADDRESS_LIST_FAILURE],
     url,
@@ -187,7 +185,6 @@ export const addAddressListRequest = (type, city, pincode, state, address, landm
 
 export const deleteAddressListRequest = (deliveryid) => {
   const url = deleteAddressListUrl('delete', deliveryid);
-  console.log('******* deleteAddressListUrl', url);
   return postApiAction({
     types: [DELETE_ADDRESS_LIST_REQUEST, DELETE_ADDRESS_LIST_SUCCESS, DELETE_ADDRESS_LIST_FAILURE],
     url,
