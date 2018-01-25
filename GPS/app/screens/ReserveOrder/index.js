@@ -168,7 +168,7 @@ orderPutBackRequest
         // showPopupAlert('Not Found Location.');
       }
     }, (error) => {
-      showPopupAlert(JSON.stringify(error));
+      //showPopupAlert(JSON.stringify(error));
     }, {
       enableHighAccuracy: false,
       timeout: 20000,

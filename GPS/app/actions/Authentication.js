@@ -128,6 +128,7 @@ export const orderPlaceRequest = (
     city, address, landmark, paymentid, paymenttype, paymentstatus,
     totallamount, customerid, itemid, warehouseid,
   );
+  console.log('********* order place', url);
   return postApiAction({
     types: [ORDER_PLACE_REQUEST, ORDER_PLACE_SUCCESS, ORDER_PLACE_FAILURE],
     url,

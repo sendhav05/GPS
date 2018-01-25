@@ -89,11 +89,6 @@ class App extends Component {
   onNotificationOpened(notification) {
     const apsData = notification.getData();
     console.log('notification  apsData', apsData);
-    AsyncStorage.setItem('INVITATION_SCREEN_OPEN', JSON.stringify(true));
-    // const apsData = notification.getData();
-    // if (apsData && apsData.screnName === strings.InvitationScreen) {
-    //   AsyncStorage.setItem('INVITATION_SCREEN_OPEN', JSON.stringify(true));
-    // }
   }
 
   render() {
