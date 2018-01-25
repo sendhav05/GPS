@@ -19,7 +19,7 @@
       android:theme="@style/AppTheme">
       <meta-data
       android:name="com.google.android.geo.API_KEY"
-      android:value="AIzaSyD34Akd5UEDB6djbf7g_LcJ4DJSGYUn0CI"/>
+      android:value="AIzaSyB3uJyoqOEf7zYbsUrhovzCyOSLfel3Ee4"/>
         <meta-data android:name="com.wix.reactnativenotifications.gcmSenderId" android:value="345551306385\0"/>
       <activity
         android:name=".MainActivity"
