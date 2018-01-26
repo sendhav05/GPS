@@ -38,7 +38,7 @@ const style = StyleSheet.create({
     color: 'black',
     marginLeft: 70,
     marginRight: 50,
-    marginTop: 8,
+    marginTop: 10,
     position: 'absolute',
 
   },
@@ -59,6 +59,28 @@ const style = StyleSheet.create({
     width,
     backgroundColor: 'black',
   },
+  countView: {
+    height: 20,
+    width: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 25,
+    marginLeft: 40,
+    backgroundColor: OrangeColor,
+    marginTop: 10
+
+  },
+  countText: {
+    width: 20,
+    height: 13,
+    color: 'white',
+    fontSize: 10,
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    backgroundColor: 'transparent',
+  },
 });
 
 const WareHouseListCell = props => (
@@ -72,6 +94,11 @@ const WareHouseListCell = props => (
         source={Images.locationIcon}
         style={style.profilePic}
       />
+      <View style={style.countView}>
+        <Text style={style.countText} >
+          {'10'}
+        </Text>
+      </View>
       <View style={style.callView}>
         <Image
           source={Images.callIcon}

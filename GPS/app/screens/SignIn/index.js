@@ -27,8 +27,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      emailPhoneNumber: '',
-      password: '',
+      emailPhoneNumber: 'D@gmail.com',
+      password: '123456',
     };
   }
 
