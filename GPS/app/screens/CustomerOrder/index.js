@@ -37,7 +37,8 @@ class CustomerOrderView extends Component {
       && nextProps.customerPendingOrdersResponse.status === 200) {
       // && nextProps.customerPendingOrdersResponse.response.status === 1) {
         isPendingOrderAPI = false;
-      if (nextProps.customerPendingOrdersResponse.response.data.length > 0) {
+      if (nextProps.customerPendingOrdersResponse
+        && nextProps.customerPendingOrdersResponse.response.data) {
         pedingOrders = nextProps.customerPendingOrdersResponse.response.data;
         this.setState({ orderList: nextProps.customerPendingOrdersResponse.response.data });
       } else {
@@ -62,7 +63,8 @@ class CustomerOrderView extends Component {
       && nextProps.customerCompleteOrdersResponse.status === 200) {
       // && nextProps.customerCompleteOrdersResponse.response.status === 1) {
         isCompleteOrderAPI = false;
-      if (nextProps.customerCompleteOrdersResponse.response.data.length > 0) {
+      if (nextProps.customerCompleteOrdersResponse
+        && nextProps.customerCompleteOrdersResponse.response.data) {
         completeOrders = nextProps.customerCompleteOrdersResponse.response.data;
       } else {
         showPopupAlert(constant.EMPTY_RECORD_MESSAGE);
