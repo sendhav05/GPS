@@ -23,6 +23,7 @@ import DriverOrderScreen from '../screens/DriverOrder';
 import OrderDetailScreen from '../screens/OrderDetail';
 import ReserveOrderScreen from '../screens/ReserveOrder';
 import AddressListScreen from '../screens/AddressList';
+import NotificationScreen from '../screens/Notification';
 
 
 // https://github.com/react-community/react-navigation/issues/1254
@@ -159,6 +160,7 @@ const DriverAppStack = StackNavigator({
 const DriverStack = DrawerNavigator({
   DriverWareHouseList: { screen: DriverAppStack },
   CustomerOrder: { screen: CustomerOrderScreen },
+  Notification: { screen: NotificationScreen },
 }, {
   gesturesEnabled: false,
   drawerWidth: Dimensions.get('window').width - (Platform.OS === 'android' ? 56 : 64),

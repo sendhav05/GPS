@@ -5,6 +5,9 @@
  */
 
 import React, { Component } from 'react';
+import {
+  View,
+} from 'react-native';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
 import runRootSaga from '../../sagas';
@@ -128,19 +131,22 @@ class CustomerOrderView extends Component {
 
   render() {
     return (
-      <CustomerOrder
-        onLeftMenuPress={() => this.onLeftMenuPress()}
-        onPendingOrderPress={() => this.onPendingOrderPress()}
-        onCompletedOrderPres={() => this.onCompletedOrderPres()}
-        getRenderRow={item => this.getRenderRow(item)}
-        leftMenuItems={this.state.orderList}
-      />
+      <View style={{ flex: 1 }}>
+        <CustomerOrder
+          onLeftMenuPress={() => this.onLeftMenuPress()}
+          onPendingOrderPress={() => this.onPendingOrderPress()}
+          onCompletedOrderPres={() => this.onCompletedOrderPres()}
+          getRenderRow={item => this.getRenderRow(item)}
+          leftMenuItems={this.state.orderList}
+        />
+      {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
+      </View>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  isLoading: state.product.isLoading,
+  isLoading: state.customerOrderStatus.isLoading,
   customerPendingOrdersResponse: state.customerOrderStatus.customerPendingOrdersResponse,
   customerCompleteOrdersResponse: state.customerOrderStatus.customerCompleteOrdersResponse,
 });

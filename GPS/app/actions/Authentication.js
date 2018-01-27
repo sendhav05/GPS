@@ -3,7 +3,8 @@ import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
   productListUrl, orderPlaceUrl, driverWareHouseList,
   driverOrderListUrl, reserveOrderURl, sendDriverLocationToserverURl,
   addressListUrl, addAddressListUrl, deleteAddressListUrl,
-  orderPutBackUrl, cutomerPendingOrdersURl, cutomerCompleteOrdersUrl } from '../api/urls';
+  orderPutBackUrl, cutomerPendingOrdersURl, cutomerCompleteOrdersUrl,
+  notificationUrl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -71,6 +72,9 @@ export const CUSTOMER_PEN_ORDER_REQUEST = 'CUSTOMER_PEN_ORDER_REQUEST';
 export const CUSTOMER_PEN_ORDER_SUCCESS = 'CUSTOMER_PEN_ORDER_SUCCESS';
 export const CUSTOMER_PEN_ORDER_FAILURE = 'CUSTOMER_PEN_ORDER_FAILURE';
 
+export const NOTIFICATION_LIST_REQUEST = 'NOTIFICATION_LIST_REQUEST';
+export const NOTIFICATION_LIST_SUCCESS = 'NOTIFICATION_LIST_SUCCESS';
+export const NOTIFICATION_LIST_FAILURE = 'NOTIFICATION_LIST_FAILURE';
 
 export const RESET_ADDRESS_DATA = 'RESET_ADDRESS_DATA';
 
@@ -219,3 +223,13 @@ export const cutomerCompleteOrdersRequest = (customerid) => {
     url,
   });
 };
+
+
+export const notificationListRequest = (userid) => {
+  const url = notificationUrl(userid);
+  return postApiAction({
+    types: [NOTIFICATION_LIST_REQUEST, NOTIFICATION_LIST_SUCCESS, NOTIFICATION_LIST_FAILURE],
+    url,
+  });
+};
+

@@ -12,6 +12,7 @@ import driverLocation from './driverLocation';
 import addressList from './addressList';
 import orderPutBack from './orderPutBack';
 import customerOrderStatus from './customerOrderStatus';
+import notification from './notification';
 
 const reducers = {
   login,
@@ -27,6 +28,7 @@ const reducers = {
   addressList,
   orderPutBack,
   customerOrderStatus,
+  notification,
 };
 
 export default combineReducers(reducers);

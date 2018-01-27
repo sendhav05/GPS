@@ -111,6 +111,8 @@ class CustomerMenuView extends Component {
       this.logout();
     } else if (selectedItem.name === 'Orders') {
       navigate('CustomerOrder');
+    } else if (selectedItem.name === 'Notifications') {
+      navigate('Notification');
     }
   }
 

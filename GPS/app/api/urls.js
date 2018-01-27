@@ -318,3 +318,19 @@ export const cutomerPendingOrdersURl = (customerid) => {
   }
   return url;
 };
+
+export const notificationUrl = (userid) => {
+  const url = `${getBaseUrl}/notification`;
+  let param = '';
+  if (userid) {
+    if (param) {
+      param = `${param}&`;
+    }
+    param = `user_id=${userid}`;
+  }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
