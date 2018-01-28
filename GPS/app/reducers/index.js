@@ -13,6 +13,7 @@ import addressList from './addressList';
 import orderPutBack from './orderPutBack';
 import customerOrderStatus from './customerOrderStatus';
 import notification from './notification';
+import feedback from './feedback';
 
 const reducers = {
   login,
@@ -29,6 +30,7 @@ const reducers = {
   orderPutBack,
   customerOrderStatus,
   notification,
+  feedback,
 };
 
 export default combineReducers(reducers);

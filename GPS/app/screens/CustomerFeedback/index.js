@@ -17,6 +17,8 @@ import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
 import call from 'react-native-phone-call'
 
+let customerid = '';
+
 class CustomerFeedbackView extends Component {
   constructor(props) {
     super(props);
@@ -33,9 +35,28 @@ class CustomerFeedbackView extends Component {
   }
 
   componentDidMount() {
+    const utils = new Utils();
+    utils.getCustomerid((response) => {
+      customerid = response;
+    });
   }
 
   componentWillReceiveProps(nextProps) {
+    if (!nextProps.isLoading
+      && nextProps.feedbackResponse.response
+      && nextProps.feedbackResponse.status === 200) {
+      showPopupAlert('Your feedback send successfully.');
+      const { goBack } = this.props.navigation;
+      goBack(null);
+    } else if (!nextProps.isLoading && nextProps.feedbackResponse.response
+      && (nextProps.feedbackResponse.status !== 200
+      || nextProps.feedbackResponse.response.status !== 1)) {
+      if (nextProps.feedbackResponse.response.message && typeof nextProps.feedbackResponse.response.message === 'string') {
+        showPopupAlert(nextProps.feedbackResponse.response.message);
+        return;
+      }
+      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
+    }
   }
 
    onBacnkPress() {
@@ -44,7 +65,21 @@ class CustomerFeedbackView extends Component {
   }
 
   onSubmitFeedbackPress() {
-    
+    const navigationParams = this.props.navigation.state.params;
+
+    const type = 1;
+    orderid = navigationParams.selectedOrderItem.order_id;
+    driverid = navigationParams.selectedOrderItem.confirmed_by_driver;
+
+    const utils = new Utils();
+
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        this.props.feedbackRequest(type, orderid, customerid, driverid, this.state.feedbackMessage, this.state.starCount);
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
+    });
   }
 
   ratingChanged(rating) {
@@ -76,6 +111,8 @@ class CustomerFeedbackView extends Component {
 
 
 const mapStateToProps = state => ({
+  isLoading: state.feedback.isLoading,
+  feedbackResponse: state.feedback.feedbackResponse,
 });
 
 const mapDispatchToProps = () => UserActions;

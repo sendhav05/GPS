@@ -31,9 +31,6 @@ class OrderStatusView extends Component {
     };
   }
 
-  componentDidMount() {
-  }
-
   componentWillReceiveProps(nextProps) {
     if (!nextProps.isLoading
       && nextProps.cancelOrderResponse.response
@@ -122,6 +119,7 @@ const mapStateToProps = state => ({
   isLoading: state.orderPlace.isLoading,
   cancelOrderResponse: state.orderPlace.cancelOrderResponse,
 });
+
 const mapDispatchToProps = () => UserActions;
 
 const OrderStatusViewScreen = connect(mapStateToProps, mapDispatchToProps)(OrderStatusView);

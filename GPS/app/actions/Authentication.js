@@ -4,7 +4,7 @@ import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
   driverOrderListUrl, reserveOrderURl, sendDriverLocationToserverURl,
   addressListUrl, addAddressListUrl, deleteAddressListUrl,
   orderPutBackUrl, cutomerPendingOrdersURl, cutomerCompleteOrdersUrl,
-  notificationUrl, cancelOrderUrl } from '../api/urls';
+  notificationUrl, cancelOrderUrl, feedbackUrl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -79,6 +79,10 @@ export const NOTIFICATION_LIST_FAILURE = 'NOTIFICATION_LIST_FAILURE';
 export const CANCEL_ORDER_REQUEST = 'CANCEL_ORDER_REQUEST';
 export const CANCEL_ORDER_SUCCESS = 'CANCEL_ORDER_SUCCESS';
 export const CANCEL_ORDER_FAILURE = 'CANCEL_ORDER_FAILURE';
+
+export const FEEDBACK_REQUEST = 'FEEDBACK_REQUEST';
+export const FEEDBACK_SUCCESS = 'FEEDBACK_SUCCESS';
+export const FEEDBACK_FAILURE = 'FEEDBACK_FAILURE';
 
 export const RESET_ADDRESS_DATA = 'RESET_ADDRESS_DATA';
 
@@ -241,6 +245,14 @@ export const cancelOrderRequest = (orderid) => {
   const url = cancelOrderUrl(orderid);
   return postApiAction({
     types: [CANCEL_ORDER_REQUEST, CANCEL_ORDER_SUCCESS, CANCEL_ORDER_FAILURE],
+    url,
+  });
+};
+
+export const feedbackRequest = (type, orderid, customerid, driverid, feedback, userRating) => {
+  const url = feedbackUrl(type, orderid, customerid, driverid, feedback, userRating);
+  return postApiAction({
+    types: [FEEDBACK_REQUEST, FEEDBACK_SUCCESS, FEEDBACK_FAILURE],
     url,
   });
 };

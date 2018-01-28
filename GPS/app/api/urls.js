@@ -352,3 +352,20 @@ export const cancelOrderUrl = (orderid) => {
   }
   return url;
 };
+
+export const feedbackUrl = (type, orderid, customerid, driverid, feedback, userRating) => {
+  const url = `${getBaseUrl}/order/feedback`;
+  let param = '';
+  if (type) { if (param) { param = `${param}&`; } param = `${param}type=${type}`; }
+  if (orderid) { if (param) { param = `${param}&`; } param = `${param}order_id=${orderid}`; }
+  if (customerid) { if (param) { param = `${param}&`; } param = `${param}customer_id=${customerid}`; }
+  if (driverid) { if (param) { param = `${param}&`; } param = `${param}driver_id=${driverid}`; }
+  if (feedback) { if (param) { param = `${param}&`; } param = `${param}feedback=${feedback}`; }
+  if (userRating) { if (param) { param = `${param}&`; } param = `${param}user_rating=${userRating}`; }
+
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
