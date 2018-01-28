@@ -130,11 +130,11 @@ const NotificationList = props => (
         showsUserLocation={Boolean(true)}
       >
         <MapView.Marker
-          coordinate={{ longitude: 72.872471, latitude: 19.078194 }}
+          coordinate={{ longitude: props.origin.longitude, latitude: props.origin.latitude }}
           title={'Origin'}
         />
         <MapView.Marker
-          coordinate={{ longitude: 75.860752, latitude: 22.731080 }}
+          coordinate={{ longitude: props.destination.longitude, latitude: props.destination.latitude }}
           title={'Delivery'}
         />
         <MapViewDirections

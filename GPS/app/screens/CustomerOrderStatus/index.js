@@ -62,8 +62,18 @@ class OrderStatusView extends Component {
   }
 
   render() {
-    const origin = {latitude: 19.078194, longitude: 72.872471};
-    const destination = {latitude: 22.731080, longitude: 75.860752};
+    const navigationParams = this.props.navigation.state.params;
+    const lat = navigationParams.selectedOrderItem.warehouse_lat ? parseFloat(navigationParams.selectedOrderItem.warehouse_lat) : 0.0
+    const lng = navigationParams.selectedOrderItem.warehouse_lng ? parseFloat(navigationParams.selectedOrderItem.warehouse_lng) : 0.0
+    const origin = {latitude: lat, longitude: lng};
+
+    const deslat = navigationParams.selectedOrderItem.customer_lat ? parseFloat(navigationParams.selectedOrderItem.customer_lat) : 0.0
+    const deslng = navigationParams.selectedOrderItem.customer_lng ? parseFloat(navigationParams.selectedOrderItem.customer_lng) : 0.0
+    const destination = {latitude: deslat, longitude: deslng};
+
+    // const origin = {latitude: 19.078194, longitude: 72.872471};
+    // const destination = {latitude: 22.731080, longitude: 75.860752};
+
     const GOOGLE_MAPS_APIKEY = 'AIzaSyA6lbmQw7CuM5Ziw02m97CjiNQ4ZzEmKvw';
 
     return (

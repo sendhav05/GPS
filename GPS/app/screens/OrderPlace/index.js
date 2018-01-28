@@ -21,6 +21,8 @@ let city = '';
 let address = '';
 let landmark = '';
 let customerid = '-1';
+let lat = '0.0';
+let lng = '0.0';
 
 let selectedAddress = {};
 
@@ -44,6 +46,7 @@ class OrderPlaceView extends Component {
     if (!nextProps.isLoading
       && nextProps.orderPlaceResponse.response
       && nextProps.orderPlaceResponse.status === 200) {
+
       // && nextProps.orderPlaceResponse.response.status === 1) {
       if (nextProps.orderPlaceResponse.response.message && typeof nextProps.orderPlaceResponse.response.message === 'string') {
         Alert.alert(
@@ -51,7 +54,7 @@ class OrderPlaceView extends Component {
           'Thank you for your order. We will notify you when groceries are on the way.',
           [
             {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-            {text: 'Track', onPress: () => this.gotToOrderStatusTrack()},
+            {text: 'Track', onPress: () => this.gotToOrderStatusTrack(nextProps.orderPlaceResponse.response.data)},
           ],
         )
         return;
@@ -79,9 +82,9 @@ class OrderPlaceView extends Component {
     navigate('AddressList', { onSelectAddress: this.onSelectAddress, customerid, selectedAddress });
   }
 
-  gotToOrderStatusTrack() {
+  gotToOrderStatusTrack(item) {
     const { navigate } = this.props.navigation;
-    navigate('CustomerOrderStatus');
+    navigate('CustomerOrderStatus', { selectedOrderItem: item });
   }
 
   onSelectAddress(sAddress) {
@@ -96,6 +99,8 @@ class OrderPlaceView extends Component {
     city = selectedAddress.city;
     address = selectedAddress.address;
     landmark = selectedAddress.landMark;
+    lat = selectedAddress.lat;
+    lng = selectedAddress.lng;
   }
 
   onOrderPress() {
@@ -118,7 +123,7 @@ class OrderPlaceView extends Component {
           this.props.orderPlaceRequest(
             name, contectno, email, pincode, state,
             city, address, landmark, paymentid, paymenttype, paymentstatus,
-            totallamount, customerid, itemid, warehouseid,
+            totallamount, customerid, itemid, warehouseid, lat, lng,
           );
         } else {
           showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
