@@ -19,7 +19,8 @@ import { userLoginRequest,
   orderPutBackRequest,
   cutomerPendingOrdersRequest,
   cutomerCompleteOrdersRequest,
-  notificationListRequest }
+  notificationListRequest,
+  cancelOrderRequest }
   from './Authentication';
 
 const actions = {
@@ -42,6 +43,7 @@ const actions = {
   cutomerPendingOrdersRequest,
   cutomerCompleteOrdersRequest,
   notificationListRequest,
+  cancelOrderRequest,
 };
 
 export default bindActionCreators(actions, store.dispatch);

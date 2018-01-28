@@ -336,3 +336,19 @@ export const notificationUrl = (userid) => {
   }
   return url;
 };
+
+export const cancelOrderUrl = (orderid) => {
+  const url = `${getBaseUrl}/order/cancelOrder`;
+  let param = '';
+  if (orderid) {
+    if (param) {
+      param = `${param}&`;
+    }
+    param = `order_id=${orderid}`;
+  }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};

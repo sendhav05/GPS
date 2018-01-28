@@ -47,8 +47,6 @@ class OrderPlaceView extends Component {
       && nextProps.orderPlaceResponse.response
       && nextProps.orderPlaceResponse.status === 200) {
 
-      // && nextProps.orderPlaceResponse.response.status === 1) {
-      if (nextProps.orderPlaceResponse.response.message && typeof nextProps.orderPlaceResponse.response.message === 'string') {
         Alert.alert(
           'GPS',
           'Thank you for your order. We will notify you when groceries are on the way.',
@@ -57,11 +55,6 @@ class OrderPlaceView extends Component {
             {text: 'Track', onPress: () => this.gotToOrderStatusTrack(nextProps.orderPlaceResponse.response.data)},
           ],
         )
-        return;
-      }
-      showPopupAlert('Your order send successfully.');
-      const { goBack } = this.props.navigation;
-      goBack(null);
     } else if (!nextProps.isLoading && nextProps.orderPlaceResponse.response
       && (nextProps.orderPlaceResponse.status !== 200
       || nextProps.orderPlaceResponse.response.status !== 1)) {

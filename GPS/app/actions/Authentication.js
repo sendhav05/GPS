@@ -4,7 +4,7 @@ import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
   driverOrderListUrl, reserveOrderURl, sendDriverLocationToserverURl,
   addressListUrl, addAddressListUrl, deleteAddressListUrl,
   orderPutBackUrl, cutomerPendingOrdersURl, cutomerCompleteOrdersUrl,
-  notificationUrl } from '../api/urls';
+  notificationUrl, cancelOrderUrl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -75,6 +75,10 @@ export const CUSTOMER_PEN_ORDER_FAILURE = 'CUSTOMER_PEN_ORDER_FAILURE';
 export const NOTIFICATION_LIST_REQUEST = 'NOTIFICATION_LIST_REQUEST';
 export const NOTIFICATION_LIST_SUCCESS = 'NOTIFICATION_LIST_SUCCESS';
 export const NOTIFICATION_LIST_FAILURE = 'NOTIFICATION_LIST_FAILURE';
+
+export const CANCEL_ORDER_REQUEST = 'CANCEL_ORDER_REQUEST';
+export const CANCEL_ORDER_SUCCESS = 'CANCEL_ORDER_SUCCESS';
+export const CANCEL_ORDER_FAILURE = 'CANCEL_ORDER_FAILURE';
 
 export const RESET_ADDRESS_DATA = 'RESET_ADDRESS_DATA';
 
@@ -224,7 +228,6 @@ export const cutomerCompleteOrdersRequest = (customerid) => {
   });
 };
 
-
 export const notificationListRequest = (userid) => {
   const url = notificationUrl(userid);
   return postApiAction({
@@ -233,3 +236,11 @@ export const notificationListRequest = (userid) => {
   });
 };
 
+
+export const cancelOrderRequest = (orderid) => {
+  const url = cancelOrderUrl(orderid);
+  return postApiAction({
+    types: [CANCEL_ORDER_REQUEST, CANCEL_ORDER_SUCCESS, CANCEL_ORDER_FAILURE],
+    url,
+  });
+};

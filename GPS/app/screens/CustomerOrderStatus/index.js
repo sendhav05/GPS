@@ -35,6 +35,21 @@ class OrderStatusView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (!nextProps.isLoading
+      && nextProps.cancelOrderResponse.response
+      && nextProps.cancelOrderResponse.status === 200) {
+      showPopupAlert('Your order cancel successfully.');
+      const { goBack } = this.props.navigation;
+      goBack(null);
+    } else if (!nextProps.isLoading && nextProps.cancelOrderResponse.response
+      && (nextProps.cancelOrderResponse.status !== 200
+      || nextProps.cancelOrderResponse.response.status !== 1)) {
+      if (nextProps.cancelOrderResponse.response.message && typeof nextProps.cancelOrderResponse.response.message === 'string') {
+        showPopupAlert(nextProps.cancelOrderResponse.response.message);
+        return;
+      }
+      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
+    }
   }
 
   onCellSelectionPress(selectedItem) {
@@ -58,7 +73,16 @@ class OrderStatusView extends Component {
   }
 
   cancelOrderPress() {
-    
+    const utils = new Utils();
+    const navigationParams = this.props.navigation.state.params;
+
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        this.props.cancelOrderRequest(navigationParams.selectedOrderItem.order_id);
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
+    });
   }
 
   render() {
@@ -95,8 +119,9 @@ class OrderStatusView extends Component {
 
 
 const mapStateToProps = state => ({
+  isLoading: state.orderPlace.isLoading,
+  cancelOrderResponse: state.orderPlace.cancelOrderResponse,
 });
-
 const mapDispatchToProps = () => UserActions;
 
 const OrderStatusViewScreen = connect(mapStateToProps, mapDispatchToProps)(OrderStatusView);
