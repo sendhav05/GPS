@@ -17,7 +17,7 @@ import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
 import constant from '../../utils/constants';
 import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
-import PhoneNumber from 'react-phone-number';
+import call from 'react-native-phone-call'
 
 let selectedWareHouseID = '';
 
@@ -114,9 +114,14 @@ class WareHouseView extends Component {
     selectedWareHouseID = e.nativeEvent.id;
   }
 
-  onCallPress() {
+  onCallPress(phone) {
     console.log('**** phone');
-    <PhoneNumber number="+918878946385" />
+    const args = {
+      number: phone, // String value with the number to call
+      prompt: false // Optional boolean property. Determines if the user should be prompt prior to the call 
+    }
+     
+    call(args).catch(console.error)
   }
 
   getRenderRow(item) {
@@ -124,6 +129,7 @@ class WareHouseView extends Component {
       <WareHouseListCell
         data={item}
         onCellSelectionPress={selectedItem => this.onCellSelectionPress(selectedItem)}
+        onCallPress={phone => this.onCallPress(phone)}
       />
 
     );
@@ -169,7 +175,6 @@ class WareHouseView extends Component {
         <WareHouseList
           onLeftMenuPress={() => this.onLeftMenuPress()}
           onCalloutPress={e => this.onCalloutPress(e)}
-          onCallPress={() => this.onCallPress()}
           onPinPress={e => this.onPinPress(e)}
           getRenderRow={item => this.getRenderRow(item)}
           onRegionChange={region => this.onRegionChange(region)}

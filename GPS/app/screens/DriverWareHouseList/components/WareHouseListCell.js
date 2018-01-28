@@ -20,11 +20,7 @@ const style = StyleSheet.create({
     height: 40,
   },
   rightArrow: {
-    width: 40,
-    height: 40,
-    marginLeft: width - 40,
-    marginTop: 21,
-    position: 'absolute',
+    flex: 1,
   },
   profilePic: {
     width: 35,
@@ -49,6 +45,13 @@ const style = StyleSheet.create({
     alignItems: 'center',
     borderColor: GrayColor,
     borderLeftWidth: 0.5,
+    marginLeft: width - 70,
+    marginTop: 7,
+    position: 'absolute',
+  },
+  tochableOpacityView: {
+    height: 26,
+    width: 34,
     marginLeft: width - 70,
     marginTop: 7,
     position: 'absolute',
@@ -98,19 +101,18 @@ const WareHouseListCell = props => (
           {props.data.item.totalorder}
         </Text>
       </View>
-      <TouchableOpacity
-        activeOpacity={1}
-        style={{ flex: 1, justifyContent: 'center' }}
-        onPress={() => props.onCallPress()}
-      >
         <View style={style.callView}>
-          <Image
-            source={Images.callIcon}
-            style={style.rightArrow}
-          />
+          <TouchableOpacity
+            onPress={() => props.onCallPress(props.data.item.contact)}
+          >
+            <View style={{ flex: 1 }}>
+              <Image
+                source={Images.callIcon}
+                style={style.rightArrow}
+              />
+            </View>
+          </TouchableOpacity>
         </View>
-      </TouchableOpacity>
-
       <Text style={style.userTitle} numberOfLines={1} ellipsizeMode="tail" >
         {`${(props.data.item.distance).toFixed(1)} mi. ${props.data.item.warehousename}`}
       </Text>
