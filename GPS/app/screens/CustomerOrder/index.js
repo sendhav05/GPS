@@ -23,6 +23,7 @@ let isCompleteOrderAPI = false;
 let isPendingOrderAPI = false;
 let pedingOrders = [];
 let completeOrders = [];
+let isSelectedTabComplete = false;
 
 class CustomerOrderView extends Component {
   constructor(props) {
@@ -102,19 +103,21 @@ class CustomerOrderView extends Component {
   }
 
   onCellSelectionPress(selectedItem) {
-    console.log('********** selectedItem', selectedItem);
     const { navigate } = this.props.navigation;
-   // navigate('CustomerOrderStatus', { selectedOrderItem: selectedItem });
-    navigate('CustomerFeedback', { selectedOrderItem: selectedItem });
+   if (isSelectedTabComplete){
+     navigate('CustomerFeedback', { selectedOrderItem: selectedItem });
+   } else {
+     navigate('CustomerOrderStatus', { selectedOrderItem: selectedItem });
+   }
   }
 
   onPendingOrderPress() {
-    console.log('********** selectedItem');
+    isSelectedTabComplete = false;
     this.setState({ orderList: pedingOrders });
   }
 
   onCompletedOrderPres() {
-    console.log('********** selectedItem');
+    isSelectedTabComplete = true;
     this.setState({ orderList: completeOrders });
   }
 

@@ -8,47 +8,51 @@ import {
   TextInput,
   FlatList,
   Dimensions,
+  Keyboard,
 } from 'react-native';
 import PropTypes from 'prop-types';
+//import StarRating from 'react-native-star-rating';
+import Stars from 'react-native-stars';
+
 import Images from '../../../assets/images';
 import NavBar from '../../../components/NavBar';
 import { BlueColor, OrangeColor, ButtonFontSize, GrayColor, HeaderFontSize, WhiteColor, FontFamilyName } from '../../../utils/constants';
-import MapView from 'react-native-maps';
-import MapViewDirections from 'react-native-maps-directions';
+
 
 const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   bodyView: {
-    flex: 1,
+    height: 50,
     width,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   headerView: {
     height: 70,
     flexDirection: 'row',
     marginTop: 30,
   },
-  map: {
-    flex: 1,
+  phoneNumberTextInput: {
+    marginLeft: 30,
+    marginRight: 30,
+    height: 100,
+    width: width - 60,
+    marginTop: 15,
+    fontSize: 14,
+    color: 'rgba(134, 135, 136, 1.0)',
+    borderWidth: 1,
+    borderColor: 'lightgrey',
     borderRadius: 5,
-  },
-  orderButton: {
-    backgroundColor: OrangeColor,
-    marginLeft: 40,
-    marginRight: 40,
-    marginBottom: 20,
-    height: 50,
-    width: width - 80,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 5,
+    padding: 10,
+    textAlign: 'left',
+
   },
   buttonText: {
     color: 'white',
@@ -56,75 +60,82 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     backgroundColor: 'transparent',
   },
-  pickedView: {
-    flex: 1,
-    height: 50,
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderTopWidth: 5,
-    borderColor: OrangeColor
-  },
-  pickedText: {
-    color: BlueColor,
-    fontSize: 16,
-    fontWeight: '600',
-    backgroundColor: 'transparent',
-  },
-  orderWayView: {
-    flex: 1,
-    height: 50,
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderTopWidth: 5,
-    borderColor: 'rgba(54, 56, 58, 1.0)'
-  },
   deliveredText: {
     color: 'rgba(134, 135, 136, 1.0)',
     fontSize: 16,
     fontWeight: '600',
     backgroundColor: 'transparent',
   },
-  deliveredView: {
-    flex: 1,
-    height: 50,
-    backgroundColor: 'transparent',
+  orderButton: {
+    backgroundColor: OrangeColor,
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 20,
+    height: 40,
+    width: width - 60,
     alignItems: 'center',
     justifyContent: 'center',
-    borderTopWidth: 5,
-    borderColor: 'rgba(54, 56, 58, 1.0)'
+    borderRadius: 5,
   },
 });
 
 const CustomerFeedback = props => (
-  <View style={styles.container}>
-    <NavBar
-      leftMenuIcon={Images.backArrow}
-      leftMenuPress={() => props.onBacnkPress()}
-      title="Feedback"
-      isShowRightIcon={Boolean(false)}
-      rightMenuIcon={Images.menu}
-    />
-    <View style={styles.headerView}>
-      <Text style={styles.deliveredText}>
-          Rate our service
-      </Text>
-    </View>
-    <View style={styles.bodyView}>
-     
-    </View>
-    <View style={{ width, height: 200, marginBottom: 10, marginTop: 30 }}>
-      <TouchableOpacity
-        style={styles.orderButton}
-        onPress={() => props.cancelOrderPress()}
-      >
-        <Text style={styles.buttonText}>
-          Send Feedback
+  <TouchableOpacity
+    activeOpacity={1}
+    style={{ flex: 1, justifyContent: 'center' }}
+    onPress={() => Keyboard.dismiss()}
+  >
+    <View style={styles.container}>
+      <NavBar
+        leftMenuIcon={Images.backArrow}
+        leftMenuPress={() => props.onBacnkPress()}
+        title="Feedback"
+        isShowRightIcon={Boolean(false)}
+        rightMenuIcon={Images.menu}
+      />
+      <View style={styles.headerView}>
+        <Text style={styles.deliveredText}>
+            Rate our service
         </Text>
-      </TouchableOpacity>
+        
+      </View>
+      <View style={styles.bodyView}>
+        <Stars
+          half={false}
+          rating={props.starCount}
+          update={(rating) => props.ratingChanged(rating)}
+          spacing={8}
+          starSize={40}
+          count={5}
+          fullStar={Images.selectedStart}
+          emptyStar={Images.unSelectedStart}
+          halfStar={Images.unSelectedStart}
+        />
+      </View>
+      <View style={{ width,  marginTop: 30 }}>
+        <TextInput
+          style={styles.phoneNumberTextInput}
+          placeholder="Describe your experience here..."
+          placeholderTextColor='rgba(134, 135, 136, 1.0)'
+          onChangeText={feedbackMessage => props.updateFeedbackMessage(feedbackMessage)}
+          value={props.feedbackMessage}
+          underlineColorAndroid="transparent"
+          multiline = {true}
+          numberOfLines = {4}
+          padding={10}
+        />
+        <TouchableOpacity
+          style={styles.orderButton}
+          onPress={() => props.onSubmitFeedbackPress()}
+        >
+          <Text style={styles.buttonText}>
+            Send Feedback
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
-  </View>
+  </TouchableOpacity>
+
 );
 
 CustomerFeedback.propTypes = {

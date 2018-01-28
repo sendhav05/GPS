@@ -20,6 +20,8 @@ const locationIcon = require('./locat.png');
 const addIcon = require('./add.png');
 const unselectIcon = require('./unselect_icon.png');
 const selectedIcon = require('./selected_icon.png');
+const selectedStart = require('./star.png');
+const unSelectedStart = require('./star1.png');
 
 const images = {
   logo,
@@ -42,6 +44,8 @@ const images = {
   addIcon,
   unselectIcon,
   selectedIcon,
+  selectedStart,
+  unSelectedStart
 };
 
 export default images;

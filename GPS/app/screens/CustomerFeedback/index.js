@@ -21,7 +21,8 @@ class CustomerFeedbackView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataArray: [],
+      feedbackMessage: '',
+      starCount: 0,
       region: {
         latitude: 22.862824,
         longitude: 75.881695,
@@ -42,35 +43,30 @@ class CustomerFeedbackView extends Component {
     goBack(null);
   }
 
-  onCallPress() {
-    const navigationParams = this.props.navigation.state.params;
-
-    const args = {
-      number: navigationParams.selectedOrderItem.contact, // String value with the number to call
-      prompt: false // Optional boolean property. Determines if the user should be prompt prior to the call 
-    }
-    call(args).catch(console.error)
-  }
-
-  cancelOrderPress() {
+  onSubmitFeedbackPress() {
     
   }
 
-  render() {
-    const origin = {latitude: 19.078194, longitude: 72.872471};
-    const destination = {latitude: 22.731080, longitude: 75.860752};
-    const GOOGLE_MAPS_APIKEY = 'AIzaSyA6lbmQw7CuM5Ziw02m97CjiNQ4ZzEmKvw';
+  ratingChanged(rating) {
+    console.log('****** rating', rating);
+    this.setState({ starCount: rating });
 
+  }
+
+  updateFeedbackMessage(feedbackMessage) {
+    this.setState({ feedbackMessage });
+  }
+
+  render() {
     return (
       <View style={{ flex: 1 }}>
         <CustomerFeedback
           onBacnkPress={() => this.onBacnkPress()}
-          onCallPress={() => this.onCallPress()}
-          cancelOrderPress={() => this.cancelOrderPress()}
-          origin={origin}
-          destination={destination}
-          mapKey={GOOGLE_MAPS_APIKEY}
-          region={this.state.region}
+          onSubmitFeedbackPress={() => this.onSubmitFeedbackPress()}
+          ratingChanged={rating => this.ratingChanged(rating)}
+          updateFeedbackMessage={feedbackMessage => this.updateFeedbackMessage(feedbackMessage)}
+          feedbackMessage={this.state.feedbackMessage}
+          starCount={this.state.starCount}
         />
         {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
       </View>
