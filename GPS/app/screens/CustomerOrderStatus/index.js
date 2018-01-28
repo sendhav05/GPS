@@ -31,38 +31,9 @@ class OrderStatusView extends Component {
   }
 
   componentDidMount() {
-    // const utils = new Utils();
-    // utils.getCustomerid((response) => {
-    //   utils.checkInternetConnectivity((reach) => {
-    //     if (reach && response) {
-    //       this.props.notificationListRequest(response);
-    //     } else {
-    //       showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
-    //     }
-    //   });
-    // });
   }
 
   componentWillReceiveProps(nextProps) {
-
-    if (!nextProps.isLoading
-      && nextProps.notificationListResponse.response
-      && nextProps.notificationListResponse.status === 200) {
-      // && nextProps.notificationListResponse.response.status === 1) {
-      if (nextProps.notificationListResponse.response.data.length > 0) {
-        this.setState({ dataArray: nextProps.notificationListResponse.response.data });
-      } else {
-        showPopupAlert(constant.EMPTY_RECORD_MESSAGE);
-      }
-    } else if (!nextProps.isLoading && nextProps.notificationListResponse.response
-      && (nextProps.notificationListResponse.status !== 200
-      || nextProps.notificationListResponse.response.status !== 1)) {
-      if (nextProps.notificationListResponse.response.message && typeof nextProps.notificationListResponse.response.message === 'string') {
-        showPopupAlert(nextProps.notificationListResponse.response.message);
-        return;
-      }
-      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
-    }
   }
 
   onCellSelectionPress(selectedItem) {
@@ -75,6 +46,20 @@ class OrderStatusView extends Component {
     goBack(null);
   }
 
+  onCallPress() {
+    const navigationParams = this.props.navigation.state.params;
+
+    const args = {
+      number: navigationParams.selectedOrderItem.contact, // String value with the number to call
+      prompt: false // Optional boolean property. Determines if the user should be prompt prior to the call 
+    }
+    call(args).catch(console.error)
+  }
+
+  cancelOrderPress() {
+    
+  }
+
   render() {
     const origin = {latitude: 19.078194, longitude: 72.872471};
     const destination = {latitude: 22.731080, longitude: 75.860752};
@@ -84,11 +69,12 @@ class OrderStatusView extends Component {
       <View style={{ flex: 1 }}>
         <OrderStatus
           onBacnkPress={() => this.onBacnkPress()}
+          onCallPress={() => this.onCallPress()}
+          cancelOrderPress={() => this.cancelOrderPress()}
           origin={origin}
           destination={destination}
           mapKey={GOOGLE_MAPS_APIKEY}
           region={this.state.region}
-         // dataArray={this.state.dataArray}
         />
         {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
       </View>
@@ -98,8 +84,6 @@ class OrderStatusView extends Component {
 
 
 const mapStateToProps = state => ({
-  isLoading: state.notification.isLoading,
-  notificationListResponse: state.notification.notificationListResponse,
 });
 
 const mapDispatchToProps = () => UserActions;

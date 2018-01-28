@@ -147,7 +147,7 @@ const NotificationList = props => (
     <View style={{ width, height: 200, marginBottom: 10, marginTop: 30 }}>
       <TouchableOpacity
         style={styles.orderButton}
-        onPress={() => props.onOrderPress()}
+        onPress={() => props.onCallPress()}
       >
         <Text style={styles.buttonText}>
           Call to Delivery Person
@@ -155,7 +155,7 @@ const NotificationList = props => (
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.orderButton}
-        onPress={() => props.onOrderPress()}
+        onPress={() => props.onCallPress()}
       >
         <Text style={styles.buttonText}>
           Contact Help
@@ -163,7 +163,7 @@ const NotificationList = props => (
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.orderButton}
-        onPress={() => props.onOrderPress()}
+        onPress={() => props.cancelOrderPress()}
       >
         <Text style={styles.buttonText}>
           Cancel the Order
