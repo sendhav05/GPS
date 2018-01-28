@@ -5,6 +5,7 @@
  */
 
 import React, { Component } from 'react';
+import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import OrderPlace from './components/OrderPlace';
 import UserActions from '../../actions';
@@ -45,9 +46,14 @@ class OrderPlaceView extends Component {
       && nextProps.orderPlaceResponse.status === 200) {
       // && nextProps.orderPlaceResponse.response.status === 1) {
       if (nextProps.orderPlaceResponse.response.message && typeof nextProps.orderPlaceResponse.response.message === 'string') {
-        showPopupAlert(nextProps.orderPlaceResponse.response.message);
-        const { goBack } = this.props.navigation;
-        goBack(null);
+        Alert.alert(
+          'GPS',
+          'Thank you for your order. We will notify you when groceries are on the way.',
+          [
+            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+            {text: 'Track', onPress: () => this.gotToOrderStatusTrack()},
+          ],
+        )
         return;
       }
       showPopupAlert('Your order send successfully.');
@@ -71,6 +77,11 @@ class OrderPlaceView extends Component {
   onDeliveryAddressPress() {
     const { navigate } = this.props.navigation;
     navigate('AddressList', { onSelectAddress: this.onSelectAddress, customerid, selectedAddress });
+  }
+
+  gotToOrderStatusTrack() {
+    const { navigate } = this.props.navigation;
+    navigate('CustomerOrderStatus');
   }
 
   onSelectAddress(sAddress) {

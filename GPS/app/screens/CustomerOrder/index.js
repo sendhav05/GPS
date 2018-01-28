@@ -103,6 +103,8 @@ class CustomerOrderView extends Component {
 
   onCellSelectionPress(selectedItem) {
     console.log('********** selectedItem', selectedItem);
+    const { navigate } = this.props.navigation;
+    navigate('CustomerOrderStatus');
   }
 
   onPendingOrderPress() {

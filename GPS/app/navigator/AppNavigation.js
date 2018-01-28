@@ -24,6 +24,7 @@ import OrderDetailScreen from '../screens/OrderDetail';
 import ReserveOrderScreen from '../screens/ReserveOrder';
 import AddressListScreen from '../screens/AddressList';
 import NotificationScreen from '../screens/Notification';
+import CustomerOrderStatusScreen from '../screens/CustomerOrderStatus';
 
 
 // https://github.com/react-community/react-navigation/issues/1254
@@ -85,6 +86,41 @@ const AppStack = StackNavigator({
       gesturesEnabled: false,
     },
   },
+  CustomerOrderStatus: {
+    screen: CustomerOrderStatusScreen,
+    key: 'CustomerOrderStatusScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  
+}, {
+  headerMode: 'float',
+  navigationOptions: {
+    headerStyle: { backgroundColor: 'red' },
+    title: 'You are not logged in',
+  },
+});
+
+const OrderStack = StackNavigator({
+  CustomerOrder: {
+    screen: CustomerOrderScreen,
+    key: 'CustomerOrderScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  CustomerOrderStatus: {
+    screen: CustomerOrderStatusScreen,
+    key: 'CustomerOrderStatusScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  
 }, {
   headerMode: 'float',
   navigationOptions: {
@@ -96,7 +132,7 @@ const AppStack = StackNavigator({
 // drawer stack
 const DrawerStack = DrawerNavigator({
   WareHouseList: { screen: AppStack },
-  CustomerOrder: { screen: CustomerOrderScreen },
+  CustomerOrder: { screen: OrderStack },
 }, {
   gesturesEnabled: false,
   drawerWidth: Dimensions.get('window').width - (Platform.OS === 'android' ? 56 : 64),
