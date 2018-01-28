@@ -37,7 +37,7 @@ const style = StyleSheet.create({
     fontSize: ButtonFontSize,
     color: 'black',
     marginLeft: 70,
-    marginRight: 50,
+    marginRight: 70,
     marginTop: 10,
     position: 'absolute',
 
@@ -61,20 +61,19 @@ const style = StyleSheet.create({
   },
   countView: {
     height: 20,
-    width: 20,
+    width: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 25,
-    marginLeft: 40,
-    backgroundColor: OrangeColor,
+    marginLeft: width - 100,
+    backgroundColor: 'transparent',
     marginTop: 10
 
   },
   countText: {
-    width: 20,
-    height: 13,
-    color: 'white',
-    fontSize: 10,
+    width: 30,
+    height: 15,
+    color: 'black',
+    fontSize: 11,
     alignItems: 'center',
     alignSelf: 'center',
     justifyContent: 'center',
@@ -96,15 +95,22 @@ const WareHouseListCell = props => (
       />
       <View style={style.countView}>
         <Text style={style.countText} >
-          {'10'}
+          {props.data.item.totalorder}
         </Text>
       </View>
-      <View style={style.callView}>
-        <Image
-          source={Images.callIcon}
-          style={style.rightArrow}
-        />
-      </View>
+      <TouchableOpacity
+        activeOpacity={1}
+        style={{ flex: 1, justifyContent: 'center' }}
+        onPress={() => props.onCallPress()}
+      >
+        <View style={style.callView}>
+          <Image
+            source={Images.callIcon}
+            style={style.rightArrow}
+          />
+        </View>
+      </TouchableOpacity>
+
       <Text style={style.userTitle} numberOfLines={1} ellipsizeMode="tail" >
         {`${(props.data.item.distance).toFixed(1)} mi. ${props.data.item.warehousename}`}
       </Text>

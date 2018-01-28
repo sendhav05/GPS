@@ -17,6 +17,7 @@ import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
 import constant from '../../utils/constants';
 import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
+import PhoneNumber from 'react-phone-number';
 
 let selectedWareHouseID = '';
 
@@ -113,6 +114,11 @@ class WareHouseView extends Component {
     selectedWareHouseID = e.nativeEvent.id;
   }
 
+  onCallPress() {
+    console.log('**** phone');
+    <PhoneNumber number="+918878946385" />
+  }
+
   getRenderRow(item) {
     return (
       <WareHouseListCell
@@ -163,6 +169,7 @@ class WareHouseView extends Component {
         <WareHouseList
           onLeftMenuPress={() => this.onLeftMenuPress()}
           onCalloutPress={e => this.onCalloutPress(e)}
+          onCallPress={() => this.onCallPress()}
           onPinPress={e => this.onPinPress(e)}
           getRenderRow={item => this.getRenderRow(item)}
           onRegionChange={region => this.onRegionChange(region)}
