@@ -25,6 +25,7 @@ import ReserveOrderScreen from '../screens/ReserveOrder';
 import AddressListScreen from '../screens/AddressList';
 import NotificationScreen from '../screens/Notification';
 import CustomerOrderStatusScreen from '../screens/CustomerOrderStatus';
+import CustomerFeedbackScreen from '../screens/CustomerFeedback';
 
 
 // https://github.com/react-community/react-navigation/issues/1254
@@ -94,6 +95,14 @@ const AppStack = StackNavigator({
       gesturesEnabled: false,
     },
   },
+  CustomerFeedback: {
+    screen: CustomerFeedbackScreen,
+    key: 'CustomerFeedbackScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
   
 }, {
   headerMode: 'float',
@@ -115,6 +124,14 @@ const OrderStack = StackNavigator({
   CustomerOrderStatus: {
     screen: CustomerOrderStatusScreen,
     key: 'CustomerOrderStatusScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  CustomerFeedback: {
+    screen: CustomerFeedbackScreen,
+    key: 'CustomerFeedbackScreen',
     navigationOptions: {
       header: null,
       gesturesEnabled: false,
