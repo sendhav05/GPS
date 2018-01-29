@@ -110,7 +110,7 @@ const WareHouseList = props => (
             key={marker.warehouse_id}
             identifier={marker.warehouse_id}
             coordinate={{ longitude: marker.lng ? parseFloat(marker.lng) : 0.0, latitude: marker.lat ? parseFloat(marker.lat) : 0.0 }}
-            title={marker.warehousename}
+            title={`${marker.warehousename} - ${marker.totalorder}`}
             description={marker.address}
             onPress={e => props.onPinPress(e)}
             onCalloutPress={e => props.onCalloutPress(e)}

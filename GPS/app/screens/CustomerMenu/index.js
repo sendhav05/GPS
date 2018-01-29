@@ -99,6 +99,8 @@ class CustomerMenuView extends Component {
       this.logout();
     } else if (selectedItem.name === 'Orders') {
       navigate('CustomerOrder');
+    } else if (selectedItem.name === 'Notifications') {
+      navigate('Notification');
     }
   }
 
@@ -121,6 +123,7 @@ class CustomerMenuView extends Component {
       this.setState({
         leftMenuItems: [{ icon: Images.home, name: 'Home' },
           { icon: Images.order, name: 'Orders' },
+          { icon: Images.notifi, name: 'Notifications' },
           { icon: Images.logout, name: 'Logout' }],
       });
     } else {
