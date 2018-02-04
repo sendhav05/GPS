@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+import call from 'react-native-phone-call';
 import NavigationExperimental from 'react-native-deprecated-custom-components';
 import WareHouseList from './components/WareHouseList';
 import UserActions from '../../actions';
@@ -17,9 +18,8 @@ import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
 import constant from '../../utils/constants';
 import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
-import call from 'react-native-phone-call'
 
-let selectedWareHouseID = '';
+let selectedWareHouse = {};
 
 class WareHouseView extends Component {
   constructor(props) {
@@ -92,10 +92,8 @@ class WareHouseView extends Component {
   }
 
   onCellSelectionPress(selectedItem) {
-    console.log('**** selectedWareHouseID', selectedWareHouseID);
-
     const { navigate } = this.props.navigation;
-    navigate('DriverOrder', { selectedWareHouseID: selectedItem.warehouse_id, lat: this.state.region.latitude, lng: this.state.region.longitude });
+    navigate('DriverOrder', { selectedWareHouse: selectedItem, lat: this.state.region.latitude, lng: this.state.region.longitude });
   }
 
   onLeftMenuPress() {
@@ -104,22 +102,23 @@ class WareHouseView extends Component {
   }
 
   onCalloutPress(e) {
-    console.log('****', selectedWareHouseID);
+    console.log('****', selectedWareHouse);
     const { navigate } = this.props.navigation;
-    navigate('DriverOrder', { selectedWareHouseID, lat: this.state.region.latitude, lng: this.state.region.longitude });
+    navigate('DriverOrder', { selectedWareHouse, lat: this.state.region.latitude, lng: this.state.region.longitude });
   }
 
   onPinPress(e) {
     console.log(e.nativeEvent);
-    selectedWareHouseID = e.nativeEvent.id;
+    for (let i = 0; i < this.state.dataArray.length; i += 1) {
+      if (this.state.dataArray[i].warehouse_id === e.nativeEvent.id) {
+        selectedWareHouse = this.state.dataArray[i].warehouse_id;
+      }
+    }
   }
 
   onCallPress(phone) {
-    const args = {
-      number: phone, // String value with the number to call
-      prompt: false // Optional boolean property. Determines if the user should be prompt prior to the call 
-    }
-    call(args).catch(console.error)
+    const utils = new Utils();
+    utils.onCallPress(phone);
   }
 
   getRenderRow(item) {

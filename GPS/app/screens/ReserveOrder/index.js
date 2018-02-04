@@ -3,30 +3,49 @@
  * https://github.com/facebook/react-native
  * @flow
  */
+/* eslint-disable react/sort-comp, react/prop-types */
 
 import React, { Component } from 'react';
+import {
+  View,
+} from 'react-native';
 import { connect } from 'react-redux';
 import getDirections from 'react-native-google-maps-directions';
 import OrderPlace from './components/OrderPlace';
 import UserActions from '../../actions';
 import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
 import Utils from '../../utils/utils';
-import LocationUpdate from '../../utils/LocationUpdate';
 import constant from '../../utils/constants';
+import PendingPickupOrder from './components/PendingPickupOrder';
 
 let driverID = '-1';
 let timerId = '';
 let locationTimerId = '';
 let reserveID = '-1';
+let warehouseDetails = {};
+let driverLat = 0.0;
+let driverLng = 0.0;
+let isCallPickupDoneAPI = false;
+let isCallCompletedAPI = false;
+let isCallReserveAPI = false;
 
 class OrderPlaceView extends Component {
   constructor(props) {
     super(props);
     this.state = {
       currentSecond: '60',
+      isShowReserveOrderView: props.navigation.state.params.isShowReserveOrderView,
     };
   }
-orderPutBackRequest
+
+  componentWillMount() {
+    this.driverCurrentLocation();
+    if (!this.state.isShowReserveOrderView) {
+      const navigationParams = this.props.navigation.state.params;
+      warehouseDetails = navigationParams.warehouseDetails;
+    }
+  }
+
   componentDidMount() {
     const utils = new Utils();
     utils.getDriverID((response) => {
@@ -36,6 +55,18 @@ orderPutBackRequest
   }
 
   componentWillReceiveProps(nextProps) {
+    if (isCallPickupDoneAPI) {
+      this.managePickupDoneResponse(nextProps);
+    }
+    if (isCallCompletedAPI) {
+      this.manageCompletedResponse(nextProps);
+    }
+    if (isCallReserveAPI) {
+      this.manageReserveResponse(nextProps);
+    }
+  }
+
+  manageReserveResponse(nextProps) {
     if (!nextProps.isLoading
       && nextProps.reserveOrderResponse.response
       && nextProps.reserveOrderResponse.status === 200) {
@@ -43,21 +74,73 @@ orderPutBackRequest
       if (nextProps.reserveOrderResponse.response.message && typeof nextProps.reserveOrderResponse.response.message === 'string') {
         showPopupAlert(nextProps.reserveOrderResponse.response.message);
         reserveID = nextProps.reserveOrderResponse.response.data.reserve_order_id;
-        console.log('@@@@@@ reserveID', reserveID);
+        warehouseDetails = nextProps.reserveOrderResponse.response.data.warehouse_details;
         timerId = setInterval(() => this.setTimePassed(), 1000);
+        isCallReserveAPI = false;
         return;
       }
-      showPopupAlert('Successfully reserved orders.');
+      showPopupAlert('Successfully delivered orders.');
     } else if (!nextProps.isLoading && nextProps.reserveOrderResponse.response
       && (nextProps.reserveOrderResponse.status !== 200
       || nextProps.reserveOrderResponse.response.status !== 1)) {
       if (nextProps.reserveOrderResponse.response.message && typeof nextProps.reserveOrderResponse.response.message === 'string') {
+        isCallReserveAPI = false;
         showPopupAlert(nextProps.reserveOrderResponse.response.message);
         return;
       }
+      isCallReserveAPI = false;
       showPopupAlert(constant.SERVER_ERROR_MESSAGE);
     }
   }
+
+  managePickupDoneResponse(nextProps) {
+    if (!nextProps.isLoading
+      && nextProps.pickupedUpOrderResponse.response
+      && nextProps.pickupedUpOrderResponse.status === 200) {
+      if (nextProps.pickupedUpOrderResponse.response.message && typeof nextProps.pickupedUpOrderResponse.response.message === 'string') {
+        isCallPickupDoneAPI = false;
+        showPopupAlert(nextProps.pickupedUpOrderResponse.response.message);
+        this.onBacnkPress();
+        return;
+      }
+      showPopupAlert('Successfully pickedup orders.');
+    } else if (!nextProps.isLoading && nextProps.pickupedUpOrderResponse.response
+      && (nextProps.pickupedUpOrderResponse.status !== 200
+      || nextProps.pickupedUpOrderResponse.response.status !== 1)) {
+      if (nextProps.pickupedUpOrderResponse.response.message && typeof nextProps.pickupedUpOrderResponse.response.message === 'string') {
+        isCallPickupDoneAPI = false;
+        showPopupAlert(nextProps.pickupedUpOrderResponse.response.message);
+        return;
+      }
+      isCallPickupDoneAPI = false;
+      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
+    }
+  }
+
+  manageCompletedResponse(nextProps) {
+    if (!nextProps.isLoading
+      && nextProps.completedOrderResponse.response
+      && nextProps.completedOrderResponse.status === 200) {
+      if (nextProps.completedOrderResponse.response.message && typeof nextProps.completedOrderResponse.response.message === 'string') {
+        isCallCompletedAPI = false;
+        showPopupAlert(nextProps.completedOrderResponse.response.message);
+        this.onBacnkPress();
+        return;
+      }
+      showPopupAlert('Successfully reserved orders.');
+    } else if (!nextProps.isLoading && nextProps.completedOrderResponse.response
+      && (nextProps.completedOrderResponse.status !== 200
+      || nextProps.completedOrderResponse.response.status !== 1)) {
+      if (nextProps.completedOrderResponse.response.message && typeof nextProps.completedOrderResponse.response.message === 'string') {
+        isCallCompletedAPI = false;
+        showPopupAlert(nextProps.completedOrderResponse.response.message);
+        return;
+      }
+      isCallCompletedAPI = false;
+      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
+    }
+  }
+
 
   onCancelPress() {
     console.log('***** onChoosePaymentPress ');
@@ -70,14 +153,15 @@ orderPutBackRequest
       const datas = [];
 
       for (let i = 0; i < navigationParams.confirmOrders.length; i++) {
-        datas.push(navigationParams.confirmOrders[i].id);
+        datas.push(navigationParams.confirmOrders[i].order_id);
       }
 
       orderids = datas.toString();
       const utils = new Utils();
       utils.checkInternetConnectivity((reach) => {
         if (reach) {
-          this.props.reserveOrderRequest(driverID, orderids, navigationParams.selectedWareHouseID);
+          isCallReserveAPI = true;
+          this.props.reserveOrderRequest(driverID, orderids, navigationParams.selectedWareHouse.warehouse_id);
         } else {
           showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
         }
@@ -96,6 +180,7 @@ orderPutBackRequest
     clearInterval(timerId);
     locationTimerId = setInterval(() => this.fetchCurrentLocation(), 5000);
     this.handleGetDirections();
+    this.setState({ isShowReserveOrderView: false });
   }
 
   setTimePassed() {
@@ -107,7 +192,7 @@ orderPutBackRequest
       let orderids = '';
       const datas = [];
       for (let i = 0; i < navigationParams.confirmOrders.length; i++) {
-        datas.push(navigationParams.confirmOrders[i].id);
+        datas.push(navigationParams.confirmOrders[i].order_id);
       }
       orderids = datas.toString();
       const utils = new Utils();
@@ -142,8 +227,8 @@ orderPutBackRequest
 
     const data = {
       source: {
-        latitude: navigationParams.lat,
-        longitude: navigationParams.lng,
+        latitude: navigationParams.warehouse_lat,
+        longitude: navigationParams.warehouse_lng,
       },
       destination: {
         latitude: desLat,
@@ -168,7 +253,7 @@ orderPutBackRequest
         // showPopupAlert('Not Found Location.');
       }
     }, (error) => {
-      //showPopupAlert(JSON.stringify(error));
+      // showPopupAlert(JSON.stringify(error));
     }, {
       enableHighAccuracy: false,
       timeout: 20000,
@@ -176,17 +261,108 @@ orderPutBackRequest
     });
   }
 
+  // ###### Pending Pickup Order
+
+  showLocationOnMAp() {
+    clearInterval(locationTimerId);
+    locationTimerId = setInterval(() => this.fetchCurrentLocation(), 5000);
+    this.getDirectionsonMap();
+  }
+
+  pickupDonePress() {
+    const utils = new Utils();
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        isCallPickupDoneAPI = true;
+        this.props.pickedupOrderRequest(warehouseDetails.warehouse_id);
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
+    });
+  }
+
+  deliveredPress() {
+    const utils = new Utils();
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        isCallCompletedAPI = true;
+        this.props.completedOrderRequest(warehouseDetails.warehouse_id);
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
+    });
+  }
+
+  onCallPress(phone) {
+    console.log('@@@@@@@@@@ phone', phone);
+
+    const utils = new Utils();
+    utils.onCallPress(phone);
+  }
+
+  driverCurrentLocation() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      if (position.coords.latitude && position.coords.longitude) {
+        driverLat = position.coords.latitude;
+        driverLng = position.coords.longitude;
+      } else {
+        // showPopupAlert('Not Found Location.');
+      }
+    }, (error) => {
+      // showPopupAlert(JSON.stringify(error));
+    }, {
+      enableHighAccuracy: false,
+      timeout: 20000,
+      maximumAge: 1000,
+    });
+  }
+
+  getDirectionsonMap() {
+    const data = {
+      source: {
+        latitude: driverLat,
+        longitude: driverLng,
+      },
+      destination: {
+        latitude: warehouseDetails.lat ? parseFloat(warehouseDetails.lat) : 0.0,
+        longitude: warehouseDetails.lng ? parseFloat(warehouseDetails.lng) : 0.0,
+      },
+      params: [
+        {
+          key: 'dirflg',
+          value: 'w',
+        },
+      ],
+    };
+    getDirections(data);
+  }
 
   render() {
+    const navigationParams = this.props.navigation.state.params;
+
     return (
-      <OrderPlace
-        onBacnkPress={() => this.onBacnkPress()}
-        onGoToPickupPress={() => this.onGoToPickupPress()}
-        onCancelPress={() => this.onCancelPress()}
-        onConfirmPress={() => this.onConfirmPress()}
-        confirmOrders={this.props.navigation.state.params.confirmOrders}
-        currentSecond={this.state.currentSecond}
-      />
+      <View style={{ flex: 1 }}>
+        { this.state.isShowReserveOrderView ?
+          <OrderPlace
+            onBacnkPress={() => this.onBacnkPress()}
+            onGoToPickupPress={() => this.onGoToPickupPress()}
+            onCancelPress={() => this.onCancelPress()}
+            onConfirmPress={() => this.onConfirmPress()}
+            confirmOrders={navigationParams.confirmOrders}
+            currentSecond={this.state.currentSecond}
+            isShowReserveOrderView={this.state.isShowReserveOrderView}
+          />
+     :
+          <PendingPickupOrder
+            onBacnkPress={() => this.onBacnkPress()}
+            pickupDonePress={() => this.pickupDonePress()}
+            deliveredPress={() => this.deliveredPress()}
+            onCallPress={phone => this.onCallPress(phone)}
+            showLocationOnMAp={() => this.showLocationOnMAp()}
+            warehouseDetails={warehouseDetails}
+          />
+      }
+      </View>
     );
   }
 }
@@ -195,6 +371,8 @@ orderPutBackRequest
 const mapStateToProps = state => ({
   isLoading: state.reserveOrder.isLoading,
   reserveOrderResponse: state.reserveOrder.reserveOrderResponse,
+  pickupedUpOrderResponse: state.reserveOrder.pickupedUpOrderResponse,
+  completedOrderResponse: state.reserveOrder.completedOrderResponse,
 });
 
 const mapDispatchToProps = () => UserActions;

@@ -1,5 +1,8 @@
+/* eslint-disable react/sort-comp, react/prop-types */
+
 import { Component } from 'react';
 import { AsyncStorage, NetInfo } from 'react-native';
+import call from 'react-native-phone-call';
 
 
 class Utils extends Component {
@@ -8,6 +11,13 @@ class Utils extends Component {
     this.state = {};
   }
 
+  onCallPress(phone) {
+    const args = {
+      number: phone, // String value with the number to call
+      prompt: false, // Optional boolean property. Determines if the user should be prompt prior to the call 
+    };
+    call(args).catch(console.error)
+  }
 
   setCustomerID(value) {
     AsyncStorage.setItem('CUSTOMER_ID', JSON.stringify(value));
@@ -56,6 +66,25 @@ class Utils extends Component {
     NetInfo.isConnected.fetch().then((isConnected) => {
       action(isConnected);
     });
+  }
+
+  async getItemWithKey(key, action) {
+    try {
+      const data = await AsyncStorage.getItem(key);
+      const parsedData = JSON.parse(data);
+      action(parsedData);
+    } catch (error) {
+      action(null);
+    }
+  }
+
+  async setItemWithKeyAndValue(key, value) {
+    try {
+      await AsyncStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }
 

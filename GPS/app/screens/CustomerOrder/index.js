@@ -3,6 +3,7 @@
  * https://github.com/facebook/react-native
  * @flow
  */
+/* eslint-disable react/sort-comp, react/prop-types */
 
 import React, { Component } from 'react';
 import {
@@ -24,6 +25,7 @@ let isPendingOrderAPI = false;
 let pedingOrders = [];
 let completeOrders = [];
 let isSelectedTabComplete = false;
+let isFromCustomer = false;
 
 class CustomerOrderView extends Component {
   constructor(props) {
@@ -40,7 +42,7 @@ class CustomerOrderView extends Component {
       && nextProps.customerPendingOrdersResponse.response
       && nextProps.customerPendingOrdersResponse.status === 200) {
       // && nextProps.customerPendingOrdersResponse.response.status === 1) {
-        isPendingOrderAPI = false;
+      isPendingOrderAPI = false;
       if (nextProps.customerPendingOrdersResponse
         && nextProps.customerPendingOrdersResponse.response.data) {
         pedingOrders = nextProps.customerPendingOrdersResponse.response.data;
@@ -52,7 +54,7 @@ class CustomerOrderView extends Component {
       && isPendingOrderAPI
       && (nextProps.customerPendingOrdersResponse.status !== 200
       || nextProps.customerPendingOrdersResponse.response.status !== 1)) {
-        isPendingOrderAPI = false;
+      isPendingOrderAPI = false;
       if (nextProps.customerPendingOrdersResponse.response.message && typeof nextProps.customerPendingOrdersResponse.response.message === 'string') {
         showPopupAlert(nextProps.customerPendingOrdersResponse.response.message);
         return;
@@ -60,13 +62,13 @@ class CustomerOrderView extends Component {
       showPopupAlert(constant.SERVER_ERROR_MESSAGE);
     }
 
-    //Complete Orders
+    // Complete Orders
     if (!nextProps.isLoading
       && isCompleteOrderAPI
       && nextProps.customerCompleteOrdersResponse.response
       && nextProps.customerCompleteOrdersResponse.status === 200) {
       // && nextProps.customerCompleteOrdersResponse.response.status === 1) {
-        isCompleteOrderAPI = false;
+      isCompleteOrderAPI = false;
       if (nextProps.customerCompleteOrdersResponse
         && nextProps.customerCompleteOrdersResponse.response.data) {
         completeOrders = nextProps.customerCompleteOrdersResponse.response.data;
@@ -77,7 +79,7 @@ class CustomerOrderView extends Component {
       && isCompleteOrderAPI
       && (nextProps.customerCompleteOrdersResponse.status !== 200
       || nextProps.customerCompleteOrdersResponse.response.status !== 1)) {
-        isCompleteOrderAPI = false;
+      isCompleteOrderAPI = false;
       if (nextProps.customerCompleteOrdersResponse.response.message && typeof nextProps.customerCompleteOrdersResponse.response.message === 'string') {
         showPopupAlert(nextProps.customerCompleteOrdersResponse.response.message);
         return;
@@ -87,6 +89,19 @@ class CustomerOrderView extends Component {
   }
 
   componentDidMount() {
+    const utils = new Utils();
+    utils.isFlowFromCustomer((response) => {
+      if (response) {
+        isFromCustomer = true;
+        this.getCustomerDetails();
+      } else {
+        isFromCustomer = false;
+        this.getDriverOrderDetails();
+      }
+    });
+  }
+
+  getCustomerDetails() {
     const utils = new Utils();
     utils.getCustomerid((response) => {
       utils.checkInternetConnectivity((reach) => {
@@ -102,13 +117,35 @@ class CustomerOrderView extends Component {
     });
   }
 
+  getDriverOrderDetails() {
+    const utils = new Utils();
+    utils.getDriverID((response) => {
+      utils.checkInternetConnectivity((reach) => {
+        if (reach && response) {
+          isPendingOrderAPI = true;
+          isCompleteOrderAPI = true;
+          this.props.driverPendingOrdersRequest(response);
+          this.props.cutomerCompleteOrdersRequest(response);
+        } else {
+          showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+        }
+      });
+    });
+  }
+
   onCellSelectionPress(selectedItem) {
     const { navigate } = this.props.navigation;
-   if (isSelectedTabComplete){
-     navigate('CustomerFeedback', { selectedOrderItem: selectedItem });
-   } else {
-     navigate('CustomerOrderStatus', { selectedOrderItem: selectedItem });
-   }
+    if (isFromCustomer) {
+      if (isSelectedTabComplete) {
+        navigate('CustomerFeedback', { selectedOrderItem: selectedItem });
+      } else {
+        navigate('CustomerOrderStatus', { selectedOrderItem: selectedItem });
+      }
+    } else if (isSelectedTabComplete) {
+      navigate('CustomerFeedback', { selectedOrderItem: selectedItem });
+    } else {
+      navigate('ReserveOrder', { warehouseDetails: selectedItem, isShowReserveOrderView: false });
+    }
   }
 
   onPendingOrderPress() {
@@ -145,7 +182,7 @@ class CustomerOrderView extends Component {
           getRenderRow={item => this.getRenderRow(item)}
           leftMenuItems={this.state.orderList}
         />
-      {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
+        {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
       </View>
     );
   }

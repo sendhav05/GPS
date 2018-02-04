@@ -321,6 +321,22 @@ export const cutomerPendingOrdersURl = (customerid) => {
   return url;
 };
 
+export const driverPendingOrdersURl = (driverid) => {
+  const url = `${getBaseUrl}/order/driverPendingOrders`;
+  let param = '';
+  if (driverid) {
+    if (param) {
+      param = `${param}&`;
+    }
+    param = `driver_id=${driverid}`;
+  }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
+
 export const notificationUrl = (userid) => {
   const url = `${getBaseUrl}/notification`;
   let param = '';
@@ -363,6 +379,28 @@ export const feedbackUrl = (type, orderid, customerid, driverid, feedback, userR
   if (feedback) { if (param) { param = `${param}&`; } param = `${param}feedback=${feedback}`; }
   if (userRating) { if (param) { param = `${param}&`; } param = `${param}user_rating=${userRating}`; }
 
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
+
+export const pickupedOrderUrl = (orderid) => {
+  const url = `${getBaseUrl}/order/pickupedOrder`;
+  let param = '';
+  if (orderid) { if (param) { param = `${param}&`; } param = `${param}order_id=${orderid}`; }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
+
+export const completedOrderUrl = (orderid) => {
+  const url = `${getBaseUrl}/order/completeOrder`;
+  let param = '';
+  if (orderid) { if (param) { param = `${param}&`; } param = `${param}order_id=${orderid}`; }
 
   if (param) {
     return `${url}?${param}`;

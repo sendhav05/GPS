@@ -21,7 +21,10 @@ import { userLoginRequest,
   cutomerCompleteOrdersRequest,
   notificationListRequest,
   cancelOrderRequest,
-  feedbackRequest }
+  feedbackRequest,
+  driverPendingOrdersRequest,
+  pickedupOrderRequest,
+  completedOrderRequest }
   from './Authentication';
 
 const actions = {
@@ -46,6 +49,9 @@ const actions = {
   notificationListRequest,
   cancelOrderRequest,
   feedbackRequest,
+  driverPendingOrdersRequest,
+  pickedupOrderRequest,
+  completedOrderRequest,
 };
 
 export default bindActionCreators(actions, store.dispatch);

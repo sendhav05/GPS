@@ -27,7 +27,6 @@ import NotificationScreen from '../screens/Notification';
 import CustomerOrderStatusScreen from '../screens/CustomerOrderStatus';
 import CustomerFeedbackScreen from '../screens/CustomerFeedback';
 
-
 // https://github.com/react-community/react-navigation/issues/1254
 const noTransitionConfig = () => ({
   transitionSpec: {
@@ -103,7 +102,6 @@ const AppStack = StackNavigator({
       gesturesEnabled: false,
     },
   },
-  
 }, {
   headerMode: 'float',
   navigationOptions: {
@@ -209,10 +207,43 @@ const DriverAppStack = StackNavigator({
   },
 });
 
+const DriverOrderStack = StackNavigator({
+  CustomerOrder: {
+    screen: CustomerOrderScreen,
+    key: 'CustomerOrderScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  ReserveOrder: {
+    screen: ReserveOrderScreen,
+    key: 'ReserveOrderScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  CustomerFeedback: {
+    screen: CustomerFeedbackScreen,
+    key: 'CustomerFeedbackScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+}, {
+  headerMode: 'float',
+  navigationOptions: {
+    headerStyle: { backgroundColor: 'red' },
+    title: 'You are not logged in',
+  },
+});
+
 // driver drawer stack
 const DriverStack = DrawerNavigator({
   DriverWareHouseList: { screen: DriverAppStack },
-  CustomerOrder: { screen: CustomerOrderScreen },
+  CustomerOrder: { screen: DriverOrderStack },
   Notification: { screen: NotificationScreen },
 }, {
   gesturesEnabled: false,

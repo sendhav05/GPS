@@ -4,7 +4,9 @@ import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
   driverOrderListUrl, reserveOrderURl, sendDriverLocationToserverURl,
   addressListUrl, addAddressListUrl, deleteAddressListUrl,
   orderPutBackUrl, cutomerPendingOrdersURl, cutomerCompleteOrdersUrl,
-  notificationUrl, cancelOrderUrl, feedbackUrl } from '../api/urls';
+  notificationUrl, cancelOrderUrl, feedbackUrl,
+  driverPendingOrdersURl, pickupedOrderUrl,
+  completedOrderUrl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -84,11 +86,18 @@ export const FEEDBACK_REQUEST = 'FEEDBACK_REQUEST';
 export const FEEDBACK_SUCCESS = 'FEEDBACK_SUCCESS';
 export const FEEDBACK_FAILURE = 'FEEDBACK_FAILURE';
 
+export const PICKEDUP_ORDER_REQUEST = 'PICKEDUP_ORDER_REQUEST';
+export const PICKEDUP_ORDER_SUCCESS = 'PICKEDUP_ORDER_SUCCESS';
+export const PICKEDUP_ORDER_FAILURE = 'PICKEDUP_ORDER_FAILURE';
+
+export const COMPLETED_ORDER_REQUEST = 'COMPLETED_ORDER_REQUEST';
+export const COMPLETED_ORDER_SUCCESS = 'COMPLETED_ORDER_SUCCESS';
+export const COMPLETED_ORDER_FAILURE = 'COMPLETED_ORDER_FAILURE';
+
 export const RESET_ADDRESS_DATA = 'RESET_ADDRESS_DATA';
 
 export const userLoginRequest = (email, password, type, deviceToken, deviceType) => {
   const url = loginUrl(email, password, type, deviceToken, deviceType);
-  console.log('******* userLoginRequest', url);
   return postApiAction({
     types: [USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGIN_FAILURE],
     url,
@@ -165,6 +174,7 @@ export const driverOrderListRequest = (lat, lng, warehouseid) => {
 
 export const reserveOrderRequest = (driverid, orderids, warehouseid) => {
   const url = reserveOrderURl(driverid, orderids, warehouseid);
+  console.log('********* reserve order', url);
   return postApiAction({
     types: [RESERVE_ORDER_REQUEST, RESERVE_ORDER_SUCCESS, RESERVE_ORDER_FAILURE],
     url,
@@ -173,6 +183,8 @@ export const reserveOrderRequest = (driverid, orderids, warehouseid) => {
 
 export const sendDriverLocationToserverRequest = (reserveID, lat, lng) => {
   const url = sendDriverLocationToserverURl(reserveID, lat, lng);
+  console.log('******* DRIVER LOCATION', url);
+
   return postApiAction({
     types: [DRIVER_LOCATION_REQUEST, DRIVER_LOCATION_SUCCESS, DRIVER_LOCATION_FAILURE],
     url,
@@ -224,6 +236,14 @@ export const cutomerPendingOrdersRequest = (customerid) => {
   });
 };
 
+export const driverPendingOrdersRequest = (driverid) => {
+  const url = driverPendingOrdersURl(driverid);
+  return postApiAction({
+    types: [CUSTOMER_PEN_ORDER_REQUEST, CUSTOMER_PEN_ORDER_SUCCESS, CUSTOMER_PEN_ORDER_FAILURE],
+    url,
+  });
+};
+
 export const cutomerCompleteOrdersRequest = (customerid) => {
   const url = cutomerCompleteOrdersUrl(customerid);
   return postApiAction({
@@ -253,6 +273,22 @@ export const feedbackRequest = (type, orderid, customerid, driverid, feedback, u
   const url = feedbackUrl(type, orderid, customerid, driverid, feedback, userRating);
   return postApiAction({
     types: [FEEDBACK_REQUEST, FEEDBACK_SUCCESS, FEEDBACK_FAILURE],
+    url,
+  });
+};
+
+export const pickedupOrderRequest = (orderid) => {
+  const url = pickupedOrderUrl(orderid);
+  return postApiAction({
+    types: [PICKEDUP_ORDER_REQUEST, PICKEDUP_ORDER_SUCCESS, PICKEDUP_ORDER_FAILURE],
+    url,
+  });
+};
+
+export const completedOrderRequest = (orderid) => {
+  const url = completedOrderUrl(orderid);
+  return postApiAction({
+    types: [COMPLETED_ORDER_REQUEST, COMPLETED_ORDER_SUCCESS, COMPLETED_ORDER_FAILURE],
     url,
   });
 };

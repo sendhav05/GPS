@@ -27,9 +27,18 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      emailPhoneNumber: '',
-      password: '',
+      emailPhoneNumber: 'D@gmail.com',
+      password: '123456',
     };
+  }
+
+  componentDidMount() {
+    AsyncStorage.getItem('DEVICE_TOKEN_PN').then((deviceToken) => {
+      if (deviceToken && JSON.parse(deviceToken)) {
+        deviceTokenData = JSON.parse(deviceToken);
+        console.log('***** deviceTokenData ', deviceTokenData);
+      }
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,8 +49,10 @@ class App extends Component {
       const utils = new Utils();
       if (this.props.navigation.state.params.isFromCustomer) {
         utils.setCustomerID(nextProps.userLoginResponse.response.data.user_id);
+        utils.setItemWithKeyAndValue('CUSTOMER_USER_DETAILS', nextProps.userLoginResponse.response.data);
       } else {
         utils.setDriverID(nextProps.userLoginResponse.response.data.user_id);
+        utils.setItemWithKeyAndValue('DRIVER_USER_DETAILS', nextProps.userLoginResponse.response.data);
       }
       const { navigate } = this.props.navigation;
       navigate('VerifyOTP', { isFromCustomer: this.props.navigation.state.params.isFromCustomer });
@@ -56,19 +67,6 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
-    console.log('***** componentDidMount ');
-
-    AsyncStorage.getItem('DEVICE_TOKEN_PN').then((deviceToken) => {
-      console.log('***** componentDidMount ', JSON.parse(deviceToken));
-
-      if (deviceToken && JSON.parse(deviceToken)) {
-        deviceTokenData = JSON.parse(deviceToken);
-        console.log('***** deviceTokenData ', deviceTokenData);
-
-      }
-    });
-  }
 
   onForgotPassowrdPress() {
     console.log('***** onForgotPassowrdPress ');

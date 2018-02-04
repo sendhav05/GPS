@@ -22,6 +22,10 @@ const unselectIcon = require('./unselect_icon.png');
 const selectedIcon = require('./selected_icon.png');
 const selectedStart = require('./star.png');
 const unSelectedStart = require('./star1.png');
+const callBlue = require('./call_blue.png');
+const locatBlue = require('./locat_blue.png');
+const clock1 = require('./clock1.png');
+const clock2 = require('./clock2.png');
 
 const images = {
   logo,
@@ -45,7 +49,11 @@ const images = {
   unselectIcon,
   selectedIcon,
   selectedStart,
-  unSelectedStart
+  unSelectedStart,
+  callBlue,
+  locatBlue,
+  clock1,
+  clock2,
 };
 
 export default images;

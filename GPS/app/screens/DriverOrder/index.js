@@ -34,7 +34,7 @@ class CustomerOrderView extends Component {
     const utils = new Utils();
     utils.checkInternetConnectivity((reach) => {
       if (reach) {
-        this.props.driverOrderListRequest(navigationParams.lat, navigationParams.lng, navigationParams.selectedWareHouseID);
+        this.props.driverOrderListRequest(navigationParams.lat, navigationParams.lng, navigationParams.selectedWareHouse.warehouse_id);
       } else {
         showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
       }
@@ -83,7 +83,13 @@ class CustomerOrderView extends Component {
   onConfirmOrderAddedPress() {
     const { navigate } = this.props.navigation;
     const navigationParams = this.props.navigation.state.params;
-    navigate('ReserveOrder', { selectedWareHouseID: navigationParams.selectedWareHouseID, confirmOrders, lat: navigationParams.lat, lng: navigationParams.lng });
+    navigate('ReserveOrder', {
+      isShowReserveOrderView: true,
+      selectedWareHouse: navigationParams.selectedWareHouse,
+      confirmOrders,
+      lat: navigationParams.lat,
+      lng: navigationParams.lng,
+    });
   }
 
   onAddedOrderItem(addedOrderItem) {

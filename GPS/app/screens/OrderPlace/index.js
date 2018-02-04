@@ -3,6 +3,7 @@
  * https://github.com/facebook/react-native
  * @flow
  */
+/* eslint-disable react/sort-comp, react/prop-types */
 
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
@@ -23,8 +24,8 @@ let landmark = '';
 let customerid = '-1';
 let lat = '0.0';
 let lng = '0.0';
-
 let selectedAddress = {};
+let customerDetails = {};
 
 class OrderPlaceView extends Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class OrderPlaceView extends Component {
 
 
   componentDidMount() {
+    this.getCustomerDetails();
     const utils = new Utils();
     utils.getCustomerid((response) => {
       customerid = response;
@@ -46,15 +48,14 @@ class OrderPlaceView extends Component {
     if (!nextProps.isLoading
       && nextProps.orderPlaceResponse.response
       && nextProps.orderPlaceResponse.status === 200) {
-
-        Alert.alert(
-          'GPS',
-          'Thank you for your order. We will notify you when groceries are on the way.',
-          [
-            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-            {text: 'Track', onPress: () => this.gotToOrderStatusTrack(nextProps.orderPlaceResponse.response.data)},
-          ],
-        )
+      Alert.alert(
+        'GPS',
+        'Thank you for your order. We will notify you when groceries are on the way.',
+        [
+          { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+          { text: 'Track', onPress: () => this.gotToOrderStatusTrack(nextProps.orderPlaceResponse.response.data) },
+        ],
+      );
     } else if (!nextProps.isLoading && nextProps.orderPlaceResponse.response
       && (nextProps.orderPlaceResponse.status !== 200
       || nextProps.orderPlaceResponse.response.status !== 1)) {
@@ -64,6 +65,14 @@ class OrderPlaceView extends Component {
       }
       showPopupAlert(constant.SERVER_ERROR_MESSAGE);
     }
+  }
+
+  getCustomerDetails() {
+    new Utils().getItemWithKey('CUSTOMER_USER_DETAILS', (response) => {
+      if (response) {
+        customerDetails = response;
+      }
+    });
   }
 
   onChoosePaymentPress() {
@@ -98,12 +107,12 @@ class OrderPlaceView extends Component {
 
   onOrderPress() {
     const warehouseid = this.props.navigation.state.params.warehouse_id;
-    const name = 'Test data';
-    const contectno = '9200260565';
-    const email = 'test@gmail.com';
-    const paymentid = 'pid123';
+    const name = customerDetails.name;
+    const contectno = customerDetails.contect_no;
+    const email = customerDetails.email;
+    const paymentid = Math.floor((Math.random() * 10000) + 1);
     const paymenttype = 'online';
-    const paymentstatus = 'pending';
+    const paymentstatus = 'confirm';
     const totallamount = totalPrice;
     const itemiddata = { item_id: this.props.navigation.state.params.selectedProductItem.product_id, quantity: this.state.quantity, amount: totallamount };
     const itemid = encodeURIComponent(JSON.stringify(itemiddata));
@@ -152,7 +161,7 @@ class OrderPlaceView extends Component {
 
   render() {
     const oneItemPrice = Number(this.props.navigation.state.params.selectedProductItem.price);
-    let price = this.state.quantity * oneItemPrice;
+    const price = this.state.quantity * oneItemPrice;
     totalPrice = deliveryCharge + price;
     return (
       <OrderPlace
