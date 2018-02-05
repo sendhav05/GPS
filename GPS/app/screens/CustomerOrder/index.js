@@ -9,16 +9,14 @@ import React, { Component } from 'react';
 import {
   View,
 } from 'react-native';
-import { Provider } from 'react-redux';
-import { store } from '../../store';
-import runRootSaga from '../../sagas';
+import { connect } from 'react-redux';
 import CustomerOrder from './components/CustomerOrder';
 import UserActions from '../../actions';
-import { connect } from 'react-redux';
 import OrderCell from './components/OrderCell';
 import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
 import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
+import constant from '../../utils/constants';
 
 let isCompleteOrderAPI = false;
 let isPendingOrderAPI = false;
@@ -125,7 +123,7 @@ class CustomerOrderView extends Component {
           isPendingOrderAPI = true;
           isCompleteOrderAPI = true;
           this.props.driverPendingOrdersRequest(response);
-          this.props.cutomerCompleteOrdersRequest(response);
+          this.props.driverCompleteOrdersListRequest(response);
         } else {
           showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
         }

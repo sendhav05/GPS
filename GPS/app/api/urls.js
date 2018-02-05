@@ -337,6 +337,17 @@ export const driverPendingOrdersURl = (driverid) => {
   return url;
 };
 
+export const driverCompleteOrdersURl = (driverid) => {
+  const url = `${getBaseUrl}/order/driverCompleteOrders`;
+  let param = '';
+  if (driverid) { if (param) { param = `${param}&`; } param = `${param}driver_id=${driverid}`; }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
+
 export const notificationUrl = (userid) => {
   const url = `${getBaseUrl}/notification`;
   let param = '';

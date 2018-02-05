@@ -34,6 +34,7 @@ class OrderPlaceView extends Component {
     super(props);
     this.state = {
       currentSecond: '60',
+      deliveredBtnEnabled: false,
       isShowReserveOrderView: props.navigation.state.params.isShowReserveOrderView,
     };
   }
@@ -99,6 +100,7 @@ class OrderPlaceView extends Component {
       && nextProps.pickupedUpOrderResponse.status === 200) {
       if (nextProps.pickupedUpOrderResponse.response.message && typeof nextProps.pickupedUpOrderResponse.response.message === 'string') {
         isCallPickupDoneAPI = false;
+        this.setState({ deliveredBtnEnabled: true });
         showPopupAlert(nextProps.pickupedUpOrderResponse.response.message);
         this.onBacnkPress();
         return;
@@ -274,7 +276,7 @@ class OrderPlaceView extends Component {
     utils.checkInternetConnectivity((reach) => {
       if (reach) {
         isCallPickupDoneAPI = true;
-        this.props.pickedupOrderRequest(warehouseDetails.warehouse_id);
+        this.props.pickedupOrderRequest(warehouseDetails.order_id);
       } else {
         showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
       }
@@ -286,7 +288,7 @@ class OrderPlaceView extends Component {
     utils.checkInternetConnectivity((reach) => {
       if (reach) {
         isCallCompletedAPI = true;
-        this.props.completedOrderRequest(warehouseDetails.warehouse_id);
+        this.props.completedOrderRequest(warehouseDetails.order_id);
       } else {
         showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
       }
@@ -360,6 +362,7 @@ class OrderPlaceView extends Component {
             onCallPress={phone => this.onCallPress(phone)}
             showLocationOnMAp={() => this.showLocationOnMAp()}
             warehouseDetails={warehouseDetails}
+            deliveredBtnEnabled={this.state.deliveredBtnEnabled}
           />
       }
       </View>

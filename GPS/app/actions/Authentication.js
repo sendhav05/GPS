@@ -6,7 +6,7 @@ import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
   orderPutBackUrl, cutomerPendingOrdersURl, cutomerCompleteOrdersUrl,
   notificationUrl, cancelOrderUrl, feedbackUrl,
   driverPendingOrdersURl, pickupedOrderUrl,
-  completedOrderUrl } from '../api/urls';
+  completedOrderUrl, driverCompleteOrdersURl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -289,6 +289,14 @@ export const completedOrderRequest = (orderid) => {
   const url = completedOrderUrl(orderid);
   return postApiAction({
     types: [COMPLETED_ORDER_REQUEST, COMPLETED_ORDER_SUCCESS, COMPLETED_ORDER_FAILURE],
+    url,
+  });
+};
+
+export const driverCompleteOrdersListRequest = (driverid) => {
+  const url = driverCompleteOrdersURl(driverid);
+  return postApiAction({
+    types: [CUSTOMER_COM_ORDER_REQUEST, CUSTOMER_COM_ORDER_SUCCESS, CUSTOMER_COM_ORDER_FAILURE],
     url,
   });
 };

@@ -16,6 +16,7 @@ import NavBar from '../../../components/NavBar';
 
 const { width } = Dimensions.get('window');
 const brownOrangeColor = 'rgba(255,101,70,1)';
+const disbaledBrownOrangeColor = 'rgba(255,101,70,0.6)';
 const blueTextColor = 'rgba(97,90,188,1)';
 
 const styles = StyleSheet.create({
@@ -160,7 +161,7 @@ const PendingPickupOrder = props => (
               style={{ width: 16, height: 16 }}
             />
             <Text style={[styles.deliveryTextStyle, { left: 45 }]}>
-              {props.warehouseDetails.contact}  
+              {props.warehouseDetails.contact}
             </Text>
           </View>
         </TouchableOpacity>
@@ -200,7 +201,9 @@ const PendingPickupOrder = props => (
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.confirmButton}
+            style={[styles.confirmButton, { backgroundColor: props.deliveredBtnEnabled ? brownOrangeColor : disbaledBrownOrangeColor }]}
+            disabled
+            activeOpacity={props.deliveredBtnEnabled ? 1 : 0.5}
             onPress={() => props.deliveredPress()}
           >
             <Text style={styles.buttonText}>
