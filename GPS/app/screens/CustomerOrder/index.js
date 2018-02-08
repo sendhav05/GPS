@@ -140,7 +140,11 @@ class CustomerOrderView extends Component {
         navigate('CustomerOrderStatus', { selectedOrderItem: selectedItem });
       }
     } else if (isSelectedTabComplete) {
-      navigate('CustomerFeedback', { selectedOrderItem: selectedItem });
+      if (Number(selectedItem.user_rating) !== 0) {
+        showPopupAlert('You have alreeady sent feedback.');
+      } else {
+        navigate('CustomerFeedback', { selectedOrderItem: selectedItem });
+      }
     } else {
       navigate('ReserveOrder', { warehouseDetails: selectedItem, isShowReserveOrderView: false });
     }

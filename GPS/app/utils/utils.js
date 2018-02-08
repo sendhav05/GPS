@@ -14,9 +14,9 @@ class Utils extends Component {
   onCallPress(phone) {
     const args = {
       number: phone, // String value with the number to call
-      prompt: false, // Optional boolean property. Determines if the user should be prompt prior to the call 
+      prompt: false, // Optional boolean property. Determines if the user should be prompt prior to the call
     };
-    call(args).catch(console.error)
+    call(args).catch(console.error);
   }
 
   setCustomerID(value) {
@@ -85,6 +85,25 @@ class Utils extends Component {
     } catch (error) {
       return false;
     }
+  }
+
+  distanceBetweenCord(lat1, lon1, lat2, lon2, isMiles) {
+    function toRad(x) {
+      return x * Math.PI / 180;
+    }
+
+    const R = 6371; // km
+    const x1 = lat2 - lat1;
+    const dLat = toRad(x1);
+    const x2 = lon2 - lon1;
+    const dLon = toRad(x2);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    let d = R * c;
+    if (isMiles) d /= 1.60934;
+    return d;
   }
 }
 

@@ -44,6 +44,10 @@ class OrderPlaceView extends Component {
     if (!this.state.isShowReserveOrderView) {
       const navigationParams = this.props.navigation.state.params;
       warehouseDetails = navigationParams.warehouseDetails;
+
+      if (Number(warehouseDetails.order_status) === 5) {
+        this.setState({ deliveredBtnEnabled: true });
+      }
     }
   }
 
@@ -102,7 +106,7 @@ class OrderPlaceView extends Component {
         isCallPickupDoneAPI = false;
         this.setState({ deliveredBtnEnabled: true });
         showPopupAlert(nextProps.pickupedUpOrderResponse.response.message);
-        this.onBacnkPress();
+       // this.onBacnkPress();
         return;
       }
       showPopupAlert('Successfully pickedup orders.');
@@ -268,7 +272,11 @@ class OrderPlaceView extends Component {
   showLocationOnMAp() {
     clearInterval(locationTimerId);
     locationTimerId = setInterval(() => this.fetchCurrentLocation(), 5000);
-    this.getDirectionsonMap();
+    if (this.state.deliveredBtnEnabled) {
+      this.getCustomerDirectionsonMap();
+    } else {
+      this.getWarehouseDirectionsonMap();
+    }
   }
 
   pickupDonePress() {
@@ -319,15 +327,35 @@ class OrderPlaceView extends Component {
     });
   }
 
-  getDirectionsonMap() {
+  getWarehouseDirectionsonMap() {
     const data = {
       source: {
         latitude: driverLat,
         longitude: driverLng,
       },
       destination: {
-        latitude: warehouseDetails.lat ? parseFloat(warehouseDetails.lat) : 0.0,
-        longitude: warehouseDetails.lng ? parseFloat(warehouseDetails.lng) : 0.0,
+        latitude: warehouseDetails.warehouse_lat ? parseFloat(warehouseDetails.warehouse_lat) : 0.0,
+        longitude: warehouseDetails.warehouse_lng ? parseFloat(warehouseDetails.warehouse_lng) : 0.0,
+      },
+      params: [
+        {
+          key: 'dirflg',
+          value: 'w',
+        },
+      ],
+    };
+    getDirections(data);
+  }
+
+  getCustomerDirectionsonMap() {
+    const data = {
+      source: {
+        latitude: driverLat,
+        longitude: driverLng,
+      },
+      destination: {
+        latitude: warehouseDetails.customer_lat ? parseFloat(warehouseDetails.customer_lat) : 0.0,
+        longitude: warehouseDetails.customer_lng ? parseFloat(warehouseDetails.customer_lng) : 0.0,
       },
       params: [
         {
@@ -341,6 +369,14 @@ class OrderPlaceView extends Component {
 
   render() {
     const navigationParams = this.props.navigation.state.params;
+    let phoneNum = '';
+    if (!this.state.isShowReserveOrderView) {
+      if (this.state.deliveredBtnEnabled) {
+        phoneNum = warehouseDetails.contact_no;
+      } else {
+        phoneNum = warehouseDetails.contact;
+      }
+    }
 
     return (
       <View style={{ flex: 1 }}>
@@ -363,6 +399,7 @@ class OrderPlaceView extends Component {
             showLocationOnMAp={() => this.showLocationOnMAp()}
             warehouseDetails={warehouseDetails}
             deliveredBtnEnabled={this.state.deliveredBtnEnabled}
+            phoneNum={phoneNum}
           />
       }
       </View>

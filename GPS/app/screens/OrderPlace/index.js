@@ -8,13 +8,15 @@
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
+import Geocoder from 'react-native-geocoding';
 import OrderPlace from './components/OrderPlace';
 import UserActions from '../../actions';
 import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
 import Utils from '../../utils/utils';
 import constant from '../../utils/constants';
 
-const deliveryCharge = 10;
+Geocoder.setApiKey('AIzaSyAaW89mTb3_GuMBIg2zd1XGm-GT0anAd0I'); // use a valid API key
+
 let totalPrice = 0;
 let pincode = '';
 let state = '';
@@ -26,17 +28,22 @@ let lat = '0.0';
 let lng = '0.0';
 let selectedAddress = {};
 let customerDetails = {};
+let wareHouseItem = {};
+let distanceMiles = 0.0;
 
 class OrderPlaceView extends Component {
   constructor(props) {
     super(props);
     this.state = {
       quantity: '1',
+      deliveryCharge: 0,
     };
+    this.onSelectAddress = this.onSelectAddress.bind(this);
   }
 
 
   componentDidMount() {
+    wareHouseItem = this.props.navigation.state.params.selectedWareHouseItem;
     this.getCustomerDetails();
     const utils = new Utils();
     utils.getCustomerid((response) => {
@@ -90,12 +97,7 @@ class OrderPlaceView extends Component {
   }
 
   onSelectAddress(sAddress) {
-    console.log('***** data ', sAddress);
-
     selectedAddress = sAddress.selectedAddress;
-    console.log('***** data 2 ', selectedAddress);
-    console.log('***** data 3', selectedAddress.pin_code);
-
     pincode = selectedAddress.pin_code;
     state = selectedAddress.state;
     city = selectedAddress.city;
@@ -103,10 +105,47 @@ class OrderPlaceView extends Component {
     landmark = selectedAddress.landMark;
     lat = selectedAddress.lat;
     lng = selectedAddress.lng;
+
+    const finalAddressStr = `${address} ${city}, ${landmark}, ${state}`;
+    const warehouseLat = wareHouseItem.lat ? parseFloat(wareHouseItem.lat) : 0.0;
+    const warehouseLng = wareHouseItem.lng ? parseFloat(wareHouseItem.lng) : 0.0;
+
+    const utils = new Utils();
+    const dMiles = utils.distanceBetweenCord(lat, lng, warehouseLat, warehouseLng, true);
+    distanceMiles = dMiles.toFixed(2);
+    console.log('***** distanceMiles ', distanceMiles);
+
+    // delivery charge
+    const minimumMiles = Number(wareHouseItem.minimumMiles);
+    const minimumMileRate = Number(wareHouseItem.minimumMileRate);
+    const perMileRate = Number(wareHouseItem.perMileRate);
+
+    let dCharge = 0;
+    if (distanceMiles) {
+      if (distanceMiles <= minimumMiles) {
+        dCharge = minimumMiles * minimumMileRate;
+      } else {
+        dCharge = distanceMiles * perMileRate;
+      }
+    }
+    this.setState({ deliveryCharge: dCharge });
+
+    // Geocoder.getFromLocation(finalAddressStr).then(
+    //   (json) => {
+    //     console.log('***** json ', json);
+
+    //     let location = json.results[0].geometry.location;
+    //     console.log('***** location ', location.lat, location.lng);
+        
+    //   },
+    //   (error) => {
+    //     alert(error);
+    //   },
+    // );
   }
 
   onOrderPress() {
-    const warehouseid = this.props.navigation.state.params.warehouse_id;
+    const warehouseid = this.props.navigation.state.params.selectedWareHouseItem.warehouse_id;
     const name = customerDetails.name;
     const contectno = customerDetails.contect_no;
     const email = customerDetails.email;
@@ -162,7 +201,7 @@ class OrderPlaceView extends Component {
   render() {
     const oneItemPrice = Number(this.props.navigation.state.params.selectedProductItem.price);
     const price = this.state.quantity * oneItemPrice;
-    totalPrice = deliveryCharge + price;
+    totalPrice = this.state.deliveryCharge + price;
     return (
       <OrderPlace
         onChoosePaymentPress={() => this.onChoosePaymentPress()}
@@ -175,7 +214,8 @@ class OrderPlaceView extends Component {
         selectedProductItem={this.props.navigation.state.params.selectedProductItem}
         totalPrice={totalPrice}
         price={price}
-        deliveryCharge={deliveryCharge}
+        deliveryCharge={this.state.deliveryCharge}
+        distanceMiles={distanceMiles}
       />
     );
   }

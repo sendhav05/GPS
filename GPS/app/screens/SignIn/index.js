@@ -132,7 +132,7 @@ class App extends Component {
           password={this.state.password}
           isFromCustomer={this.props.navigation.state.params.isFromCustomer}
         />
-        {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}  
+        {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
       </View>
     );
   }

@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 130,
-    height: 138,
+    width: 110,
+    height: 118,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: brownOrangeColor,
@@ -73,9 +73,8 @@ const styles = StyleSheet.create({
   },
   bodyView: {
     flex: 1,
-    marginTop: 5,
     width,
-    height: 200,
+    height: 160,
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
@@ -103,7 +102,7 @@ const styles = StyleSheet.create({
     height: 30,
   },
   cellView: {
-    height: 60,
+    height: 50,
     width,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -155,7 +154,15 @@ const CustomerHome = props => (
       <View style={styles.bodyView}>
         <View style={styles.cellView}>
           <Text style={styles.productCountText}>
-            Delivery Charge
+            Delivery Distance
+          </Text>
+          <Text style={styles.productCountText}>
+            {`${props.distanceMiles} m.`}
+          </Text>
+        </View>
+        <View style={styles.cellView}>
+          <Text style={styles.productCountText}>
+            Delivery Payment
           </Text>
           <Text style={styles.productCountText}>
             {`${props.deliveryCharge} $`}

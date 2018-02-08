@@ -153,7 +153,7 @@ const PendingPickupOrder = props => (
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => props.onCallPress(props.warehouseDetails.contact)}
+          onPress={() => props.onCallPress(props.phoneNum)}
         >
           <View style={styles.phoneView}>
             <Image
@@ -161,7 +161,7 @@ const PendingPickupOrder = props => (
               style={{ width: 16, height: 16 }}
             />
             <Text style={[styles.deliveryTextStyle, { left: 45 }]}>
-              {props.warehouseDetails.contact}
+              {props.phoneNum}
             </Text>
           </View>
         </TouchableOpacity>
@@ -193,7 +193,9 @@ const PendingPickupOrder = props => (
         </TouchableOpacity> */}
         <View style={styles.confirmButtonView}>
           <TouchableOpacity
-            style={styles.confirmButton}
+            style={[styles.confirmButton, { backgroundColor: !props.deliveredBtnEnabled ? brownOrangeColor : disbaledBrownOrangeColor }]}
+            disabled={props.deliveredBtnEnabled}
+            activeOpacity={!props.deliveredBtnEnabled ? 1 : 0.5}
             onPress={() => props.pickupDonePress()}
           >
             <Text style={styles.buttonText}>
@@ -202,7 +204,7 @@ const PendingPickupOrder = props => (
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.confirmButton, { backgroundColor: props.deliveredBtnEnabled ? brownOrangeColor : disbaledBrownOrangeColor }]}
-            disabled
+            disabled={!props.deliveredBtnEnabled}
             activeOpacity={props.deliveredBtnEnabled ? 1 : 0.5}
             onPress={() => props.deliveredPress()}
           >
