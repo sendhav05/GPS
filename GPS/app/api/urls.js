@@ -242,17 +242,25 @@ export const addressListUrl = (customerid) => {
   return url;
 };
 
-export const addAddressListUrl = (type, city, pincode, state, address, landmark, customerid, deliveryid) => {
+export const addAddressListUrl = (
+  type, city, pincode, state, address, landmark, customerid, shippingpincode, shippingstate, shippingaddress, shippinglandmark, shippingcity,
+) => {
   const url = `${getBaseUrl}/customer/deliveryAddress`;
   let param = '';
   if (type) { if (param) { param = `${param}&`; } param = `${param}type=${type}`; }
+  if (customerid) { if (param) { param = `${param}&`; } param = `${param}customer_id=${customerid}`; }
+
   if (city) { if (param) { param = `${param}&`; } param = `${param}city=${city}`; }
   if (pincode) { if (param) { param = `${param}&`; } param = `${param}pin_code=${pincode}`; }
   if (state) { if (param) { param = `${param}&`; } param = `${param}state=${state}`; }
   if (address) { if (param) { param = `${param}&`; } param = `${param}address=${address}`; }
   if (landmark) { if (param) { param = `${param}&`; } param = `${param}landmark=${landmark}`; }
-  if (customerid) { if (param) { param = `${param}&`; } param = `${param}customer_id=${customerid}`; }
-  if (deliveryid) { if (param) { param = `${param}&`; } param = `${param}delivery_id=${deliveryid}`; }
+
+  if (shippingcity) { if (param) { param = `${param}&`; } param = `${param}shipping_city=${shippingcity}`; }
+  if (shippingpincode) { if (param) { param = `${param}&`; } param = `${param}shipping_pin_code=${shippingpincode}`; }
+  if (shippingstate) { if (param) { param = `${param}&`; } param = `${param}shipping_state=${shippingstate}`; }
+  if (shippingaddress) { if (param) { param = `${param}&`; } param = `${param}shipping_address=${shippingaddress}`; }
+  if (shippinglandmark) { if (param) { param = `${param}&`; } param = `${param}shipping_landmark=${shippinglandmark}`; }
 
   if (param) {
     return `${url}?${param}`;

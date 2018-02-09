@@ -24,8 +24,8 @@ let city = '';
 let address = '';
 let landmark = '';
 let customerid = '-1';
-let lat = '0.0';
-let lng = '0.0';
+const lat = '0.0';
+const lng = '0.0';
 let selectedAddress = {};
 let customerDetails = {};
 let wareHouseItem = {};
@@ -103,45 +103,43 @@ class OrderPlaceView extends Component {
     city = selectedAddress.city;
     address = selectedAddress.address;
     landmark = selectedAddress.landMark;
-    lat = selectedAddress.lat;
-    lng = selectedAddress.lng;
+    // lat = selectedAddress.lat;
+    // lng = selectedAddress.lng;
 
     const finalAddressStr = `${address} ${city}, ${landmark}, ${state}`;
-    const warehouseLat = wareHouseItem.lat ? parseFloat(wareHouseItem.lat) : 0.0;
-    const warehouseLng = wareHouseItem.lng ? parseFloat(wareHouseItem.lng) : 0.0;
+    Geocoder.getFromLocation(finalAddressStr).then(
+      (json) => {
+        console.log('***** json ', json);
+        const location = json.results[0].geometry.location;
+        console.log('***** location ', location.lat, location.lng);
 
-    const utils = new Utils();
-    const dMiles = utils.distanceBetweenCord(lat, lng, warehouseLat, warehouseLng, true);
-    distanceMiles = dMiles.toFixed(2);
-    console.log('***** distanceMiles ', distanceMiles);
 
-    // delivery charge
-    const minimumMiles = Number(wareHouseItem.minimumMiles);
-    const minimumMileRate = Number(wareHouseItem.minimumMileRate);
-    const perMileRate = Number(wareHouseItem.perMileRate);
+        const warehouseLat = wareHouseItem.lat ? parseFloat(wareHouseItem.lat) : 0.0;
+        const warehouseLng = wareHouseItem.lng ? parseFloat(wareHouseItem.lng) : 0.0;
 
-    let dCharge = 0;
-    if (distanceMiles) {
-      if (distanceMiles <= minimumMiles) {
-        dCharge = minimumMiles * minimumMileRate;
-      } else {
-        dCharge = distanceMiles * perMileRate;
-      }
-    }
-    this.setState({ deliveryCharge: dCharge });
+        const utils = new Utils();
+        const dMiles = utils.distanceBetweenCord(location.lat, location.lng, warehouseLat, warehouseLng, true);
+        distanceMiles = dMiles.toFixed(3);
+        console.log('***** distanceMiles ', distanceMiles);
 
-    // Geocoder.getFromLocation(finalAddressStr).then(
-    //   (json) => {
-    //     console.log('***** json ', json);
+        // delivery charge
+        const minimumMiles = Number(wareHouseItem.minimumMiles);
+        const minimumMileRate = Number(wareHouseItem.minimumMileRate);
+        const perMileRate = Number(wareHouseItem.perMileRate);
 
-    //     let location = json.results[0].geometry.location;
-    //     console.log('***** location ', location.lat, location.lng);
-        
-    //   },
-    //   (error) => {
-    //     alert(error);
-    //   },
-    // );
+        let dCharge = 0;
+        if (distanceMiles) {
+          if (distanceMiles <= minimumMiles) {
+            dCharge = minimumMiles * minimumMileRate;
+          } else {
+            dCharge = distanceMiles * perMileRate;
+          }
+        }
+        this.setState({ deliveryCharge: dCharge.toFixed(3) });
+      },
+      (error) => {
+      },
+    );
   }
 
   onOrderPress() {

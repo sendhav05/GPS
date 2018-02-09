@@ -138,7 +138,7 @@ const SignIn = props => (
             />
             <TextInput
               style={styles.phoneNumberTextInput}
-              placeholder="Passowrd"
+              placeholder="Password"
               placeholderTextColor="rgba(70,64,172,1)"
               onChangeText={password => props.updatePassword(password)}
               value={props.password}

@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
+let isCalledAddAddessAPI = false;
 
 class ChooseAddressView extends Component {
   constructor(props) {
@@ -40,8 +41,8 @@ class ChooseAddressView extends Component {
       landmark: '',
 
       saddLineOne: '',
-      sstate1: '',
-      schooseCity1: '',
+      sstate: '',
+      schooseCity: '',
       spinCode: '',
       slandmark: '',
       isDefaultAddressSelected: true,
@@ -50,30 +51,22 @@ class ChooseAddressView extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.isLoading
+      && isCalledAddAddessAPI
       && nextProps.updateAddressListResponse.response
       && nextProps.updateAddressListResponse.status === 200) {
-      // && nextProps.updateAddressListResponse.response.status === 1) {
-      if (nextProps.updateAddressListResponse.response.message && typeof nextProps.updateAddressListResponse.response.message === 'string') {
-        console.log('@@@@@@@@@@@@@@ 1');
-
-        showPopupAlert(nextProps.updateAddressListResponse.response.message);
-        const { goBack } = this.props.navigation;
-        goBack(null);
-        this.props.resetAddressData();
-        this.props.navigation.state.params.onAddAddress({ });
-        return;
-      }
-      showPopupAlert('Update address successfully.');
-      const { goBack } = this.props.navigation;
-      goBack(null);
+        isCalledAddAddessAPI = false;
+      this.onBacnkPress();
     } else if (!nextProps.isLoading && nextProps.updateAddressListResponse.response
       && (nextProps.updateAddressListResponse.status !== 200
+      && isCalledAddAddessAPI
       || nextProps.updateAddressListResponse.response.status !== 1)) {
       if (nextProps.updateAddressListResponse.response.message && typeof nextProps.updateAddressListResponse.response.message === 'string') {
         showPopupAlert(nextProps.updateAddressListResponse.response.message);
         console.log('@@@@@@@@@@@@@@ 2');
+        isCalledAddAddessAPI = false;
         return;
       }
+      isCalledAddAddessAPI = false;
       showPopupAlert(constant.SERVER_ERROR_MESSAGE);
     }
   }
@@ -81,31 +74,30 @@ class ChooseAddressView extends Component {
   onBacnkPress() {
     const { goBack } = this.props.navigation;
     goBack(null);
-    this.props.navigation.state.params.onSelectAddress({ selectedAddress });
+    const shppingAddress = {
+      pincode: this.state.spinCode,
+      state: this.state.sstate,
+      city: this.state.schooseCity,
+      address: this.state.saddLineOne,
+      landmark: this.state.slandmark,
+    }
+    this.props.navigation.state.params.onSelectAddress({ selectedAddress: shppingAddress });
   }
 
   onAddButtonPress() {
-    console.log('******* this.state.landmark', this.state.landmark);
+    const utils = new Utils();
+    const customerid = this.props.navigation.state.params.customerid;
+    const type = 'add';
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        isCalledAddAddessAPI = true;
+        this.props.addAddressListRequest(type, this.state.chooseCity, this.state.pinCode, this.state.state, this.state.addLineOne, this.state.landmark, customerid,
+          this.state.spinCode, this.state.sstate, this.state.saddLineOne, this.state.slandmark, this.state.schooseCity,);
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
+    });
 
-    // const utils = new Utils();
-    // const isFromEdit = this.props.navigation.state.params.isEdit;
-    // const customerid = this.props.navigation.state.params.customerid;
-    // let deliverid = '';
-    // let type = '';
-    // if (isFromEdit) {
-    //   type = 'edit';
-    //   deliverid = this.props.navigation.state.params.selectedAddress.delivery_id;
-    // } else {
-    //   type = 'add';
-    //   deliverid = '';
-    // }
-    // utils.checkInternetConnectivity((reach) => {
-    //   if (reach) {
-    //     this.props.addAddressListRequest(type, this.state.chooseCity, this.state.pinCode, this.state.state, this.state.addLineOne, this.state.landmark, customerid, deliverid);
-    //   } else {
-    //     showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
-    //   }
-    // });
   }
 
   onCellSelectionPress() {

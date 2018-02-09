@@ -200,8 +200,8 @@ export const addressListRequest = (customerid) => {
   });
 };
 
-export const addAddressListRequest = (type, city, pincode, state, address, landmark, customerid, deliveryid) => {
-  const url = addAddressListUrl(type, city, pincode, state, address, landmark, customerid, deliveryid);
+export const addAddressListRequest = (type, city, pincode, state, address, landmark, customerid, shippingpincode, shippingstate, shippingaddress, shippinglandmark, shippingcity) => {
+  const url = addAddressListUrl(type, city, pincode, state, address, landmark, customerid, shippingpincode, shippingstate, shippingaddress, shippinglandmark, shippingcity);
   return postApiAction({
     types: [ADD_ADDRESS_LIST_REQUEST, ADD_ADDRESS_LIST_SUCCESS, ADD_ADDRESS_LIST_FAILURE],
     url,
