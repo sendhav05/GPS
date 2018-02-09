@@ -29,18 +29,26 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   textInput: {
-    marginLeft: 15,
+    marginLeft: 50,
     marginRight: 15,
     height: 40,
-    width: width - 30,
-    marginTop: 15,
+    width: width - 100,
     fontSize: ButtonFontSize,
     color: BlueColor,
-    borderWidth: 1,
-    borderColor: GrayColor,
     borderRadius: 25,
     padding: 10,
-    textAlign: 'center',
+    textAlign: 'left',
+  },
+  textInputNewAddress: {
+    marginLeft: 50,
+    marginRight: 15,
+    height: 40,
+    width: width - 100,
+    fontSize: ButtonFontSize,
+    color: 'rgb(97,97,97)',
+    borderRadius: 25,
+    padding: 10,
+    textAlign: 'left',
   },
   headerText: {
     color: BlueColor,
@@ -51,10 +59,10 @@ const styles = StyleSheet.create({
   },
   orderButton: {
     backgroundColor: OrangeColor,
-    marginLeft: 15,
+    marginLeft: 50,
     marginRight: 15,
     height: 40,
-    width: width - 30,
+    width: width - 100,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 25,
@@ -65,11 +73,33 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     backgroundColor: 'transparent',
   },
+  profilePic: {
+    width: 25,
+    height: 25,
+    marginLeft: 15,
+    marginTop: 22,
+    position: 'absolute',
+  },
 });
 
 const ChooseAddress = props => (
   <View style={styles.bodyView}>
     <View style={styles.cellView}>
+      <View style={{ flex: 1 }}>
+        <TouchableOpacity
+          activeOpacity={1}
+          style={{ flex: 1, justifyContent: 'center' }}
+          onPress={() => props.onCellSelectionPress()}
+        >
+          <Image
+            source={props.isDefaultAddressSelected ? Images.selectedIcon : Images.unselectIcon}
+            style={styles.profilePic}
+          />
+          <Text style={styles.textInput}>
+              Default Address
+          </Text>
+        </TouchableOpacity>
+      </View>
       <TextInput
         style={styles.textInput}
         placeholder="Address"
@@ -120,13 +150,82 @@ const ChooseAddress = props => (
         underlineColorAndroid="transparent"
       />
     </View>
+    <View style={[styles.cellView]}>
+      <View style={{ flex: 1 }}>
+        <Text style={[styles.textInput,  { color: 'rgb(97,97,97)' }]}>
+          Add New Delivery Address
+        </Text>
+        {/* <TouchableOpacity
+          activeOpacity={1}
+          style={{ flex: 1, justifyContent: 'center' }}
+          onPress={() => props.onCellSelectionPress()}
+        >
+          <Image
+            source={props.isDefaultAddressSelected ? Images.selectedIcon : Images.unselectIcon}
+            style={styles.profilePic}
+          />
+          <Text style={[styles.textInput,  { color: 'rgb(97,97,97)' }]}>
+            Add New Delivery Address
+          </Text>
+        </TouchableOpacity> */}
+      </View>
+      <TextInput
+        style={styles.textInputNewAddress}
+        placeholder="Address"
+        placeholderTextColor="rgb(97,97,97)"
+        onChangeText={addLineOne => props.supdateAddLineOne(addLineOne)}
+        value={props.isDefaultAddressSelected ? props.addLineOne : props.saddLineOne}
+        underlineColorAndroid="transparent"
+        autoCapitalize="characters"
+        autoCorrect={Boolean(true)}
+      />
+      <TextInput
+        style={styles.textInputNewAddress}
+        placeholder="Landmark"
+        placeholderTextColor="rgb(97,97,97)"
+        onChangeText={landmark => props.supdateLandMark(landmark)}
+        value={props.isDefaultAddressSelected ? props.landmark : props.slandmark}
+        underlineColorAndroid="transparent"
+        autoCapitalize="characters"
+        autoCorrect={Boolean(true)}
+      />
+      <TextInput
+        style={styles.textInputNewAddress}
+        placeholder="City"
+        placeholderTextColor="rgb(97,97,97)"
+        onChangeText={chooseCity => props.supdateChooseCity(chooseCity)}
+        value={props.isDefaultAddressSelected ? props.chooseCity : props.schooseCity}
+        underlineColorAndroid="transparent"
+        autoCapitalize="characters"
+        autoCorrect={Boolean(true)}
+      />
+      <TextInput
+        style={styles.textInputNewAddress}
+        placeholder="State"
+        placeholderTextColor="rgb(97,97,97)"
+        onChangeText={state => props.supdateState(state)}
+        value={props.isDefaultAddressSelected ? props.state : props.sstate}
+        underlineColorAndroid="transparent"
+        autoCapitalize="characters"
+        autoCorrect={Boolean(true)}
+      />
+      <TextInput
+        style={styles.textInputNewAddress}
+        placeholder="Pin Code"
+        placeholderTextColor="rgb(97,97,97)"
+        onChangeText={pinCode => props.supdatePinCode(pinCode)}
+        value={props.isDefaultAddressSelected ? props.pinCode : props.spinCode}
+        keyboardType="numeric"
+        underlineColorAndroid="transparent"
+      />
+    </View>
     <View style={{ flex: 1, marginTop: 50 }}>
       <TouchableOpacity
         style={styles.orderButton}
         onPress={() => props.onAddButtonPress()}
       >
         <Text style={styles.buttonText}>
-          Add Address
+          Save
         </Text>
       </TouchableOpacity>
     </View>

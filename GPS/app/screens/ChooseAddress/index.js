@@ -32,14 +32,19 @@ const styles = StyleSheet.create({
 class ChooseAddressView extends Component {
   constructor(props) {
     super(props);
-    const isFromEdit = this.props.navigation.state.params.isEdit;
-    const selectedAddress = this.props.navigation.state.params.selectedAddress;
     this.state = {
-      addLineOne: isFromEdit ? selectedAddress.address : '',
-      state: isFromEdit ? selectedAddress.state : '',
-      chooseCity: isFromEdit ? selectedAddress.city : '',
-      pinCode: isFromEdit ? selectedAddress.pin_code : '',
-      landmark: isFromEdit ? selectedAddress.landmark : '',
+      addLineOne: '',
+      state: '',
+      chooseCity: '',
+      pinCode: '',
+      landmark: '',
+
+      saddLineOne: '',
+      sstate1: '',
+      schooseCity1: '',
+      spinCode: '',
+      slandmark: '',
+      isDefaultAddressSelected: true,
     };
   }
 
@@ -76,30 +81,35 @@ class ChooseAddressView extends Component {
   onBacnkPress() {
     const { goBack } = this.props.navigation;
     goBack(null);
+    this.props.navigation.state.params.onSelectAddress({ selectedAddress });
   }
 
   onAddButtonPress() {
     console.log('******* this.state.landmark', this.state.landmark);
 
-    const utils = new Utils();
-    const isFromEdit = this.props.navigation.state.params.isEdit;
-    let customerid = this.props.navigation.state.params.customerid;
-    let deliverid = '';
-    let type = '';
-    if (isFromEdit) {
-      type = 'edit';
-      deliverid = this.props.navigation.state.params.selectedAddress.delivery_id;
-    } else {
-      type = 'add';
-      deliverid = '';
-    }
-    utils.checkInternetConnectivity((reach) => {
-      if (reach) {
-        this.props.addAddressListRequest(type, this.state.chooseCity, this.state.pinCode, this.state.state, this.state.addLineOne, this.state.landmark, customerid, deliverid);
-      } else {
-        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
-      }
-    });
+    // const utils = new Utils();
+    // const isFromEdit = this.props.navigation.state.params.isEdit;
+    // const customerid = this.props.navigation.state.params.customerid;
+    // let deliverid = '';
+    // let type = '';
+    // if (isFromEdit) {
+    //   type = 'edit';
+    //   deliverid = this.props.navigation.state.params.selectedAddress.delivery_id;
+    // } else {
+    //   type = 'add';
+    //   deliverid = '';
+    // }
+    // utils.checkInternetConnectivity((reach) => {
+    //   if (reach) {
+    //     this.props.addAddressListRequest(type, this.state.chooseCity, this.state.pinCode, this.state.state, this.state.addLineOne, this.state.landmark, customerid, deliverid);
+    //   } else {
+    //     showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+    //   }
+    // });
+  }
+
+  onCellSelectionPress() {
+    this.setState({ isDefaultAddressSelected: !this.state.isDefaultAddressSelected });
   }
 
 
@@ -127,19 +137,40 @@ class ChooseAddressView extends Component {
     this.setState({ landmark: value });
   }
 
+  // #### shipping
+  supdateAddLineOne(value) {
+    this.setState({ saddLineOne: value });
+  }
+
+  supdateState1(value) {
+    this.setState({ sstate: value });
+  }
+
+  supdateChooseCity(value) {
+    this.setState({ schooseCity: value });
+  }
+
+  supdatePinCode(value) {
+    this.setState({ spinCode: value });
+  }
+
+  supdateLandMark(value) {
+    this.setState({ slandmark: value });
+  }
+
   render() {
     return (
-      <TouchableOpacity
-        activeOpacity={1}
-        style={{ flex: 1, justifyContent: 'center' }}
-        onPress={() => Keyboard.dismiss()}
-      >
-        <View style={styles.container}>
-          <KeyboardAwareScrollView>
+      <View style={styles.container}>
+        <KeyboardAwareScrollView>
+          <TouchableOpacity
+            activeOpacity={1}
+            style={{ flex: 1, justifyContent: 'center' }}
+            onPress={() => Keyboard.dismiss()}
+          >
             <NavBar
               leftMenuIcon={Images.backArrow}
               leftMenuPress={() => this.onBacnkPress()}
-              title="Add a New Address"
+              title="Address"
               isShowRightIcon={Boolean(false)}
               rightMenuIcon={Images.editOder}
               rightMenuPress={() => this.onEditOrderPress()}
@@ -155,12 +186,26 @@ class ChooseAddressView extends Component {
               pinCode={this.state.pinCode}
               updateLandMark={landmark => this.updateLandMark(landmark)}
               landmark={this.state.landmark}
+
+              supdateAddLineOne={addLineOne => this.supdateAddLineOne(addLineOne)}
+              saddLineOne={this.state.saddLineOne}
+              supdateState={state => this.supdateState(state)}
+              sstate={this.state.sstate}
+              supdateChooseCity={chooseCity => this.supdateChooseCity(chooseCity)}
+              schooseCity={this.state.schooseCity}
+              supdatePinCode={pinCode => this.supdatePinCode(pinCode)}
+              spinCode={this.state.spinCode}
+              supdateLandMark={landmark => this.supdateLandMark(landmark)}
+              slandmark={this.state.slandmark}
+             
+              isDefaultAddressSelected={this.state.isDefaultAddressSelected}
               onAddButtonPress={() => this.onAddButtonPress()}
+              onCellSelectionPress={() => this.onCellSelectionPress()}
             />
             {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
-          </KeyboardAwareScrollView>
-        </View>
-      </TouchableOpacity>
+          </TouchableOpacity>
+        </KeyboardAwareScrollView>
+      </View>
     );
   }
 }

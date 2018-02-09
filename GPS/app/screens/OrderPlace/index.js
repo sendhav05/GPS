@@ -88,7 +88,7 @@ class OrderPlaceView extends Component {
 
   onDeliveryAddressPress() {
     const { navigate } = this.props.navigation;
-    navigate('AddressList', { onSelectAddress: this.onSelectAddress, customerid, selectedAddress });
+    navigate('ChooseAddress', { onSelectAddress: this.onSelectAddress, customerid, selectedAddress });
   }
 
   gotToOrderStatusTrack(item) {
