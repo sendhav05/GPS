@@ -108,7 +108,7 @@ const DriverDocument = props => (
           </Text>
           <TouchableOpacity
             style={styles.uploadButton}
-            onPress={() => props.onVerifyOTPPress()}
+            onPress={() => props.takePicture()}
           >
             <Image
               style={styles.plusIconSyle}
@@ -120,7 +120,7 @@ const DriverDocument = props => (
         <Image
           style={styles.logo}
           resizeMode="contain"
-          source={Images.documenticon}
+          source={props.userProfileImg}
         />
       </View>
       <View style={styles.cellView}>
@@ -130,7 +130,7 @@ const DriverDocument = props => (
           </Text>
           <TouchableOpacity
             style={styles.uploadButton}
-            onPress={() => props.onVerifyOTPPress()}
+            onPress={() => props.takePicture()}
           >
             <Image
               style={styles.plusIconSyle}
@@ -142,7 +142,7 @@ const DriverDocument = props => (
         <Image
           style={styles.logo}
           resizeMode="contain"
-          source={Images.documenticon}
+          source={props.userProfileImg}
         />
       </View>
       <View style={styles.cellView}>
@@ -152,7 +152,7 @@ const DriverDocument = props => (
           </Text>
           <TouchableOpacity
             style={styles.uploadButton}
-            onPress={() => props.onVerifyOTPPress()}
+            onPress={() => props.takePicture()}
           >
             <Image
               style={styles.plusIconSyle}
@@ -164,7 +164,7 @@ const DriverDocument = props => (
         <Image
           style={styles.logo}
           resizeMode="contain"
-          source={Images.documenticon}
+          source={props.userProfileImg}
         />
       </View>
     </View>
@@ -172,11 +172,11 @@ const DriverDocument = props => (
 );
 
 DriverDocument.propTypes = {
-  onVerifyOTPPress: PropTypes.func,
+  takePicture: PropTypes.func,
 };
 
 DriverDocument.defaultProps = {
-  onVerifyOTPPress: () => {},
+  takePicture: () => {},
 };
 
 export default DriverDocument;
