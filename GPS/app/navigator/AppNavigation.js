@@ -26,6 +26,8 @@ import AddressListScreen from '../screens/AddressList';
 import NotificationScreen from '../screens/Notification';
 import CustomerOrderStatusScreen from '../screens/CustomerOrderStatus';
 import CustomerFeedbackScreen from '../screens/CustomerFeedback';
+import DriverDocumentScreen from '../screens/DriverDocument';
+import UploadDocumentScreen from '../screens/UploadDocument';
 
 // https://github.com/react-community/react-navigation/issues/1254
 const noTransitionConfig = () => ({
@@ -292,6 +294,22 @@ const LoginStack = StackNavigator({
   VerifyOTP: {
     screen: VerifyOTPScreen,
     key: 'VerifyOTPScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  DriverDocument: {
+    screen: DriverDocumentScreen,
+    key: 'DriverDocumentScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  UploadDocument: {
+    screen: UploadDocumentScreen,
+    key: 'UploadDocumentScreen',
     navigationOptions: {
       header: null,
       gesturesEnabled: false,

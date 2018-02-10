@@ -26,6 +26,7 @@ const callBlue = require('./call_blue.png');
 const locatBlue = require('./locat_blue.png');
 const clock1 = require('./clock1.png');
 const clock2 = require('./clock2.png');
+const documenticon = require('./document-icon.png');
 
 const images = {
   logo,
@@ -54,6 +55,7 @@ const images = {
   locatBlue,
   clock1,
   clock2,
+  documenticon,
 };
 
 export default images;
