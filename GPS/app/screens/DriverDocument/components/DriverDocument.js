@@ -48,6 +48,17 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '500',
     marginTop: 25,
+
+    marginLeft: 50,
+    marginRight: 15,
+    height: 40,
+    width: width - 100,
+    borderRadius: 25,
+    padding: 10,
+    textAlign: 'center',
+
+    borderWidth: 1,
+    borderColor: 'lightgrey',
   },
   bodyView: {
     flex: 1,

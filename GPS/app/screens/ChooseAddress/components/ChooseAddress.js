@@ -30,6 +30,21 @@ const styles = StyleSheet.create({
   },
   textInput: {
     marginLeft: 50,
+    marginTop: 10,
+    marginRight: 15,
+    height: 40,
+    width: width - 100,
+    fontSize: ButtonFontSize,
+    color: BlueColor,
+    borderRadius: 25,
+    padding: 10,
+    textAlign: 'left',
+    borderWidth: 1,
+    borderColor: 'lightgrey',
+  },
+  defaultTextInput: {
+    marginLeft: 50,
+    marginTop: 10,
     marginRight: 15,
     height: 40,
     width: width - 100,
@@ -39,8 +54,9 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlign: 'left',
   },
-  textInputNewAddress: {
+  newAddressText: {
     marginLeft: 50,
+    marginTop: 10,
     marginRight: 15,
     height: 40,
     width: width - 100,
@@ -49,6 +65,20 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     padding: 10,
     textAlign: 'left',
+  },
+  textInputNewAddress: {
+    marginLeft: 50,
+    marginTop: 10,
+    marginRight: 15,
+    height: 40,
+    width: width - 100,
+    fontSize: ButtonFontSize,
+    color: 'rgb(97,97,97)',
+    borderRadius: 25,
+    padding: 10,
+    textAlign: 'left',
+    borderWidth: 1,
+    borderColor: 'lightgrey',
   },
   headerText: {
     color: BlueColor,
@@ -95,7 +125,7 @@ const ChooseAddress = props => (
             source={props.isDefaultAddressSelected ? Images.selectedIcon : Images.unselectIcon}
             style={styles.profilePic}
           />
-          <Text style={styles.textInput}>
+          <Text style={styles.defaultTextInput}>
               Default Address
           </Text>
         </TouchableOpacity>
@@ -152,7 +182,7 @@ const ChooseAddress = props => (
     </View>
     <View style={[styles.cellView]}>
       <View style={{ flex: 1 }}>
-        <Text style={[styles.textInput,  { color: 'rgb(97,97,97)' }]}>
+        <Text style={[styles.newAddressText,  { color: 'rgb(97,97,97)' }]}>
           Add New Delivery Address
         </Text>
         {/* <TouchableOpacity
@@ -219,7 +249,7 @@ const ChooseAddress = props => (
         underlineColorAndroid="transparent"
       />
     </View>
-    <View style={{ flex: 1, marginTop: 50 }}>
+    <View style={{ flex: 1, marginTop: 15, marginBottom: 10 }}>
       <TouchableOpacity
         style={styles.orderButton}
         onPress={() => props.onAddButtonPress()}

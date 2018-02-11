@@ -108,7 +108,7 @@ const DriverDocument = props => (
           </Text>
           <TouchableOpacity
             style={styles.uploadButton}
-            onPress={() => props.takePicture()}
+            onPress={() => props.takePicture(0)}
           >
             <Image
               style={styles.plusIconSyle}
@@ -120,7 +120,7 @@ const DriverDocument = props => (
         <Image
           style={styles.logo}
           resizeMode="contain"
-          source={props.userProfileImg}
+          source={props.dlImage}
         />
       </View>
       <View style={styles.cellView}>
@@ -130,7 +130,7 @@ const DriverDocument = props => (
           </Text>
           <TouchableOpacity
             style={styles.uploadButton}
-            onPress={() => props.takePicture()}
+            onPress={() => props.takePicture(1)}
           >
             <Image
               style={styles.plusIconSyle}
@@ -142,7 +142,7 @@ const DriverDocument = props => (
         <Image
           style={styles.logo}
           resizeMode="contain"
-          source={props.userProfileImg}
+          source={props.sslImage}
         />
       </View>
       <View style={styles.cellView}>
@@ -152,7 +152,7 @@ const DriverDocument = props => (
           </Text>
           <TouchableOpacity
             style={styles.uploadButton}
-            onPress={() => props.takePicture()}
+            onPress={() => props.takePicture(2)}
           >
             <Image
               style={styles.plusIconSyle}
@@ -164,7 +164,7 @@ const DriverDocument = props => (
         <Image
           style={styles.logo}
           resizeMode="contain"
-          source={props.userProfileImg}
+          source={props.rcImage}
         />
       </View>
     </View>

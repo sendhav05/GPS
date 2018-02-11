@@ -29,7 +29,8 @@ const lng = '0.0';
 let selectedAddress = {};
 let customerDetails = {};
 let wareHouseItem = {};
-let distanceMiles = 0.0;
+let oneItemPrice = 0.0;
+let isCalledOrderPlaceAPI = false;
 
 class OrderPlaceView extends Component {
   constructor(props) {
@@ -37,12 +38,19 @@ class OrderPlaceView extends Component {
     this.state = {
       quantity: '1',
       deliveryCharge: 0,
+      distanceMiles: 0,
     };
     this.onSelectAddress = this.onSelectAddress.bind(this);
+    this.refreshDistanceData = this.refreshDistanceData.bind(this);
   }
 
-
   componentDidMount() {
+    pincode = '';
+    state = '';
+    city = '';
+    address = '';
+    landmark = '';
+
     wareHouseItem = this.props.navigation.state.params.selectedWareHouseItem;
     this.getCustomerDetails();
     const utils = new Utils();
@@ -53,8 +61,10 @@ class OrderPlaceView extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.isLoading
+      && isCalledOrderPlaceAPI
       && nextProps.orderPlaceResponse.response
       && nextProps.orderPlaceResponse.status === 200) {
+      isCalledOrderPlaceAPI = false;
       Alert.alert(
         'GPS',
         'Thank you for your order. We will notify you when groceries are on the way.',
@@ -64,8 +74,9 @@ class OrderPlaceView extends Component {
         ],
       );
     } else if (!nextProps.isLoading && nextProps.orderPlaceResponse.response
-      && (nextProps.orderPlaceResponse.status !== 200
-      || nextProps.orderPlaceResponse.response.status !== 1)) {
+      && isCalledOrderPlaceAPI
+      && (nextProps.orderPlaceResponse.status !== 200)) {
+      isCalledOrderPlaceAPI = false;
       if (nextProps.orderPlaceResponse.response.message && typeof nextProps.orderPlaceResponse.response.message === 'string') {
         showPopupAlert(nextProps.orderPlaceResponse.response.message);
         return;
@@ -78,6 +89,7 @@ class OrderPlaceView extends Component {
     new Utils().getItemWithKey('CUSTOMER_USER_DETAILS', (response) => {
       if (response) {
         customerDetails = response;
+        console.log('***** customerDetails ', customerDetails);
       }
     });
   }
@@ -88,7 +100,9 @@ class OrderPlaceView extends Component {
 
   onDeliveryAddressPress() {
     const { navigate } = this.props.navigation;
-    navigate('ChooseAddress', { onSelectAddress: this.onSelectAddress, customerid, selectedAddress });
+    navigate('ChooseAddress', {
+      onSelectAddress: this.onSelectAddress, customerid, selectedAddress, customerDetails,
+    });
   }
 
   gotToOrderStatusTrack(item) {
@@ -98,48 +112,54 @@ class OrderPlaceView extends Component {
 
   onSelectAddress(sAddress) {
     selectedAddress = sAddress.selectedAddress;
-    pincode = selectedAddress.pin_code;
-    state = selectedAddress.state;
-    city = selectedAddress.city;
-    address = selectedAddress.address;
-    landmark = selectedAddress.landMark;
-    // lat = selectedAddress.lat;
-    // lng = selectedAddress.lng;
+    if (selectedAddress.address) {
+      this.refreshDistanceData(selectedAddress);
+    }
+  }
 
+  refreshDistanceData(selectedAddress) {
+    pincode = selectedAddress.pincode ? selectedAddress.pincode : '';
+    state = selectedAddress.state ? selectedAddress.state : '';
+    city = selectedAddress.city ? selectedAddress.city : '';
+    address = selectedAddress.address ? selectedAddress.address : '';
+    landmark = selectedAddress.landmark ? selectedAddress.landmark : '';
     const finalAddressStr = `${address} ${city}, ${landmark}, ${state}`;
     Geocoder.getFromLocation(finalAddressStr).then(
       (json) => {
-        console.log('***** json ', json);
         const location = json.results[0].geometry.location;
-        console.log('***** location ', location.lat, location.lng);
-
-
-        const warehouseLat = wareHouseItem.lat ? parseFloat(wareHouseItem.lat) : 0.0;
-        const warehouseLng = wareHouseItem.lng ? parseFloat(wareHouseItem.lng) : 0.0;
-
-        const utils = new Utils();
-        const dMiles = utils.distanceBetweenCord(location.lat, location.lng, warehouseLat, warehouseLng, true);
-        distanceMiles = dMiles.toFixed(3);
-        console.log('***** distanceMiles ', distanceMiles);
-
-        // delivery charge
-        const minimumMiles = Number(wareHouseItem.minimumMiles);
-        const minimumMileRate = Number(wareHouseItem.minimumMileRate);
-        const perMileRate = Number(wareHouseItem.perMileRate);
-
-        let dCharge = 0;
-        if (distanceMiles) {
-          if (distanceMiles <= minimumMiles) {
-            dCharge = minimumMiles * minimumMileRate;
-          } else {
-            dCharge = distanceMiles * perMileRate;
-          }
-        }
-        this.setState({ deliveryCharge: dCharge.toFixed(3) });
+        this.refreshDisAndPaymentData(location.lat, location.lng);
       },
       (error) => {
       },
     );
+  }
+
+  refreshDisAndPaymentData(lat1, lng1) {
+    const warehouseLat = wareHouseItem.lat ? parseFloat(wareHouseItem.lat) : 0.0;
+    const warehouseLng = wareHouseItem.lng ? parseFloat(wareHouseItem.lng) : 0.0;
+
+    const utils = new Utils();
+    const dMiles = utils.distanceBetweenCord(lat1, lng1, warehouseLat, warehouseLng, true);
+    const tmpdistanceMiles = dMiles.toFixed(3);
+
+    // delivery charge
+    const minimumMiles = Number(wareHouseItem.minimumMiles);
+    const minimumMileRate = Number(wareHouseItem.minimumMileRate);
+    const perMileRate = Number(wareHouseItem.perMileRate);
+    let dCharge = 0;
+    if (tmpdistanceMiles) {
+      if (tmpdistanceMiles <= minimumMiles) {
+        dCharge = minimumMiles * minimumMileRate;
+      } else {
+        dCharge = tmpdistanceMiles * perMileRate;
+      }
+    }
+    // Total Price
+    const oneItemPrice = Number(this.props.navigation.state.params.selectedProductItem.price);
+    const price = this.state.quantity * oneItemPrice;
+    totalPrice = dCharge + price;
+    totalPrice = totalPrice.toFixed(3);
+    this.setState({ deliveryCharge: dCharge.toFixed(3), distanceMiles: tmpdistanceMiles });
   }
 
   onOrderPress() {
@@ -159,6 +179,7 @@ class OrderPlaceView extends Component {
       const utils = new Utils();
       utils.checkInternetConnectivity((reach) => {
         if (reach) {
+          isCalledOrderPlaceAPI = true;
           this.props.orderPlaceRequest(
             name, contectno, email, pincode, state,
             city, address, landmark, paymentid, paymenttype, paymentstatus,
@@ -189,7 +210,7 @@ class OrderPlaceView extends Component {
   }
 
   validateAllField() {
-    if (Object.keys(selectedAddress).length === 0) {
+    if (!address) {
       showPopupAlert('Please enter delivery address.');
       return false;
     }
@@ -197,9 +218,16 @@ class OrderPlaceView extends Component {
   }
 
   render() {
-    const oneItemPrice = Number(this.props.navigation.state.params.selectedProductItem.price);
-    const price = this.state.quantity * oneItemPrice;
-    totalPrice = this.state.deliveryCharge + price;
+    oneItemPrice = Number(this.props.navigation.state.params.selectedProductItem.price);
+    oneItemPrice = oneItemPrice.toFixed(3);
+    let price = this.state.quantity * oneItemPrice;
+    price = Number(price).toFixed(3);
+    if (this.state.deliveryCharge) {
+      totalPrice = Number(this.state.deliveryCharge) + Number(price);
+    } else {
+      totalPrice = Number(price);
+    }
+
     return (
       <OrderPlace
         onChoosePaymentPress={() => this.onChoosePaymentPress()}
@@ -213,7 +241,7 @@ class OrderPlaceView extends Component {
         totalPrice={totalPrice}
         price={price}
         deliveryCharge={this.state.deliveryCharge}
-        distanceMiles={distanceMiles}
+        distanceMiles={this.state.distanceMiles}
       />
     );
   }

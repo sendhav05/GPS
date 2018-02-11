@@ -19,6 +19,8 @@ import DriverDocument from './components/DriverDocument';
 import UserActions from '../../actions';
 import Images from '../../assets/images';
 
+let currentDocIndex = -1;
+
 class DriverDocumentView extends Component {
   constructor(props) {
     super(props);
@@ -66,7 +68,8 @@ class DriverDocumentView extends Component {
   }
 
   // #### Take picture and upload image
-  takePicture() {
+  takePicture(index) {
+    currentDocIndex = index;
     this.setState({
       isShowImagePopup: true,
     });
@@ -80,35 +83,82 @@ class DriverDocumentView extends Component {
 
   setAvaterSource(uri, multipartBody) {
     console.log('******** uri', uri, multipartBody);
-    if (uri && uri.length > 0 && multipartBody) {
-      this.setState({
-        dlImageSource: uri,
-        imageMultipartBody: multipartBody,
-        hasImage: true,
-      });
-    } else {
-      this.setState({
-        dlImageSource: '',
-        imageMultipartBody: multipartBody,
-        hasImage: false,
-      });
+    if (currentDocIndex === 0) {
+      if (uri && uri.length > 0 && multipartBody) {
+        this.setState({
+          dlImageSource: uri,
+          imageMultipartBody: multipartBody,
+          hasImage: true,
+        });
+      } else {
+        this.setState({
+          dlImageSource: '',
+          imageMultipartBody: multipartBody,
+          hasImage: false,
+        });
+      }
+    } else if (currentDocIndex === 1) {
+      if (uri && uri.length > 0 && multipartBody) {
+        this.setState({
+          sslImageSource: uri,
+          imageMultipartBody: multipartBody,
+          hasImage: true,
+        });
+      } else {
+        this.setState({
+          sslImageSource: '',
+          imageMultipartBody: multipartBody,
+          hasImage: false,
+        });
+      }
+    } if (currentDocIndex === 2) {
+      if (uri && uri.length > 0 && multipartBody) {
+        this.setState({
+          addressImageSource: uri,
+          imageMultipartBody: multipartBody,
+          hasImage: true,
+        });
+      } else {
+        this.setState({
+          addressImageSource: '',
+          imageMultipartBody: multipartBody,
+          hasImage: false,
+        });
+      }
     }
   }
 
   render() {
-    let userProfileImg = '';
-    if (this.state.hasImage) {
-      userProfileImg = { uri: this.state.dlImageSource };
+    let dlImage = '';
+    let sslImage = '';
+    let rcImage = '';
+    if (this.state.dlImageSource) {
+      dlImage = { uri: this.state.dlImageSource };
     } else {
-      userProfileImg = Images.documenticon;
+      dlImage = Images.documenticon;
     }
+    
+    if (this.state.sslImageSource) {
+      sslImage = { uri: this.state.sslImageSource };
+    } else {
+      sslImage = Images.documenticon;
+    }
+    
+    if (this.state.addressImageSource) {
+      rcImage = { uri: this.state.addressImageSource };
+    } else {
+      rcImage = Images.documenticon;
+    }
+
 
     return (
       <View style={{ flex: 1 }}>
         <DriverDocument
           onBacnkPress={() => this.onBacnkPress()}
-          userProfileImg={userProfileImg}
-          takePicture={() => this.takePicture()}
+          dlImage={dlImage}
+          sslImage={sslImage}
+          rcImage={rcImage}
+          takePicture={index => this.takePicture(index)}
         />
         {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
         {
