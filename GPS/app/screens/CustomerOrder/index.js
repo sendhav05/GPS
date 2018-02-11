@@ -31,6 +31,7 @@ class CustomerOrderView extends Component {
     this.state = {
       orderList: [],
     };
+    this.refreshDriverOrderData = this.refreshDriverOrderData.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -131,6 +132,19 @@ class CustomerOrderView extends Component {
     });
   }
 
+  refreshDriverOrderData() {
+    const utils = new Utils();
+    utils.isFlowFromCustomer((response) => {
+      if (response) {
+        isFromCustomer = true;
+        this.getCustomerDetails();
+      } else {
+        isFromCustomer = false;
+        this.getDriverOrderDetails();
+      }
+    });
+  }
+
   onCellSelectionPress(selectedItem) {
     const { navigate } = this.props.navigation;
     if (isFromCustomer) {
@@ -140,13 +154,13 @@ class CustomerOrderView extends Component {
         navigate('CustomerOrderStatus', { selectedOrderItem: selectedItem });
       }
     } else if (isSelectedTabComplete) {
-      if (Number(selectedItem.user_rating) !== 0) {
+      if (selectedItem.user_rating && Number(selectedItem.user_rating) !== 0) {
         showPopupAlert('You have alreeady sent feedback.');
       } else {
         navigate('CustomerFeedback', { selectedOrderItem: selectedItem });
       }
     } else {
-      navigate('ReserveOrder', { warehouseDetails: selectedItem, isShowReserveOrderView: false });
+      navigate('ReserveOrder', { warehouseDetails: selectedItem, isShowReserveOrderView: false, refreshDriverOrderData: this.refreshDriverOrderData });
     }
   }
 

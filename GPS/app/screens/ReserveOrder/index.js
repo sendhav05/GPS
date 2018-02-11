@@ -101,18 +101,19 @@ class OrderPlaceView extends Component {
   managePickupDoneResponse(nextProps) {
     if (!nextProps.isLoading
       && nextProps.pickupedUpOrderResponse.response
+      && isCallPickupDoneAPI
       && nextProps.pickupedUpOrderResponse.status === 200) {
       if (nextProps.pickupedUpOrderResponse.response.message && typeof nextProps.pickupedUpOrderResponse.response.message === 'string') {
         isCallPickupDoneAPI = false;
         this.setState({ deliveredBtnEnabled: true });
         showPopupAlert(nextProps.pickupedUpOrderResponse.response.message);
-       // this.onBacnkPress();
+        this.props.navigation.state.params.refreshDriverOrderData();
         return;
       }
       showPopupAlert('Successfully pickedup orders.');
     } else if (!nextProps.isLoading && nextProps.pickupedUpOrderResponse.response
       && (nextProps.pickupedUpOrderResponse.status !== 200
-      || nextProps.pickupedUpOrderResponse.response.status !== 1)) {
+        && isCallPickupDoneAPI)) {
       if (nextProps.pickupedUpOrderResponse.response.message && typeof nextProps.pickupedUpOrderResponse.response.message === 'string') {
         isCallPickupDoneAPI = false;
         showPopupAlert(nextProps.pickupedUpOrderResponse.response.message);
@@ -130,6 +131,7 @@ class OrderPlaceView extends Component {
       if (nextProps.completedOrderResponse.response.message && typeof nextProps.completedOrderResponse.response.message === 'string') {
         isCallCompletedAPI = false;
         showPopupAlert(nextProps.completedOrderResponse.response.message);
+        this.props.navigation.state.params.refreshDriverOrderData();
         this.onBacnkPress();
         return;
       }
