@@ -24,8 +24,8 @@ let city = '';
 let address = '';
 let landmark = '';
 let customerid = '-1';
-const lat = '0.0';
-const lng = '0.0';
+let lat = '0.0';
+let lng = '0.0';
 let selectedAddress = {};
 let customerDetails = {};
 let wareHouseItem = {};
@@ -127,6 +127,8 @@ class OrderPlaceView extends Component {
     Geocoder.getFromLocation(finalAddressStr).then(
       (json) => {
         const location = json.results[0].geometry.location;
+        lat = location.lat;
+        lng = location.lng;
         this.refreshDisAndPaymentData(location.lat, location.lng);
       },
       (error) => {

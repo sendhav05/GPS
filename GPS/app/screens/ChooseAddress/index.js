@@ -64,9 +64,10 @@ class ChooseAddressView extends Component {
       && nextProps.addressListResponse.response
       && nextProps.addressListResponse.status === 200) {
       isCalledGetAddessAPI = false;
-      if (nextProps.addressListResponse.response.data.delivery_address.legth) {
+      if (nextProps.addressListResponse.response.data.delivery_address) {
         shippingAddress = nextProps.addressListResponse.response.data.delivery_address[0];
-        if (shippingAddress.shipping_address) {
+        console.log('*********** shippingAddress', shippingAddress);
+        if (shippingAddress && shippingAddress.shipping_address) {
           this.setState({
             saddLineOne: shippingAddress.shipping_address ? shippingAddress.shipping_address : '',
             sstate: shippingAddress.shipping_state ? shippingAddress.shipping_state : '',
@@ -77,7 +78,7 @@ class ChooseAddressView extends Component {
         }
       }
       customerAddress = nextProps.addressListResponse.response.data.customer_address[0];
-      if (customerAddress.address) {
+      if (customerAddress && customerAddress.address) {
         this.setState({
           addLineOne: customerAddress.address ? customerAddress.address : '',
           state: customerAddress.state ? customerAddress.state : '',
@@ -229,6 +230,8 @@ class ChooseAddressView extends Component {
   }
 
   render() {
+    console.log('*********** this.state.saddLineOne', this.state.saddLineOne);
+
     return (
       <View style={styles.container}>
         <KeyboardAwareScrollView>
