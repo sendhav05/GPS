@@ -20,6 +20,19 @@ target ‘GPS’ do
 
   pod 'react-native-maps', path: rn_maps_path
 
+   # Stripe
+   pod 'Stripe', '~> 11.2.0'
+
+   # Install additional dependencies
+   pod 'Firebase/Core'
+   pod 'Firebase/Auth'
+   pod 'Firebase/Crash'
+   pod 'Firebase/Database'
+   pod 'Firebase/Firestore'
+   pod 'Firebase/Messaging'
+   pod 'Firebase/Performance'
+   pod 'Firebase/Storage'
+
 end
 
 post_install do |installer|

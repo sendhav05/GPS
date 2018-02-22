@@ -22,6 +22,7 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		84D13C63203F2D6300ED80A7 /* libTPSStripe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D13C62203F2D3C00ED80A7 /* libTPSStripe.a */; };
 		84D4B06B202EEDFE00D6FC7D /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D4B069202EEDE600D6FC7D /* libRNImagePicker.a */; };
 		84EBE4732017EB350089D069 /* libRNNotifications.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EBE4722017EB200089D069 /* libRNNotifications.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
@@ -204,6 +205,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		84D13C61203F2D3C00ED80A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84D13C3C203F2D3C00ED80A7 /* TPSStripe.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3A3A7F1A1DC27B520030F9DC;
+			remoteInfo = TPSStripe;
+		};
 		84D4B068202EEDE600D6FC7D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 84D4B045202EEDE600D6FC7D /* RNImagePicker.xcodeproj */;
@@ -287,6 +295,7 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		84D13C3C203F2D3C00ED80A7 /* TPSStripe.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TPSStripe.xcodeproj; path = "../node_modules/tipsi-stripe/ios/TPSStripe.xcodeproj"; sourceTree = "<group>"; };
 		84D4B045202EEDE600D6FC7D /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		84EBE44E2017EB200089D069 /* RNNotifications.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNNotifications.xcodeproj; path = "../node_modules/react-native-notifications/RNNotifications/RNNotifications.xcodeproj"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
@@ -297,6 +306,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84D13C63203F2D6300ED80A7 /* libTPSStripe.a in Frameworks */,
 				84D4B06B202EEDFE00D6FC7D /* libRNImagePicker.a in Frameworks */,
 				84EBE4732017EB350089D069 /* libRNNotifications.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
@@ -458,6 +468,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				84D13C3C203F2D3C00ED80A7 /* TPSStripe.xcodeproj */,
 				84D4B045202EEDE600D6FC7D /* RNImagePicker.xcodeproj */,
 				84EBE44E2017EB200089D069 /* RNNotifications.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -504,6 +515,14 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* GPS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		84D13C3D203F2D3C00ED80A7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84D13C62203F2D3C00ED80A7 /* libTPSStripe.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -647,6 +666,10 @@
 				{
 					ProductGroup = 84EBE44F2017EB200089D069 /* Products */;
 					ProjectRef = 84EBE44E2017EB200089D069 /* RNNotifications.xcodeproj */;
+				},
+				{
+					ProductGroup = 84D13C3D203F2D3C00ED80A7 /* Products */;
+					ProjectRef = 84D13C3C203F2D3C00ED80A7 /* TPSStripe.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -832,6 +855,13 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		84D13C62203F2D3C00ED80A7 /* libTPSStripe.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libTPSStripe.a;
+			remoteRef = 84D13C61203F2D3C00ED80A7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		84D4B069202EEDE600D6FC7D /* libRNImagePicker.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -923,13 +953,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GPS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4AA568300D2830BF76083F83 /* [CP] Embed Pods Frameworks */ = {
@@ -953,9 +986,14 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-GPS/Pods-GPS-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Stripe/Stripe.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/gRPC/gRPCCertificates.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Stripe.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/gRPCCertificates.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
