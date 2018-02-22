@@ -8,6 +8,7 @@
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
+import stripe from 'tipsi-stripe';
 import Geocoder from 'react-native-geocoding';
 import OrderPlace from './components/OrderPlace';
 import UserActions from '../../actions';
@@ -16,6 +17,10 @@ import Utils from '../../utils/utils';
 import constant from '../../utils/constants';
 
 Geocoder.setApiKey('AIzaSyAaW89mTb3_GuMBIg2zd1XGm-GT0anAd0I'); // use a valid API key
+
+stripe.init({
+  publishableKey: 'pk_test_hOZxCqv7UGfeRixTnH3S54rv',
+});
 
 let totalPrice = 0;
 let pincode = '';
@@ -92,10 +97,6 @@ class OrderPlaceView extends Component {
         console.log('***** customerDetails ', customerDetails);
       }
     });
-  }
-
-  onChoosePaymentPress() {
-    console.log('***** onChoosePaymentPress ');
   }
 
   onDeliveryAddressPress() {
@@ -217,6 +218,38 @@ class OrderPlaceView extends Component {
       return false;
     }
     return true;
+  }
+
+  onChoosePaymentPress() {
+    this.handleCardPayPress();
+  }
+
+
+  async handleCardPayPress() {
+    try {
+      this.setState({ token: null });
+      const token = await stripe.paymentRequestWithCardForm({
+        // Only iOS support this options
+        smsAutofillDisabled: true,
+        requiredBillingAddressFields: 'full',
+        prefilledInformation: {
+          billingAddress: {
+            name: 'Gunilla Haugeh',
+            line1: 'Canary Place',
+            line2: '3',
+            city: 'Macon',
+            state: 'Georgia',
+            country: 'US',
+            postalCode: '31217',
+            email: 'ghaugeh0@printfriendly.com',
+          },
+        },
+      });
+      console.log('stripe token', this.state.token);
+      this.setState({ token });
+    } catch (error) {
+      console.log('stripe error');
+    }
   }
 
   render() {

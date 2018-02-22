@@ -94,8 +94,8 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
     aaptOptions.cruncherEnabled = false
     aaptOptions.useNewCruncher = false
     defaultConfig {
@@ -138,10 +138,11 @@ android {
 }
 
 dependencies {
+    compile project(':tipsi-stripe')
     compile project(':react-native-image-picker')
     compile project(':react-native-notifications')
     compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:23.0.1"
+    compile "com.android.support:appcompat-v7:26.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile(project(':react-native-maps')) {
         exclude group: 'com.google.android.gms', module: 'play-services-base'
@@ -150,6 +151,8 @@ dependencies {
     compile 'com.google.android.gms:play-services-base:+'
     compile 'com.google.android.gms:play-services-maps:+'
     compile 'com.google.android.gms:play-services-gcm:+'
+    compile 'com.google.android.gms:play-services-wallet:+'
+    compile 'com.google.android.gms:play-services-identity:+'
 
 }
 
