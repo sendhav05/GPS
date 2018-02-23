@@ -1,44 +1,44 @@
 /* eslint no-underscore-dangle: 0 */
 
 import {
-  FEEDBACK_REQUEST,
-  FEEDBACK_SUCCESS,
-  FEEDBACK_FAILURE,
+  UPLOAD_DOCUMENT_REQUEST,
+  UPLOAD_DOCUMENT_SUCCESS,
+  UPLOAD_DOCUMENT_FAILURE,
 } from '../actions/Authentication';
 
 const initialState = {
   isLoading: false,
-  feedbackResponse: {},
+  uploadDocumentResponse: {},
 };
 
-function feedback(state = initialState, action) {
+function uploadDocument(state = initialState, action) {
   if (action.type === 'undefined') {
     return state;
   }
 
   switch (action.type) {
-    case FEEDBACK_REQUEST:
+    case UPLOAD_DOCUMENT_REQUEST:
       return {
         ...state,
         isLoading: true,
-        feedbackResponse: {},
+        uploadDocumentResponse: {},
       };
 
-    case FEEDBACK_SUCCESS:
+    case UPLOAD_DOCUMENT_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        feedbackResponse: {
+        uploadDocumentResponse: {
           response: JSON.parse(action.data._bodyInit),
           status: action.data.status,
         },
       };
 
-    case FEEDBACK_FAILURE:
+    case UPLOAD_DOCUMENT_FAILURE:
       return {
         ...state,
         isLoading: false,
-        feedbackResponse: {
+        uploadDocumentResponse: {
           response: JSON.parse(action.data._bodyInit),
           status: action.data.status,
         },
@@ -49,4 +49,5 @@ function feedback(state = initialState, action) {
   }
 }
 
-export default feedback;
+export default uploadDocument;
+

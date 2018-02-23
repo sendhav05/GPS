@@ -20,6 +20,9 @@ import UserActions from '../../actions';
 import Images from '../../assets/images';
 
 let currentDocIndex = -1;
+let driverID = -1;
+let nameOfDocument = '';
+let isUploadDocumentAPI = false;
 
 class DriverDocumentView extends Component {
   constructor(props) {
@@ -34,8 +37,36 @@ class DriverDocumentView extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidMount() {
+    const utils = new Utils();
+    utils.getDriverID((response) => {
+      driverID = response;
+    });
+  }
 
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.isLoading
+      && isUploadDocumentAPI
+      && nextProps.uploadDocumentResponse.response
+      && nextProps.uploadDocumentResponse.status === 200) {
+      if (nextProps.uploadDocumentResponse.response.message && typeof nextProps.uploadDocumentResponse.response.message === 'string') {
+        showPopupAlert(nextProps.uploadDocumentResponse.response.message);
+        isUploadDocumentAPI = false;
+        return;
+      }
+      isUploadDocumentAPI = false;
+      showPopupAlert('Successfully uploaded document.');
+    } else if (!nextProps.isLoading && nextProps.uploadDocumentResponse.response
+      && isUploadDocumentAPI
+      && (nextProps.uploadDocumentResponse.status !== 200)) {
+      if (nextProps.uploadDocumentResponse.response.message && typeof nextProps.uploadDocumentResponse.response.message === 'string') {
+        showPopupAlert(nextProps.uploadDocumentResponse.response.message);
+        isUploadDocumentAPI = false;
+        return;
+      }
+      isUploadDocumentAPI = false;
+      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
+    }
   }
 
   onNextPress() {
@@ -84,12 +115,13 @@ class DriverDocumentView extends Component {
   setAvaterSource(uri, multipartBody) {
     console.log('******** uri', uri, multipartBody);
     if (currentDocIndex === 0) {
+      nameOfDocument = 'DriverLicense';
       if (uri && uri.length > 0 && multipartBody) {
         this.setState({
           dlImageSource: uri,
           imageMultipartBody: multipartBody,
           hasImage: true,
-        });
+        }, () => this.uploadDocumentReq());
       } else {
         this.setState({
           dlImageSource: '',
@@ -98,12 +130,13 @@ class DriverDocumentView extends Component {
         });
       }
     } else if (currentDocIndex === 1) {
+      nameOfDocument = 'Insurance';
       if (uri && uri.length > 0 && multipartBody) {
         this.setState({
           sslImageSource: uri,
           imageMultipartBody: multipartBody,
           hasImage: true,
-        });
+        }, () => this.uploadDocumentReq());
       } else {
         this.setState({
           sslImageSource: '',
@@ -112,12 +145,13 @@ class DriverDocumentView extends Component {
         });
       }
     } if (currentDocIndex === 2) {
+      nameOfDocument = 'CertificateOfRegistration';
       if (uri && uri.length > 0 && multipartBody) {
         this.setState({
           addressImageSource: uri,
           imageMultipartBody: multipartBody,
           hasImage: true,
-        });
+        }, () => this.uploadDocumentReq());
       } else {
         this.setState({
           addressImageSource: '',
@@ -126,6 +160,18 @@ class DriverDocumentView extends Component {
         });
       }
     }
+  }
+
+  uploadDocumentReq() {
+    const utils = new Utils();
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        isUploadDocumentAPI = true;
+        this.props.uploadDocumentRequest(this.state.imageMultipartBody, driverID, 'image', nameOfDocument);
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
+    });
   }
 
   render() {
@@ -178,6 +224,8 @@ class DriverDocumentView extends Component {
 
 
 const mapStateToProps = state => ({
+  isLoading: state.uploadDocument.isLoading,
+  uploadDocumentResponse: state.uploadDocument.uploadDocumentResponse,
 });
 
 const mapDispatchToProps = () => UserActions;

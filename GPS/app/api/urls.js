@@ -426,3 +426,16 @@ export const completedOrderUrl = (orderid) => {
   }
   return url;
 };
+
+export const uploadDocumentUrl = (driverid, type, name) => {
+  const url = `${getBaseUrl}/customer/driver_document`;
+  let param = '';
+  if (driverid) { if (param) { param = `${param}&`; } param = `${param}driver_id=${driverid}`; }
+  if (type) { if (param) { param = `${param}&`; } param = `${param}type=${type}`; }
+  if (name) { if (param) { param = `${param}&`; } param = `${param}name=${name}`; }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};

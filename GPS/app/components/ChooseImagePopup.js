@@ -17,9 +17,9 @@ class ChooseImagePopup extends Component {
   onPopupItemClick(index) {
     this.props.isShowPopupDialog(false);
     if (index === 0) {
-      cameraPicker(((uri, multipartBody) => this.props.setAvaterSource(uri, multipartBody)), 'avatar');
+      cameraPicker(((uri, multipartBody) => this.props.setAvaterSource(uri, multipartBody)), 'image');
     } else if (index === 1) {
-      galleryPicker(((uri, multipartBody) => this.props.setAvaterSource(uri, multipartBody)), 'avatar');
+      galleryPicker(((uri, multipartBody) => this.props.setAvaterSource(uri, multipartBody)), 'image');
     } else if (index === 2) {
       this.props.setAvaterSource('DeleteImage', '');
     }

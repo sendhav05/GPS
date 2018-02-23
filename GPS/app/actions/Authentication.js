@@ -6,7 +6,8 @@ import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
   orderPutBackUrl, cutomerPendingOrdersURl, cutomerCompleteOrdersUrl,
   notificationUrl, cancelOrderUrl, feedbackUrl,
   driverPendingOrdersURl, pickupedOrderUrl,
-  completedOrderUrl, driverCompleteOrdersURl } from '../api/urls';
+  completedOrderUrl, driverCompleteOrdersURl,
+  uploadDocumentUrl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -95,6 +96,11 @@ export const COMPLETED_ORDER_SUCCESS = 'COMPLETED_ORDER_SUCCESS';
 export const COMPLETED_ORDER_FAILURE = 'COMPLETED_ORDER_FAILURE';
 
 export const RESET_ADDRESS_DATA = 'RESET_ADDRESS_DATA';
+
+export const UPLOAD_DOCUMENT_REQUEST = 'UPLOAD_DOCUMENT_REQUEST';
+export const UPLOAD_DOCUMENT_SUCCESS = 'UPLOAD_DOCUMENT_SUCCESS';
+export const UPLOAD_DOCUMENT_FAILURE = 'UPLOAD_DOCUMENT_FAILURE';
+
 
 export const userLoginRequest = (email, password, type, deviceToken, deviceType) => {
   const url = loginUrl(email, password, type, deviceToken, deviceType);
@@ -298,5 +304,14 @@ export const driverCompleteOrdersListRequest = (driverid) => {
   return postApiAction({
     types: [CUSTOMER_COM_ORDER_REQUEST, CUSTOMER_COM_ORDER_SUCCESS, CUSTOMER_COM_ORDER_FAILURE],
     url,
+  });
+};
+
+export const uploadDocumentRequest = (body, driverid, type, name) => {
+  const url = uploadDocumentUrl(driverid, type, name);
+  return postApiAction({
+    types: [UPLOAD_DOCUMENT_REQUEST, UPLOAD_DOCUMENT_SUCCESS, UPLOAD_DOCUMENT_FAILURE],
+    url,
+    body,
   });
 };
