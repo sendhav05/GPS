@@ -13,6 +13,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import PropTypes from 'prop-types';
 import Images from '../../../assets/images';
 import NavBar from '../../../components/NavBar';
+import { OrangeColor } from '../../../utils/constants';
 
 const { width } = Dimensions.get('window');
 const brownOrangeColor = 'rgba(255,101,70,1)';
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   productView: {
-    height: 130,
+    height: 70,
     width,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -36,6 +37,7 @@ const styles = StyleSheet.create({
     height: 40,
     width,
     flexDirection: 'row',
+    marginTop: 50,
   },
   confirmButton: {
     backgroundColor: blueTextColor,
@@ -45,6 +47,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 5,
     width: (width / 2) - 60,
+  },
+  plusButtonView: {
+    height: 40,
+    width,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  plusButton: {
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 25,
+    width: 40,
+    borderWidth: 2,
+    borderColor: blueTextColor,
   },
   productCountView: {
     height: 52,
@@ -168,12 +185,30 @@ const CustomerHome = props => (
       <View style={styles.productView}>
         <View style={styles.productPriceView}>
           <Text style={styles.headerText}>
-            {'No. Of Orders:'}
+            {'Select No. Of Orders:'}
           </Text>
-          {
-            props.confirmOrders.map(s => <OrderView key={s.id} order={s} />)
-          }
         </View>
+      </View>
+      <View style={styles.plusButtonView}>
+        <TouchableOpacity
+          style={styles.plusButton}
+          onPress={() => props.onMinusePress()}
+        >
+          <Text style={[styles.buttonText, { color: blueTextColor }]}>
+                -
+          </Text>
+        </TouchableOpacity>
+        <Text style={[styles.buttonText, { color: OrangeColor, marginLeft: 15, marginRight: 15, marginTop: 10 }]}>
+          {props.totalorder}
+        </Text>
+        <TouchableOpacity
+          style={styles.plusButton}
+          onPress={() => props.onPlusPress()}
+        >
+          <Text style={[styles.buttonText, { color: blueTextColor }]}>
+              +
+          </Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.confirmButtonView}>
         <TouchableOpacity
@@ -198,7 +233,7 @@ const CustomerHome = props => (
           Total Order:
         </Text>
         <Text style={[styles.productCountText, { fontSize: 20, color: brownOrangeColor, marginLeft: 30 }]}>
-          {`${props.confirmOrders.length}`}
+          {`${props.totalorder}`}
         </Text>
       </View>
       <Text style={[styles.timerText]}>

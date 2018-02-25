@@ -178,8 +178,8 @@ export const driverOrderListRequest = (lat, lng, warehouseid) => {
   });
 };
 
-export const reserveOrderRequest = (driverid, orderids, warehouseid) => {
-  const url = reserveOrderURl(driverid, orderids, warehouseid);
+export const reserveOrderRequest = (driverid, totalorder, warehouseid) => {
+  const url = reserveOrderURl(driverid, totalorder, warehouseid);
   console.log('********* reserve order', url);
   return postApiAction({
     types: [RESERVE_ORDER_REQUEST, RESERVE_ORDER_SUCCESS, RESERVE_ORDER_FAILURE],
@@ -226,8 +226,8 @@ export const resetAddressData = () => ({
   type: RESET_ADDRESS_DATA,
 });
 
-export const orderPutBackRequest = (orderids) => {
-  const url = orderPutBackUrl(orderids);
+export const orderPutBackRequest = (driverid, warehouseid) => {
+  const url = orderPutBackUrl(driverid, warehouseid);
   return postApiAction({
     types: [ORDER_PUT_BACK_REQUEST, ORDER_PUT_BACK_SUCCESS, ORDER_PUT_BACK_FAILURE],
     url,

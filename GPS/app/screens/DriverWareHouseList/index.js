@@ -5,9 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import {
-  View,
-} from 'react-native';
+import {View,} from 'react-native';
 import { connect } from 'react-redux';
 import call from 'react-native-phone-call';
 import NavigationExperimental from 'react-native-deprecated-custom-components';
@@ -57,9 +55,9 @@ class WareHouseView extends Component {
       && nextProps.driverWareHouseResponse.status === 200) {
       // && nextProps.driverWareHouseResponse.response.status === 1) {
       if (nextProps.driverWareHouseResponse.response.data.length > 0) {
-        let arrayDatas = nextProps.driverWareHouseResponse.response.data;
+        const arrayDatas = nextProps.driverWareHouseResponse.response.data;
         if (arrayDatas.length > 0) {
-          arrayDatas.sort(function(obj1, obj2) {
+          arrayDatas.sort((obj1, obj2) => {
             return obj1.distance - obj2.distance;
           });
         }
@@ -78,12 +76,12 @@ class WareHouseView extends Component {
     }
   }
 
-  compare(a,b) {
+  compare(a, b) {
     console.log('********** data aaa', a, a.distance);
     if (a.distance < b.distance)
-      return -1;
+      {return -1;}
     if (a.distance > b.distance)
-      return 1;
+      {return 1;}
     return 0;
   }
 
@@ -93,7 +91,13 @@ class WareHouseView extends Component {
 
   onCellSelectionPress(selectedItem) {
     const { navigate } = this.props.navigation;
-    navigate('DriverOrder', { selectedWareHouse: selectedItem, lat: this.state.region.latitude, lng: this.state.region.longitude });
+    // navigate('DriverOrder', { selectedWareHouse: selectedItem, lat: this.state.region.latitude, lng: this.state.region.longitude });
+    navigate('ReserveOrder', {
+      isShowReserveOrderView: true,
+      selectedWareHouse: selectedItem,
+      lat: this.state.region.latitude,
+      lng: this.state.region.longitude,
+    });
   }
 
   onLeftMenuPress() {
@@ -104,7 +108,13 @@ class WareHouseView extends Component {
   onCalloutPress(e) {
     console.log('****', selectedWareHouse);
     const { navigate } = this.props.navigation;
-    navigate('DriverOrder', { selectedWareHouse, lat: this.state.region.latitude, lng: this.state.region.longitude });
+    // navigate('DriverOrder', { selectedWareHouse, lat: this.state.region.latitude, lng: this.state.region.longitude });
+    navigate('ReserveOrder', {
+      isShowReserveOrderView: true,
+      selectedWareHouse,
+      lat: this.state.region.latitude,
+      lng: this.state.region.longitude,
+    });
   }
 
   onPinPress(e) {

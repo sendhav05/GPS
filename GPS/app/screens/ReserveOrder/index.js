@@ -33,6 +33,7 @@ class OrderPlaceView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      totalorder: 1,
       currentSecond: '60',
       deliveredBtnEnabled: false,
       isShowReserveOrderView: props.navigation.state.params.isShowReserveOrderView,
@@ -152,24 +153,24 @@ class OrderPlaceView extends Component {
 
   onCancelPress() {
     console.log('***** onChoosePaymentPress ');
+    this.cancelOrder();
   }
 
   onConfirmPress() {
     const navigationParams = this.props.navigation.state.params;
-    if (navigationParams.confirmOrders.length > 0) {
-      let orderids = '';
-      const datas = [];
+    if (this.state.totalorder) {
+      // let orderids = '';
+      // const datas = [];
 
-      for (let i = 0; i < navigationParams.confirmOrders.length; i++) {
-        datas.push(navigationParams.confirmOrders[i].order_id);
-      }
-
-      orderids = datas.toString();
+      // for (let i = 0; i < navigationParams.confirmOrders.length; i++) {
+      //   datas.push(navigationParams.confirmOrders[i].order_id);
+      // }
+      // orderids = datas.toString();
       const utils = new Utils();
       utils.checkInternetConnectivity((reach) => {
         if (reach) {
           isCallReserveAPI = true;
-          this.props.reserveOrderRequest(driverID, orderids, navigationParams.selectedWareHouse.warehouse_id);
+          this.props.reserveOrderRequest(driverID, this.state.totalorder, navigationParams.selectedWareHouse.warehouse_id);
         } else {
           showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
         }
@@ -193,54 +194,58 @@ class OrderPlaceView extends Component {
 
   setTimePassed() {
     if (this.state.currentSecond <= 0) {
-      showPopupAlert('Your order is passed to other driver.');
-      clearInterval(timerId);
-
-      const navigationParams = this.props.navigation.state.params;
-      let orderids = '';
-      const datas = [];
-      for (let i = 0; i < navigationParams.confirmOrders.length; i++) {
-        datas.push(navigationParams.confirmOrders[i].order_id);
-      }
-      orderids = datas.toString();
-      const utils = new Utils();
-      utils.checkInternetConnectivity((reach) => {
-        if (reach) {
-          this.props.orderPutBackRequest(orderids);
-        } else {
-          showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
-        }
-      });
-      setTimeout(() => {
-        this.props.navigation.goBack(null);
-        this.props.navigation.goBack(null);
-      }, 50);
+      this.cancelOrder();
     } else {
       const decreasedValue = Number(this.state.currentSecond) - 1;
       this.setState({ currentSecond: decreasedValue });
     }
   }
 
+  cancelOrder() {
+    showPopupAlert('Your order is passed to other driver.');
+    clearInterval(timerId);
+
+    const navigationParams = this.props.navigation.state.params;
+    // const navigationParams = this.props.navigation.state.params;
+    // let orderids = '';
+    // const datas = [];
+    // for (let i = 0; i < navigationParams.confirmOrders.length; i++) {
+    //   datas.push(navigationParams.confirmOrders[i].order_id);
+    // }
+    // orderids = datas.toString();
+    const utils = new Utils();
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        this.props.orderPutBackRequest(driverID, navigationParams.selectedWareHouse.warehouse_id);
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
+    });
+    setTimeout(() => {
+      this.props.navigation.goBack(null);
+    }, 50);
+  }
+
   handleGetDirections() {
     const navigationParams = this.props.navigation.state.params;
-    let desLat = 0.0;
-    let desLng = 0.0;
-    for (let i = 0; i < navigationParams.confirmOrders.length; i++) {
-      const item = navigationParams.confirmOrders[i];
-      if (item.lat && item.lng) {
-        desLat = Number(item.lat);
-        desLng = Number(item.lng);
-      }
-    }
+    // let desLat = 0.0;
+    // let desLng = 0.0;
+    // for (let i = 0; i < navigationParams.confirmOrders.length; i++) {
+    //   const item = navigationParams.confirmOrders[i];
+    //   if (item.lat && item.lng) {
+    //     desLat = Number(item.lat);
+    //     desLng = Number(item.lng);
+    //   }
+    // }
 
     const data = {
       source: {
-        latitude: navigationParams.warehouse_lat,
-        longitude: navigationParams.warehouse_lng,
+        latitude: navigationParams.selectedWareHouse.lat,
+        longitude: navigationParams.selectedWareHouse.lng,
       },
       destination: {
-        latitude: desLat,
-        longitude: desLng,
+        latitude: navigationParams.lat,
+        longitude: navigationParams.lng,
       },
       params: [
         {
@@ -305,6 +310,18 @@ class OrderPlaceView extends Component {
     });
   }
 
+  onMinusePress() {
+    if (this.state.totalorder > 1) {
+      this.setState({ totalorder: this.state.totalorder - 1 });
+    }
+  }
+
+  onPlusPress() {
+    if (this.state.totalorder < 3) {
+      this.setState({ totalorder: this.state.totalorder + 1 });
+    }
+  }
+
   onCallPress(phone) {
     console.log('@@@@@@@@@@ phone', phone);
 
@@ -346,6 +363,7 @@ class OrderPlaceView extends Component {
         },
       ],
     };
+    console.log('************ data', data);
     getDirections(data);
   }
 
@@ -388,7 +406,9 @@ class OrderPlaceView extends Component {
             onGoToPickupPress={() => this.onGoToPickupPress()}
             onCancelPress={() => this.onCancelPress()}
             onConfirmPress={() => this.onConfirmPress()}
-            confirmOrders={navigationParams.confirmOrders}
+            onPlusPress={() => this.onPlusPress()}
+            onMinusePress={() => this.onMinusePress()}
+            totalorder={this.state.totalorder}
             currentSecond={this.state.currentSecond}
             isShowReserveOrderView={this.state.isShowReserveOrderView}
           />

@@ -170,7 +170,7 @@ export const driverOrderListUrl = (lat, lng, warehouseid) => {
   return url;
 };
 
-export const reserveOrderURl = (driverid, orderids, warehouseid) => {
+export const reserveOrderURl = (driverid, totalorder, warehouseid) => {
   const url = `${getBaseUrl}/order/reserveOrders`;
   let param = '';
   if (driverid) {
@@ -179,11 +179,11 @@ export const reserveOrderURl = (driverid, orderids, warehouseid) => {
     }
     param = `driver_id=${driverid}`;
   }
-  if (orderids) {
+  if (totalorder) {
     if (param) {
       param = `${param}&`;
     }
-    param = `${param}order_ids=${orderids}`;
+    param = `${param}total_order=${totalorder}`;
   }
   if (warehouseid) {
     if (param) {
@@ -281,15 +281,11 @@ export const deleteAddressListUrl = (type, deliveryid) => {
   return url;
 };
 
-export const orderPutBackUrl = (orderids) => {
+export const orderPutBackUrl = (driverid, warehouseid) => {
   const url = `${getBaseUrl}/order/orderPutBack`;
   let param = '';
-  if (orderids) {
-    if (param) {
-      param = `${param}&`;
-    }
-    param = `order_ids=${orderids}`;
-  }
+  if (driverid) { if (param) { param = `${param}&`; } param = `${param}driver_id=${driverid}`; }
+  if (warehouseid) { if (param) { param = `${param}&`; } param = `${param}warehouse_id=${warehouseid}`; }
 
   if (param) {
     return `${url}?${param}`;
