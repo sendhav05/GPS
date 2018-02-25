@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
   },
   defaultTextInput: {
     marginLeft: 50,
-    marginTop: 10,
     marginRight: 15,
     height: 40,
     width: width - 100,
@@ -55,16 +54,15 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   newAddressText: {
-    marginLeft: 50,
-    marginTop: 10,
+    marginLeft: 60,
     marginRight: 15,
     height: 40,
     width: width - 100,
     fontSize: ButtonFontSize,
     color: 'rgb(97,97,97)',
     borderRadius: 25,
-    padding: 10,
     textAlign: 'left',
+    marginTop: 10,
   },
   textInputNewAddress: {
     marginLeft: 50,
@@ -116,7 +114,7 @@ const ChooseAddress = props => (
   <View style={styles.bodyView}>
     <View style={styles.cellView}>
       <View style={{ flex: 1 }}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           activeOpacity={1}
           style={{ flex: 1, justifyContent: 'center' }}
           onPress={() => props.onCellSelectionPress()}
@@ -128,7 +126,10 @@ const ChooseAddress = props => (
           <Text style={styles.defaultTextInput}>
               Default Address
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        <Text style={styles.defaultTextInput}>
+            Default Address
+        </Text>
       </View>
       <TextInput
         style={styles.textInput}
@@ -181,10 +182,20 @@ const ChooseAddress = props => (
       />
     </View>
     <View style={[styles.cellView]}>
-      <View style={{ flex: 1 }}>
-        <Text style={[styles.newAddressText,  { color: 'rgb(97,97,97)' }]}>
-          Add New Delivery Address
-        </Text>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <TouchableOpacity
+          activeOpacity={1}
+          style={{ flex: 1, justifyContent: 'center' }}
+          onPress={() => props.onCellSelectionPress()}
+        >
+          <Image
+            source={props.isDefaultAddressSelected ? Images.selectedIcon : Images.unselectIcon}
+            style={styles.profilePic}
+          />
+          <Text style={[styles.newAddressText,  { color: 'rgb(97,97,97)' }]}>
+            If delivery address same as default address
+          </Text>
+        </TouchableOpacity>
         {/* <TouchableOpacity
           activeOpacity={1}
           style={{ flex: 1, justifyContent: 'center' }}

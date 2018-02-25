@@ -309,9 +309,14 @@ export const driverCompleteOrdersListRequest = (driverid) => {
 
 export const uploadDocumentRequest = (body, driverid, type, name) => {
   const url = uploadDocumentUrl(driverid, type, name);
+  const headers = {
+    Accept: 'application/json',
+    'Content-Type': 'multipart/form-data',
+  };
   return postApiAction({
     types: [UPLOAD_DOCUMENT_REQUEST, UPLOAD_DOCUMENT_SUCCESS, UPLOAD_DOCUMENT_FAILURE],
     url,
+    headers,
     body,
   });
 };
