@@ -152,9 +152,10 @@ class OrderPlaceView extends Component {
     let dCharge = 0;
     if (tmpdistanceMiles) {
       if (tmpdistanceMiles <= minimumMiles) {
-        dCharge = minimumMiles * minimumMileRate;
+        dCharge = minimumMileRate;
       } else {
-        dCharge = tmpdistanceMiles * perMileRate;
+        const diff = tmpdistanceMiles - minimumMiles;
+        dCharge = minimumMileRate + (diff * perMileRate);
       }
     }
     // Total Price
