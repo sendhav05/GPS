@@ -92,7 +92,7 @@ export const productListUrl = (id) => {
 export const orderPlaceUrl = (
   name, contectno, email, pincode, state,
   city, address, landmark, paymentid, paymenttype, paymentstatus,
-  totallamount, customerid, itemid, warehouseid, lat, lng
+  totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime
 ) => {
   const url = `${getBaseUrl}/order`;
   let param = '';
@@ -113,6 +113,7 @@ export const orderPlaceUrl = (
   if (warehouseid) { if (param) { param = `${param}&`; } param = `${param}warehouse_id=${warehouseid}`; }
   if (lat) { if (param) { param = `${param}&`; } param = `${param}lat=${lat}`; }
   if (lng) { if (param) { param = `${param}&`; } param = `${param}lng=${lng}`; }
+  if (deliverytime) { if (param) { param = `${param}&`; } param = `${param}delivery_time=${deliverytime}`; }
 
   if (param) {
     return `${url}?${param}`;
@@ -352,6 +353,17 @@ export const driverCompleteOrdersURl = (driverid) => {
   return url;
 };
 
+export const fetchDriverDocURl = (driverid) => {
+  const url = `${getBaseUrl}/customer/list_driver_document`;
+  let param = '';
+  if (driverid) { if (param) { param = `${param}&`; } param = `${param}driver_id=${driverid}`; }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
+
 export const notificationUrl = (userid) => {
   const url = `${getBaseUrl}/notification`;
   let param = '';
@@ -429,6 +441,17 @@ export const uploadDocumentUrl = (driverid, type, name) => {
   if (driverid) { if (param) { param = `${param}&`; } param = `${param}driver_id=${driverid}`; }
   if (type) { if (param) { param = `${param}&`; } param = `${param}type=${type}`; }
   if (name) { if (param) { param = `${param}&`; } param = `${param}name=${name}`; }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
+
+export const uploadDeliveryDocumentUrl = (orderid) => {
+  const url = `${getBaseUrl}/order/completeOrderAcknowledgement`;
+  let param = '';
+  if (orderid) { if (param) { param = `${param}&`; } param = `${param}order_id=${orderid}`; }
 
   if (param) {
     return `${url}?${param}`;

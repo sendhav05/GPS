@@ -23,7 +23,7 @@ let currentDocIndex = -1;
 let driverID = -1;
 let nameOfDocument = '';
 let isUploadDocumentAPI = false;
-
+let isCalledFetchDocAPI = false
 class DriverDocumentView extends Component {
   constructor(props) {
     super(props);
@@ -34,6 +34,7 @@ class DriverDocumentView extends Component {
       addressImageSource: '',
       imageMultipartBody: {},
       hasImage: false,
+      docData: [],
     };
   }
 
@@ -42,9 +43,25 @@ class DriverDocumentView extends Component {
     utils.getDriverID((response) => {
       driverID = response;
     });
+    this.getDriverDocDetails();
+  }
+
+  getDriverDocDetails() {
+    const utils = new Utils();
+    utils.getDriverID((response) => {
+      utils.checkInternetConnectivity((reach) => {
+        if (reach && response) {
+          isCalledFetchDocAPI = true;
+          this.props.fetchDriverDocRequest(response);
+        } else {
+          showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+        }
+      });
+    });
   }
 
   componentWillReceiveProps(nextProps) {
+    this.manageDocResponse(nextProps);
     if (!nextProps.isLoading
       && isUploadDocumentAPI
       && nextProps.uploadDocumentResponse.response
@@ -65,6 +82,46 @@ class DriverDocumentView extends Component {
         return;
       }
       isUploadDocumentAPI = false;
+      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
+    }
+  }
+
+  manageDocResponse(nextProps) {
+    if (!nextProps.isLoading
+      && isCalledFetchDocAPI
+      && nextProps.fetchDocumentResponse.response
+      && nextProps.fetchDocumentResponse.status === 200) {
+      if (nextProps.fetchDocumentResponse.response.data && nextProps.fetchDocumentResponse.response.data.document_data) {
+        isCalledFetchDocAPI = false;
+        //this.setState({ docData: nextProps.fetchDocumentResponse.response.data.document_data })
+        const docs = nextProps.fetchDocumentResponse.response.data.document_data;
+        const path = nextProps.fetchDocumentResponse.response.data.imagepath;
+        console.log('************', docs, path);
+         for (let i = 0; i < docs.length; i++) {
+            const object = docs[i];
+            if (object.document_name === 'CertificateOfRegistration') {
+               const imgurl = `${path}/${object.document}`
+               this.setState({ addressImageSource: imgurl });
+            } else if (object.document_name === 'Insurance') {
+              const imgurl = `${path}/${object.document}`
+              this.setState({ sslImageSource: imgurl });
+            } else if (object.document_name === 'DriverLicense') {
+              const imgurl = `${path}/${object.document}`
+              this.setState({ dlImageSource: imgurl });
+            } 
+          }
+        return;
+      }
+      isCalledFetchDocAPI = false;
+    } else if (!nextProps.isLoading && nextProps.fetchDocumentResponse.response
+      && isCalledFetchDocAPI
+      && (nextProps.fetchDocumentResponse.status !== 200)) {
+      if (nextProps.fetchDocumentResponse.response.message && typeof nextProps.fetchDocumentResponse.response.message === 'string') {
+        showPopupAlert(nextProps.fetchDocumentResponse.response.message);
+        isCalledFetchDocAPI = false;
+        return;
+      }
+      isCalledFetchDocAPI = false;
       showPopupAlert(constant.SERVER_ERROR_MESSAGE);
     }
   }
@@ -226,6 +283,7 @@ class DriverDocumentView extends Component {
 const mapStateToProps = state => ({
   isLoading: state.uploadDocument.isLoading,
   uploadDocumentResponse: state.uploadDocument.uploadDocumentResponse,
+  fetchDocumentResponse: state.uploadDocument.fetchDocumentResponse,
 });
 
 const mapDispatchToProps = () => UserActions;

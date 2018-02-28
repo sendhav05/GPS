@@ -6,8 +6,8 @@ import {
   StyleSheet,
   Image,
   TextInput,
-  Keyboard,
   Dimensions,
+  Platform,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PropTypes from 'prop-types';
@@ -17,17 +17,15 @@ import NavBar from '../../../components/NavBar';
 const { width } = Dimensions.get('window');
 const brownOrangeColor = 'rgba(255,101,70,1)';
 const blueTextColor = 'rgba(97,90,188,1)';
+const pickerViewHeight = Platform.OS === 'ios' ? 200 : 0;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
   productView: {
-    marginTop: 20,
-    height: 170,
+    marginTop: 5,
+    height: 150,
     width,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -115,14 +113,14 @@ const CustomerHome = props => (
   <TouchableOpacity
     activeOpacity={1}
     style={{ flex: 1, justifyContent: 'center' }}
-    onPress={() => Keyboard.dismiss()}
+    onPress={() => props.dismissKeyboard()}
   >
     <View style={styles.container}>
       <NavBar
         leftMenuIcon={Images.backArrow}
         leftMenuPress={() => props.onBacnkPress()}
         title={props.selectedProductItem.name}
-        isShowRightIcon={Boolean(true)}
+        isShowRightIcon={Boolean(false)}
         rightMenuIcon={Images.editOder}
         rightMenuPress={() => props.onEditOrderPress()}
       />
@@ -200,6 +198,18 @@ const CustomerHome = props => (
             </Text>
           </View>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => props.updateStateDOB()}
+        >
+          <View style={styles.cellView}>
+            <Text style={styles.productCountText}>
+            {props.deliveryDatetime}
+            </Text>
+            <Text style={styles.productCountText}>
+              >
+            </Text>
+          </View>
+        </TouchableOpacity>
         <View style={{ flex: 1 }}>
           <TouchableOpacity
             style={styles.orderButton}
@@ -211,6 +221,12 @@ const CustomerHome = props => (
           </TouchableOpacity>
         </View>
       </View>
+      {
+        props.isShowDatePicker &&
+        <View style={{ backgroundColor: 'white', height: pickerViewHeight }}>
+          { props.showDOBPicker()}
+        </View>
+      }
     </View>
   </TouchableOpacity>
 

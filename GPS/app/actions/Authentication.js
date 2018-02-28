@@ -7,7 +7,7 @@ import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
   notificationUrl, cancelOrderUrl, feedbackUrl,
   driverPendingOrdersURl, pickupedOrderUrl,
   completedOrderUrl, driverCompleteOrdersURl,
-  uploadDocumentUrl } from '../api/urls';
+  uploadDocumentUrl, fetchDriverDocURl, uploadDeliveryDocumentUrl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -101,6 +101,9 @@ export const UPLOAD_DOCUMENT_REQUEST = 'UPLOAD_DOCUMENT_REQUEST';
 export const UPLOAD_DOCUMENT_SUCCESS = 'UPLOAD_DOCUMENT_SUCCESS';
 export const UPLOAD_DOCUMENT_FAILURE = 'UPLOAD_DOCUMENT_FAILURE';
 
+export const FETCH_UPLOAD_REQUEST = 'FETCH_UPLOAD_REQUEST';
+export const FETCH_UPLOAD_SUCCESS = 'FETCH_UPLOAD_SUCCESS';
+export const FETCH_UPLOAD_FAILURE = 'FETCH_UPLOAD_FAILURE';
 
 export const userLoginRequest = (email, password, type, deviceToken, deviceType) => {
   const url = loginUrl(email, password, type, deviceToken, deviceType);
@@ -148,12 +151,12 @@ export const fetchProductRequest = (id) => {
 export const orderPlaceRequest = (
   name, contectno, email, pincode, state,
   city, address, landmark, paymentid, paymenttype, paymentstatus,
-  totallamount, customerid, itemid, warehouseid, lat, lng
+  totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime
 ) => {
   const url = orderPlaceUrl(
     name, contectno, email, pincode, state,
     city, address, landmark, paymentid, paymenttype, paymentstatus,
-    totallamount, customerid, itemid, warehouseid, lat, lng
+    totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime
   );
   console.log('********* order place', url);
   return postApiAction({
@@ -307,8 +310,30 @@ export const driverCompleteOrdersListRequest = (driverid) => {
   });
 };
 
+export const fetchDriverDocRequest = (driverid) => {
+  const url = fetchDriverDocURl(driverid);
+  return getApiAction({
+    types: [FETCH_UPLOAD_REQUEST, FETCH_UPLOAD_SUCCESS, FETCH_UPLOAD_FAILURE],
+    url,
+  });
+};
+
 export const uploadDocumentRequest = (body, driverid, type, name) => {
   const url = uploadDocumentUrl(driverid, type, name);
+  const headers = {
+    Accept: 'application/json',
+    'Content-Type': 'multipart/form-data',
+  };
+  return postApiAction({
+    types: [UPLOAD_DOCUMENT_REQUEST, UPLOAD_DOCUMENT_SUCCESS, UPLOAD_DOCUMENT_FAILURE],
+    url,
+    headers,
+    body,
+  });
+};
+
+export const uploadDeliveryDocumentRequest = (orderid) => {
+  const url = uploadDeliveryDocumentUrl(orderid);
   const headers = {
     Accept: 'application/json',
     'Content-Type': 'multipart/form-data',

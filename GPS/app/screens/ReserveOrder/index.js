@@ -17,6 +17,8 @@ import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
 import Utils from '../../utils/utils';
 import constant from '../../utils/constants';
 import PendingPickupOrder from './components/PendingPickupOrder';
+import ChooseImagePopup from '../../components/ChooseImagePopup';
+import Loader from '../../components/Loader';
 
 let driverID = '-1';
 let timerId = '';
@@ -28,11 +30,13 @@ let driverLng = 0.0;
 let isCallPickupDoneAPI = false;
 let isCallCompletedAPI = false;
 let isCallReserveAPI = false;
+let isUploadDocumentAPI = false;
 
 class OrderPlaceView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isShowImagePopup: false,
       totalorder: 1,
       currentSecond: '60',
       deliveredBtnEnabled: false,
@@ -70,6 +74,9 @@ class OrderPlaceView extends Component {
     if (isCallReserveAPI) {
       this.manageReserveResponse(nextProps);
     }
+    // if (isUploadDocumentAPI) {
+    //   this.manageUploadDocResponse(nextProps);
+    // }
   }
 
   manageReserveResponse(nextProps) {
@@ -146,6 +153,32 @@ class OrderPlaceView extends Component {
         return;
       }
       isCallCompletedAPI = false;
+      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
+    }
+  }
+
+  manageUploadDocResponse(nextProps) {
+    if (!nextProps.isLoading
+      && isUploadDocumentAPI
+      && nextProps.uploadDocumentResponse.response
+      && nextProps.uploadDocumentResponse.status === 200) {
+      if (nextProps.uploadDocumentResponse.response.message && typeof nextProps.uploadDocumentResponse.response.message === 'string') {
+        showPopupAlert(nextProps.uploadDocumentResponse.response.message);
+        isUploadDocumentAPI = false;
+        this.onBacnkPress();
+        return;
+      }
+      isUploadDocumentAPI = false;
+      showPopupAlert('Successfully uploaded document.');
+    } else if (!nextProps.isLoading && nextProps.uploadDocumentResponse.response
+      && isUploadDocumentAPI
+      && (nextProps.uploadDocumentResponse.status !== 200)) {
+      if (nextProps.uploadDocumentResponse.response.message && typeof nextProps.uploadDocumentResponse.response.message === 'string') {
+        showPopupAlert(nextProps.uploadDocumentResponse.response.message);
+        isUploadDocumentAPI = false;
+        return;
+      }
+      isUploadDocumentAPI = false;
       showPopupAlert(constant.SERVER_ERROR_MESSAGE);
     }
   }
@@ -259,7 +292,6 @@ class OrderPlaceView extends Component {
 
   fetchCurrentLocation() {
     navigator.geolocation.getCurrentPosition((position) => {
-      console.log('@@@@@@@@@@ postion', position);
       if (position.coords.latitude && position.coords.longitude) {
         this.props.sendDriverLocationToserverRequest(reserveID, position.coords.latitude, position.coords.longitude);
       } else {
@@ -387,6 +419,45 @@ class OrderPlaceView extends Component {
     getDirections(data);
   }
 
+  // #### Take picture and upload image
+  takePicture(index) {
+    currentDocIndex = index;
+    this.setState({
+      isShowImagePopup: true,
+    });
+  }
+
+  isShowPopupDialog(isShow) {
+    this.setState({
+      isShowImagePopup: isShow,
+    });
+  }
+
+  setAvaterSource(uri, multipartBody) {
+    console.log('******** uri', uri, multipartBody);
+    if (uri && uri.length > 0 && multipartBody) {
+      this.setState({
+        imageMultipartBody: multipartBody,
+      }, () => this.uploadDocumentReq());
+    } else {
+      this.setState({
+        imageMultipartBody: multipartBody,
+      });
+    }
+  }
+
+  uploadDocumentReq() {
+    const utils = new Utils();
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        isUploadDocumentAPI = true;
+        this.props.uploadDeliveryDocumentRequest(warehouseDetails.order_id);
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
+    });
+  }
+
   render() {
     const navigationParams = this.props.navigation.state.params;
     let phoneNum = '';
@@ -423,7 +494,19 @@ class OrderPlaceView extends Component {
             deliveredBtnEnabled={this.state.deliveredBtnEnabled}
             phoneNum={phoneNum}
           />
-      }
+          
+          }
+      {/* {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />} */}
+      {/* {
+              this.state.isShowImagePopup &&
+              <ChooseImagePopup
+                isHaveImage={false}
+                isShowPopup={this.state.isShowImagePopup}
+                setAvaterSource={(source, multipartBody) =>
+                  this.setAvaterSource(source, multipartBody)}
+                isShowPopupDialog={isShow => this.isShowPopupDialog(isShow)}
+              />
+            } */}
       </View>
     );
   }
@@ -431,10 +514,11 @@ class OrderPlaceView extends Component {
 
 
 const mapStateToProps = state => ({
-  isLoading: state.reserveOrder.isLoading,
+  isLoading: state.reserveOrder.isLoading || state.uploadDocument.isLoading,
   reserveOrderResponse: state.reserveOrder.reserveOrderResponse,
   pickupedUpOrderResponse: state.reserveOrder.pickupedUpOrderResponse,
   completedOrderResponse: state.reserveOrder.completedOrderResponse,
+  uploadDocumentResponse: state.uploadDocument.uploadDocumentResponse,
 });
 
 const mapDispatchToProps = () => UserActions;

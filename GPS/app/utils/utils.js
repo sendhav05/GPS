@@ -105,6 +105,18 @@ class Utils extends Component {
     if (isMiles) d /= 1.60934;
     return d;
   }
+
+  convertDateToString(date) {
+    let month = `${date.getMonth() + 1}`;
+    let day = `${date.getDate()}`;
+    const year = date.getFullYear();
+    if (month.length < 2) month = `0${month}`;
+    if (day.length < 2) day = `0${day}`;
+    const hours = date.getHours();
+    const minute = date.getMinutes();
+    return [year, month, day, hours, minute].join('-');
+  }
+
 }
 
 export default Utils;

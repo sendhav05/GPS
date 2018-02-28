@@ -164,10 +164,10 @@ class WareHouseView extends Component {
         };
         this.setState({ region: data }, () => this.getWareHouseDataFromServer());
       } else {
-        showPopupAlert('Not Found Location.');
+        showPopupAlert(constant.LOCATION_MESSAGE);
       }
     }, (error) => {
-      showPopupAlert(JSON.stringify(error));
+      showPopupAlert(constant.LOCATION_MESSAGE);
     }, {
       enableHighAccuracy: false,
       timeout: 20000,

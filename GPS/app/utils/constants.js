@@ -29,6 +29,7 @@ const constant = {
   OFFLINE_TITLE: 'No Internet Connection',
   OFFLINE_MESSAGE: 'Please check your internet connection.',
   EMPTY_RECORD_MESSAGE: 'Record Not Found.',
+  LOCATION_MESSAGE: 'Please enable location services from your device settings..',
 };
 
 export default constant;

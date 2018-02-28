@@ -6,7 +6,15 @@
 /* eslint-disable react/sort-comp, react/prop-types */
 
 import React, { Component } from 'react';
-import { Alert } from 'react-native';
+import {
+  View,
+  DatePickerIOS,
+  DatePickerAndroid,
+  TimePickerAndroid,
+  Alert,
+  Platform,
+  Keyboard,
+} from 'react-native';
 import { connect } from 'react-redux';
 import stripe from 'tipsi-stripe';
 import Geocoder from 'react-native-geocoding';
@@ -37,6 +45,8 @@ let wareHouseItem = {};
 let oneItemPrice = 0.0;
 let isCalledOrderPlaceAPI = false;
 
+let isOpenDOBPicker = false;
+
 class OrderPlaceView extends Component {
   constructor(props) {
     super(props);
@@ -44,9 +54,12 @@ class OrderPlaceView extends Component {
       quantity: '1',
       deliveryCharge: 0,
       distanceMiles: 0,
+      deliveryDatetime: new Date(),
+      isShowDatePicker: false,
     };
     this.onSelectAddress = this.onSelectAddress.bind(this);
     this.refreshDistanceData = this.refreshDistanceData.bind(this);
+    this.setDOBDate = this.setDOBDate.bind(this);
   }
 
   componentDidMount() {
@@ -88,6 +101,72 @@ class OrderPlaceView extends Component {
       }
       showPopupAlert(constant.SERVER_ERROR_MESSAGE);
     }
+  }
+
+  // Picker
+  showDOBPicker() {
+    isOpenDOBPicker = true;
+    if (Platform.OS === 'ios') {
+      return (<DatePickerIOS
+        date={this.state.deliveryDatetime}
+        mode="datetime"
+        onDateChange={this.setDOBDate}
+        maximumDate={new Date()}
+      />);
+    }
+    this.androidPicker();
+    return null;
+  }
+
+  async androidTimePicker (date) {
+    try {
+      const {action, hour, minute} = await TimePickerAndroid.open({
+        hour: 14,
+        minute: 0,
+        is24Hour: false, // Will display '2 PM'
+      });
+      if (action !== TimePickerAndroid.dismissedAction) {
+        // Selected year, month (0-11), day
+        //const date = new Date(year, month, day);
+        date.setMinutes(date.getMinutes() + minute);
+        date.setHours(date.getHours() + hour);
+        this.setState({ isShowDatePicker: false, deliveryDatetime: date });
+      } else {
+        this.setState({ isShowDatePicker: false });
+      }
+    } catch ({code, message}) {
+      console.warn('Cannot open time picker', message);
+    }
+  }
+  
+  async androidPicker() {
+    try {
+      const {
+        action, year, month, day
+      } = await DatePickerAndroid.open({
+        date: new Date(),
+        maxDate: new Date(),
+      });
+      if (action !== DatePickerAndroid.dismissedAction) {
+        // Selected year, month (0-11), day
+        const date = new Date(year, month, day);
+        this.androidTimePicker(date)
+       // this.setState({ isShowDatePicker: false, deliveryDatetime: date });
+      } else {
+        this.setState({ isShowDatePicker: false });
+      }
+    } catch ({ code, message }) {
+      console.warn('Cannot open date picker', message);
+    }
+  }
+
+  setDOBDate(newDate) {
+    console.log('********** isOpenDOBPicker', newDate);
+    this.setState({ deliveryDatetime: newDate });
+  }
+
+  updateStateDOB() {
+    this.setState({ isShowDatePicker: !this.state.isShowDatePicker });
   }
 
   getCustomerDetails() {
@@ -177,6 +256,7 @@ class OrderPlaceView extends Component {
     const totallamount = totalPrice;
     const itemiddata = { item_id: this.props.navigation.state.params.selectedProductItem.product_id, quantity: this.state.quantity, amount: totallamount };
     const itemid = encodeURIComponent(JSON.stringify(itemiddata));
+    const deliverytime = new Utils().convertDateToString(this.state.deliveryDatetime);
 
     const isValid = this.validateAllField();
     if (isValid) {
@@ -187,7 +267,7 @@ class OrderPlaceView extends Component {
           this.props.orderPlaceRequest(
             name, contectno, email, pincode, state,
             city, address, landmark, paymentid, paymenttype, paymentstatus,
-            totallamount, customerid, itemid, warehouseid, lat, lng,
+            totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime,
           );
         } else {
           showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
@@ -252,6 +332,13 @@ class OrderPlaceView extends Component {
       console.log('stripe error');
     }
   }
+  
+  dismissKeyboard() {
+    Keyboard.dismiss();
+    if (this.state.isShowDatePicker) {
+      this.setState({ isShowDatePicker: false });
+    }
+  }
 
   render() {
     oneItemPrice = Number(this.props.navigation.state.params.selectedProductItem.price);
@@ -263,6 +350,7 @@ class OrderPlaceView extends Component {
     } else {
       totalPrice = Number(price);
     }
+    const dateString = new Utils().convertDateToString(this.state.deliveryDatetime);
 
     return (
       <OrderPlace
@@ -278,6 +366,11 @@ class OrderPlaceView extends Component {
         price={price}
         deliveryCharge={this.state.deliveryCharge}
         distanceMiles={this.state.distanceMiles}
+        deliveryDatetime={isOpenDOBPicker ? dateString : 'Delivery Date Time'}
+        updateStateDOB={() => this.updateStateDOB()}
+        showDOBPicker={() => this.showDOBPicker()}
+        dismissKeyboard={() => this.dismissKeyboard()}
+        isShowDatePicker={this.state.isShowDatePicker}
       />
     );
   }
