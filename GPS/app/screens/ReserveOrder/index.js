@@ -74,9 +74,9 @@ class OrderPlaceView extends Component {
     if (isCallReserveAPI) {
       this.manageReserveResponse(nextProps);
     }
-    // if (isUploadDocumentAPI) {
-    //   this.manageUploadDocResponse(nextProps);
-    // }
+    if (isUploadDocumentAPI) {
+      this.manageUploadDocResponse(nextProps);
+    }
   }
 
   manageReserveResponse(nextProps) {
@@ -138,9 +138,9 @@ class OrderPlaceView extends Component {
       && nextProps.completedOrderResponse.status === 200) {
       if (nextProps.completedOrderResponse.response.message && typeof nextProps.completedOrderResponse.response.message === 'string') {
         isCallCompletedAPI = false;
-        showPopupAlert(nextProps.completedOrderResponse.response.message);
+        // showPopupAlert(nextProps.completedOrderResponse.response.message);
         this.props.navigation.state.params.refreshDriverOrderData();
-        this.onBacnkPress();
+        // this.onBacnkPress();
         return;
       }
       showPopupAlert('Successfully reserved orders.');
@@ -331,6 +331,9 @@ class OrderPlaceView extends Component {
   }
 
   deliveredPress() {
+    this.setState({
+      isShowImagePopup: true,
+    });
     const utils = new Utils();
     utils.checkInternetConnectivity((reach) => {
       if (reach) {
@@ -420,13 +423,6 @@ class OrderPlaceView extends Component {
   }
 
   // #### Take picture and upload image
-  takePicture(index) {
-    currentDocIndex = index;
-    this.setState({
-      isShowImagePopup: true,
-    });
-  }
-
   isShowPopupDialog(isShow) {
     this.setState({
       isShowImagePopup: isShow,
@@ -436,22 +432,16 @@ class OrderPlaceView extends Component {
   setAvaterSource(uri, multipartBody) {
     console.log('******** uri', uri, multipartBody);
     if (uri && uri.length > 0 && multipartBody) {
-      this.setState({
-        imageMultipartBody: multipartBody,
-      }, () => this.uploadDocumentReq());
-    } else {
-      this.setState({
-        imageMultipartBody: multipartBody,
-      });
-    }
+      this.uploadDocumentReq(multipartBody)
+    } 
   }
 
-  uploadDocumentReq() {
+  uploadDocumentReq(multipartBody) {
     const utils = new Utils();
     utils.checkInternetConnectivity((reach) => {
       if (reach) {
         isUploadDocumentAPI = true;
-        this.props.uploadDeliveryDocumentRequest(warehouseDetails.order_id);
+        this.props.uploadDeliveryDocumentRequest(warehouseDetails.order_id, multipartBody);
       } else {
         showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
       }
@@ -497,7 +487,7 @@ class OrderPlaceView extends Component {
           
           }
       {/* {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />} */}
-      {/* {
+      {
               this.state.isShowImagePopup &&
               <ChooseImagePopup
                 isHaveImage={false}
@@ -506,7 +496,7 @@ class OrderPlaceView extends Component {
                   this.setAvaterSource(source, multipartBody)}
                 isShowPopupDialog={isShow => this.isShowPopupDialog(isShow)}
               />
-            } */}
+            }
       </View>
     );
   }

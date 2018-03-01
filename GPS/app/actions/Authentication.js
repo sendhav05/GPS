@@ -332,7 +332,7 @@ export const uploadDocumentRequest = (body, driverid, type, name) => {
   });
 };
 
-export const uploadDeliveryDocumentRequest = (orderid) => {
+export const uploadDeliveryDocumentRequest = (orderid, body) => {
   const url = uploadDeliveryDocumentUrl(orderid);
   const headers = {
     Accept: 'application/json',

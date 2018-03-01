@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
   cellView: {
     width,
     flex: 1,
-    marginTop: 20,
     justifyContent: 'flex-start',
   },
   textInput: {
@@ -56,13 +55,13 @@ const styles = StyleSheet.create({
   newAddressText: {
     marginLeft: 60,
     marginRight: 15,
-    height: 40,
+    height: 25,
     width: width - 100,
     fontSize: ButtonFontSize,
     color: 'rgb(97,97,97)',
     borderRadius: 25,
     textAlign: 'left',
-    marginTop: 10,
+    marginTop: 20,
   },
   textInputNewAddress: {
     marginLeft: 50,
@@ -181,35 +180,23 @@ const ChooseAddress = props => (
         underlineColorAndroid="transparent"
       />
     </View>
-    <View style={[styles.cellView]}>
-      <View style={{ flex: 1, justifyContent: 'center' }}>
+    <View style={{ flex: 1, justifyContent: 'center', height: 40 }}>
         <TouchableOpacity
           activeOpacity={1}
-          style={{ flex: 1, justifyContent: 'center' }}
+          style={{ flex: 1, justifyContent: 'center', height: 40 }}
           onPress={() => props.onCellSelectionPress()}
         >
-          <Image
+          {/* <Image
             source={props.isDefaultAddressSelected ? Images.selectedIcon : Images.unselectIcon}
             style={styles.profilePic}
-          />
-          <Text style={[styles.newAddressText,  { color: 'rgb(97,97,97)' }]}>
-            If delivery address same as default address
-          </Text>
-        </TouchableOpacity>
-        {/* <TouchableOpacity
-          activeOpacity={1}
-          style={{ flex: 1, justifyContent: 'center' }}
-          onPress={() => props.onCellSelectionPress()}
-        >
-          <Image
-            source={props.isDefaultAddressSelected ? Images.selectedIcon : Images.unselectIcon}
-            style={styles.profilePic}
-          />
-          <Text style={[styles.textInput,  { color: 'rgb(97,97,97)' }]}>
+          /> */}
+          <Text style={[styles.newAddressText,  { color: '#6150b3' }]}>
             Add New Delivery Address
           </Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
+      { !props.isDefaultAddressSelected &&
+    <View style={[styles.cellView]}>
       <TextInput
         style={styles.textInputNewAddress}
         placeholder="Address"
@@ -260,6 +247,7 @@ const ChooseAddress = props => (
         underlineColorAndroid="transparent"
       />
     </View>
+      }
     <View style={{ flex: 1, marginTop: 15, marginBottom: 10 }}>
       <TouchableOpacity
         style={styles.orderButton}
