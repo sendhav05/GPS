@@ -352,7 +352,10 @@ class OrderPlaceView extends Component {
   }
 
   onPlusPress() {
-    if (this.state.totalorder < 3) {
+    const navigationParams = this.props.navigation.state.params;
+    const maxOrder = Number(navigationParams.selectedWareHouse.totalorder);
+    console.log('********** wae',this.state.totalorder, maxOrder);
+    if (this.state.totalorder < 3 && this.state.totalorder < maxOrder) {
       this.setState({ totalorder: this.state.totalorder + 1 });
     }
   }
@@ -398,7 +401,6 @@ class OrderPlaceView extends Component {
         },
       ],
     };
-    console.log('************ data', data);
     getDirections(data);
   }
 
@@ -430,7 +432,6 @@ class OrderPlaceView extends Component {
   }
 
   setAvaterSource(uri, multipartBody) {
-    console.log('******** uri', uri, multipartBody);
     if (uri && uri.length > 0 && multipartBody) {
       this.uploadDocumentReq(multipartBody)
     } 

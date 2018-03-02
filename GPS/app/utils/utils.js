@@ -112,9 +112,13 @@ class Utils extends Component {
     const year = date.getFullYear();
     if (month.length < 2) month = `0${month}`;
     if (day.length < 2) day = `0${day}`;
-    const hours = date.getHours();
-    const minute = date.getMinutes();
-    return [year, month, day, hours, minute].join('-');
+    let hours = date.getHours();
+    let strDate = [month, day, year].join('/');
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    const datetime = `${strDate} ${hours} ${ampm}`
+    return datetime;
   }
 
 }

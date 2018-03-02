@@ -17,7 +17,7 @@ const { width } = Dimensions.get('window');
 const style = StyleSheet.create({
   user: {
     flex: 1,
-    height: 70,
+    height: 75,
   },
   userTitle: {
     fontFamily: FontFamilyName,
@@ -69,7 +69,7 @@ const NotificationCell = props => (
       <Text style={style.time}>
         {`${props.data.item.title}`}
       </Text>
-      <Text style={style.address} numberOfLines={1} ellipsizeMode="tail" >
+      <Text style={style.address} numberOfLines={2} ellipsizeMode="tail" >
         {`${props.data.item.message}`}
       </Text>
     </View>

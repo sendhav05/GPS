@@ -163,14 +163,14 @@ const NotificationList = props => (
           Contact Help
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.orderButton}
         onPress={() => props.cancelOrderPress()}
       >
         <Text style={styles.buttonText}>
           Cancel the Order
         </Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   </View>
 );

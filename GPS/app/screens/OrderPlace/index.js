@@ -111,7 +111,6 @@ class OrderPlaceView extends Component {
         date={this.state.deliveryDatetime}
         mode="datetime"
         onDateChange={this.setDOBDate}
-        maximumDate={new Date()}
       />);
     }
     this.androidPicker();
@@ -145,7 +144,6 @@ class OrderPlaceView extends Component {
         action, year, month, day
       } = await DatePickerAndroid.open({
         date: new Date(),
-        maxDate: new Date(),
       });
       if (action !== DatePickerAndroid.dismissedAction) {
         // Selected year, month (0-11), day
@@ -222,7 +220,7 @@ class OrderPlaceView extends Component {
 
     const utils = new Utils();
     const dMiles = utils.distanceBetweenCord(lat1, lng1, warehouseLat, warehouseLng, true);
-    const tmpdistanceMiles = dMiles.toFixed(3);
+    const tmpdistanceMiles = dMiles.toFixed(2);
 
     // delivery charge
     const minimumMiles = Number(wareHouseItem.minimumMiles);
@@ -241,8 +239,8 @@ class OrderPlaceView extends Component {
     const oneItemPrice = Number(this.props.navigation.state.params.selectedProductItem.price);
     const price = this.state.quantity * oneItemPrice;
     totalPrice = dCharge + price;
-    totalPrice = totalPrice.toFixed(3);
-    this.setState({ deliveryCharge: dCharge.toFixed(3), distanceMiles: tmpdistanceMiles });
+    totalPrice = totalPrice.toFixed(2);
+    this.setState({ deliveryCharge: dCharge.toFixed(2), distanceMiles: tmpdistanceMiles });
   }
 
   onOrderPress() {
@@ -342,14 +340,15 @@ class OrderPlaceView extends Component {
 
   render() {
     oneItemPrice = Number(this.props.navigation.state.params.selectedProductItem.price);
-    oneItemPrice = oneItemPrice.toFixed(3);
+    oneItemPrice = oneItemPrice.toFixed(2);
     let price = this.state.quantity * oneItemPrice;
-    price = Number(price).toFixed(3);
+    price = Number(price).toFixed(2);
     if (this.state.deliveryCharge) {
       totalPrice = Number(this.state.deliveryCharge) + Number(price);
     } else {
       totalPrice = Number(price);
     }
+    totalPrice = totalPrice.toFixed(2);
     const dateString = new Utils().convertDateToString(this.state.deliveryDatetime);
 
     return (
