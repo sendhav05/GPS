@@ -11,7 +11,7 @@ import {
   Linking,
 } from 'react-native';
 import { connect } from 'react-redux';
-import Earning from './components/Earning';
+import CustomerOrder from './components/CustomerOrder';
 import UserActions from '../../actions';
 import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
@@ -25,7 +25,7 @@ let completeOrders = [];
 let isSelectedTabComplete = false;
 let isFromCustomer = false;
 
-class EarningView extends Component {
+class CustomerOrderView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -113,7 +113,7 @@ class EarningView extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <Earning
+        <CustomerOrder
           onLeftMenuPress={() => this.onLeftMenuPress()}
           onInviteToFriends={() => this.onInviteToFriends()}
           onHistryPress={() => this.onHistryPress()}
@@ -137,7 +137,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = () => UserActions;
 
-const EarningViewScreen = connect(mapStateToProps, mapDispatchToProps)(EarningView);
+const CustomerOrderViewScreen = connect(mapStateToProps, mapDispatchToProps)(CustomerOrderView);
 
-export default EarningViewScreen;
+export default CustomerOrderViewScreen;
 
