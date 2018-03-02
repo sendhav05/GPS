@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
 const Earning = props => (
   <View style={styles.container}>
     <NavBar
-      leftMenuIcon={Images.menu}
+      leftMenuIcon={ props.isFromAccount ? Images.backArrow : Images.menu}
       leftMenuPress={() => props.onLeftMenuPress()}
       title="Earnings"
       isShowRightIcon={Boolean(false)}

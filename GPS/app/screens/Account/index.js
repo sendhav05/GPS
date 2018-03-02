@@ -11,7 +11,7 @@ import {
   Linking,
 } from 'react-native';
 import { connect } from 'react-redux';
-import CustomerOrder from './components/CustomerOrder';
+import Account from './components/Account';
 import UserActions from '../../actions';
 import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
@@ -24,8 +24,9 @@ let pedingOrders = [];
 let completeOrders = [];
 let isSelectedTabComplete = false;
 let isFromCustomer = false;
+let title = 'Help';
 
-class CustomerOrderView extends Component {
+class AccountView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -86,23 +87,29 @@ class CustomerOrderView extends Component {
       });
     });
   }
-  onInviteToFriends() {
-    Linking.openURL('https://www.google.co.in/');
-  }
 
-  onHistryPress() {
-  }
-
-  onDailyPress() {
+  onHelpPress() {
+    title = 'Help';
     this.setState({ selectedIndex: 1});
   }
 
-  onWeeklyPress() {
+  onDocumentPress() {
+    title = 'Document';
     this.setState({ selectedIndex: 2});
+    const { navigate } = this.props.navigation;
+    navigate('UploadDocument');
   }
 
-  onMonthlyPress() {
+  onEarningPress() {
+    title = 'Earnings';
     this.setState({ selectedIndex: 3});
+    const { navigate } = this.props.navigation;
+    navigate('Earning', { isFromAccount: true });
+  }
+
+  onSettingPress() {
+    title = 'Settings';
+    this.setState({ selectedIndex: 4});
   }
 
   onLeftMenuPress() {
@@ -113,15 +120,14 @@ class CustomerOrderView extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <CustomerOrder
+        <Account
           onLeftMenuPress={() => this.onLeftMenuPress()}
-          onInviteToFriends={() => this.onInviteToFriends()}
-          onHistryPress={() => this.onHistryPress()}
-          onDailyPress={() => this.onDailyPress()}
-          onWeeklyPress={() => this.onWeeklyPress()}
-          onMonthlyPress={() => this.onMonthlyPress()}
-          getRenderRow={item => this.getRenderRow(item)}
+          onHelpPress={() => this.onHelpPress()}
+          onDocumentPress={() => this.onDocumentPress()}
+          onEarningPress={() => this.onEarningPress()}
+          onSettingPress={() => this.onSettingPress()}
           selectedIndex={this.state.selectedIndex}
+          title={title}
         />
         {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
       </View>
@@ -137,7 +143,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = () => UserActions;
 
-const CustomerOrderViewScreen = connect(mapStateToProps, mapDispatchToProps)(CustomerOrderView);
+const AccountViewScreen = connect(mapStateToProps, mapDispatchToProps)(AccountView);
 
-export default CustomerOrderViewScreen;
+export default AccountViewScreen;
 

@@ -117,6 +117,8 @@ class CustomerMenuView extends Component {
       navigate('Notification');
     } else if (selectedItem.name === 'Earnings') {
       navigate('Earnings');
+    } else if (selectedItem.name === 'Accounts') {
+      navigate('Account');
     }
   }
 

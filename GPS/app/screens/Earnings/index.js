@@ -30,6 +30,7 @@ class EarningView extends Component {
     super(props);
     this.state = {
       selectedIndex: 1,
+      isFromAccount: false,
     };
   }
 
@@ -62,6 +63,9 @@ class EarningView extends Component {
   }
 
   componentDidMount() {
+    if (this.props.navigation.state.params && this.props.navigation.state.params.isFromAccount) {
+      this.setState({ isFromAccount: this.props.navigation.state.params.isFromAccount });
+    }
     // const utils = new Utils();
     // utils.isFlowFromCustomer((response) => {
     //   if (response) {
@@ -106,11 +110,17 @@ class EarningView extends Component {
   }
 
   onLeftMenuPress() {
-    const { navigate } = this.props.navigation;
-    navigate('DrawerOpen');
+    if (this.state.isFromAccount) {
+      const { goBack } = this.props.navigation;
+      goBack(null);
+    } else {
+      const { navigate } = this.props.navigation;
+      navigate('DrawerOpen');
+    }
   }
 
   render() {
+
     return (
       <View style={{ flex: 1 }}>
         <Earning
@@ -122,6 +132,7 @@ class EarningView extends Component {
           onMonthlyPress={() => this.onMonthlyPress()}
           getRenderRow={item => this.getRenderRow(item)}
           selectedIndex={this.state.selectedIndex}
+          isFromAccount={this.state.isFromAccount}
         />
         {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
       </View>

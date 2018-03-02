@@ -29,6 +29,7 @@ import CustomerFeedbackScreen from '../screens/CustomerFeedback';
 import DriverDocumentScreen from '../screens/DriverDocument';
 import UploadDocumentScreen from '../screens/UploadDocument';
 import EarningsScreen from '../screens/Earnings';
+import AccountScreen from '../screens/Account';
 
 // https://github.com/react-community/react-navigation/issues/1254
 const noTransitionConfig = () => ({
@@ -243,12 +244,47 @@ const DriverOrderStack = StackNavigator({
   },
 });
 
+const DriverAccountStack = StackNavigator({
+  Account: {
+    screen: AccountScreen,
+    key: 'AccountScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  UploadDocument: {
+    screen: UploadDocumentScreen,
+    key: 'UploadDocumentScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  Earnings: {
+    screen: EarningsScreen,
+    key: 'EarningsScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+ 
+}, {
+  headerMode: 'float',
+  navigationOptions: {
+    headerStyle: { backgroundColor: 'red' },
+    title: 'You are not logged in',
+  },
+});
+
 // driver drawer stack
 const DriverStack = DrawerNavigator({
   DriverWareHouseList: { screen: DriverAppStack },
   CustomerOrder: { screen: DriverOrderStack },
   Notification: { screen: NotificationScreen },
   Earnings: { screen: EarningsScreen },
+  Account: { screen: DriverAccountStack },
 }, {
   gesturesEnabled: false,
   drawerWidth: Dimensions.get('window').width - (Platform.OS === 'android' ? 56 : 64),

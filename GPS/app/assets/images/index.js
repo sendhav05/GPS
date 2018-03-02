@@ -29,6 +29,14 @@ const clock2 = require('./clock2.png');
 const documenticon = require('./document-icon.png');
 const earnIcon = require('./earn1.png');
 const history = require('./history1.png');
+const document = require('./docu.png');
+const selectedDocument = require('./docu1.png');
+const help = require('./help.png');
+const selectedHelp = require('./help1.png');
+const payment = require('./payment.png');
+const selectedPayment = require('./payment1.png');
+const setting = require('./setting.png');
+const selectedSetting = require('./setting1.png');
 
 const images = {
   logo,
@@ -60,6 +68,14 @@ const images = {
   documenticon,
   earnIcon,
   history,
+  document,
+  selectedDocument,
+  help,
+  selectedHelp,
+  setting,
+  selectedSetting,
+  payment,
+  selectedPayment,
 };
 
 export default images;
