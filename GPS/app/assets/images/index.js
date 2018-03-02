@@ -27,6 +27,8 @@ const locatBlue = require('./locat_blue.png');
 const clock1 = require('./clock1.png');
 const clock2 = require('./clock2.png');
 const documenticon = require('./document-icon.png');
+const earnIcon = require('./earn1.png');
+const history = require('./history1.png');
 
 const images = {
   logo,
@@ -56,6 +58,8 @@ const images = {
   clock1,
   clock2,
   documenticon,
+  earnIcon,
+  history,
 };
 
 export default images;

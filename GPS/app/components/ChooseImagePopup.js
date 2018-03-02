@@ -35,7 +35,7 @@ class ChooseImagePopup extends Component {
           action={() => this.onPopupItemClick(0)}
         />
         <ContextMenuButton
-          text="Choose Document"
+          text="Upload Document"
           action={() => this.onPopupItemClick(1)}
         />
         { this.props.isHaveImage &&
