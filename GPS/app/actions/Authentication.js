@@ -7,7 +7,9 @@ import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
   notificationUrl, cancelOrderUrl, feedbackUrl,
   driverPendingOrdersURl, pickupedOrderUrl,
   completedOrderUrl, driverCompleteOrdersURl,
-  uploadDocumentUrl, fetchDriverDocURl, uploadDeliveryDocumentUrl } from '../api/urls';
+  uploadDocumentUrl, fetchDriverDocURl, uploadDeliveryDocumentUrl,
+  uploadVehiclePhotoUrl, uploadVDriverPhotoUrl, updateProfileUrl,
+  fetchProfileDataUrl, earningDataURl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -104,6 +106,14 @@ export const UPLOAD_DOCUMENT_FAILURE = 'UPLOAD_DOCUMENT_FAILURE';
 export const FETCH_UPLOAD_REQUEST = 'FETCH_UPLOAD_REQUEST';
 export const FETCH_UPLOAD_SUCCESS = 'FETCH_UPLOAD_SUCCESS';
 export const FETCH_UPLOAD_FAILURE = 'FETCH_UPLOAD_FAILURE';
+
+export const FETCH_PROFILE_REQUEST = 'FETCH_PROFILE_REQUEST';
+export const FETCH_PROFILE_SUCCESS = 'FETCH_PROFILE_SUCCESS';
+export const FETCH_PROFILE_FAILURE = 'FETCH_PROFILE_FAILURE';
+
+export const EARNING_REQUEST = 'EARNING_REQUEST';
+export const EARNING_SUCCESS = 'EARNING_SUCCESS';
+export const EARNING_FAILURE = 'EARNING_FAILURE';
 
 export const userLoginRequest = (email, password, type, deviceToken, deviceType) => {
   const url = loginUrl(email, password, type, deviceToken, deviceType);
@@ -345,3 +355,64 @@ export const uploadDeliveryDocumentRequest = (orderid, body) => {
     body,
   });
 };
+
+export const uploadVehiclePhotoRequest = (body, driverid) => {
+  const url = uploadVehiclePhotoUrl(driverid);
+  const headers = {
+    Accept: 'application/json',
+    'Content-Type': 'multipart/form-data',
+  };
+  return postApiAction({
+    types: [UPLOAD_DOCUMENT_REQUEST, UPLOAD_DOCUMENT_SUCCESS, UPLOAD_DOCUMENT_FAILURE],
+    url,
+    headers,
+    body,
+  });
+};
+
+export const fetchProfileRequest = (driverid) => {
+  const url = fetchProfileDataUrl(driverid);
+  return getApiAction({
+    types: [FETCH_PROFILE_REQUEST, FETCH_PROFILE_SUCCESS, FETCH_PROFILE_FAILURE],
+    url,
+  });
+};
+
+export const uploadPhotoRequest = (body, driverid) => {
+  const url = uploadVDriverPhotoUrl(driverid);
+  const headers = {
+    Accept: 'application/json',
+    'Content-Type': 'multipart/form-data',
+  };
+  return postApiAction({
+    types: [UPLOAD_DOCUMENT_REQUEST, UPLOAD_DOCUMENT_SUCCESS, UPLOAD_DOCUMENT_FAILURE],
+    url,
+    headers,
+    body,
+  });
+};
+
+export const fetchPhotoRequest = (driverid) => {
+  const url = uploadVDriverPhotoUrl(driverid);
+  return getApiAction({
+    types: [FETCH_UPLOAD_REQUEST, FETCH_UPLOAD_SUCCESS, FETCH_UPLOAD_FAILURE],
+    url,
+  });
+};
+
+export const earningDataRequest = (driverid) => {
+  const url = earningDataURl(driverid);
+  return getApiAction({
+    types: [EARNING_REQUEST, EARNING_SUCCESS, EARNING_FAILURE],
+    url,
+  });
+};
+
+export const updateProfileRequest = (userid, contact, email, address, pincode, city, state, ssn) => {
+  const url = updateProfileUrl(userid, contact, email, address, pincode, city, state, ssn);
+  return postApiAction({
+    types: [USER_SIGNUP_REQUEST, USER_SIGNUP_SUCCESS, USER_SIGNUP_FAILURE],
+    url,
+  });
+};
+

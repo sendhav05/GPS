@@ -18,10 +18,9 @@ import Utils from '../../utils/utils';
 import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
 import constant from '../../utils/constants';
 
-let isCompleteOrderAPI = false;
-let isPendingOrderAPI = false;
-let pedingOrders = [];
-let completeOrders = [];
+let isCalledEarningAPI = false;
+let earningData = {};
+let amount = '';
 let isSelectedTabComplete = false;
 let isFromCustomer = false;
 
@@ -31,59 +30,50 @@ class EarningView extends Component {
     this.state = {
       selectedIndex: 1,
       isFromAccount: false,
+      earningData: {},
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    // Pending Orders
-    // if (!nextProps.isLoading
-    //   && isPendingOrderAPI
-    //   && nextProps.customerPendingOrdersResponse.response
-    //   && nextProps.customerPendingOrdersResponse.status === 200) {
-    //   // && nextProps.customerPendingOrdersResponse.response.status === 1) {
-    //   isPendingOrderAPI = false;
-    //   if (nextProps.customerPendingOrdersResponse
-    //     && nextProps.customerPendingOrdersResponse.response.data) {
-    //     pedingOrders = nextProps.customerPendingOrdersResponse.response.data;
-    //     this.setState({ orderList: nextProps.customerPendingOrdersResponse.response.data });
-    //   } else {
-    //     showPopupAlert(constant.EMPTY_RECORD_MESSAGE);
-    //   }
-    // } else if (!nextProps.isLoading && nextProps.customerPendingOrdersResponse.response
-    //   && isPendingOrderAPI
-    //   && (nextProps.customerPendingOrdersResponse.status !== 200
-    //   || nextProps.customerPendingOrdersResponse.response.status !== 1)) {
-    //   isPendingOrderAPI = false;
-    //   if (nextProps.customerPendingOrdersResponse.response.message && typeof nextProps.customerPendingOrdersResponse.response.message === 'string') {
-    //     showPopupAlert(nextProps.customerPendingOrdersResponse.response.message);
-    //     return;
-    //   }
-    //   showPopupAlert(constant.SERVER_ERROR_MESSAGE);
-    // }
+    if (!nextProps.isLoading
+      && isCalledEarningAPI
+      && nextProps.earingResponse.response
+      && nextProps.earingResponse.status === 200) {
+      isCalledEarningAPI = false;
+      earningData = nextProps.earingResponse.response.data;
+      amount = earningData.weekly;
+      this.setState({ selectedIndex: 1 });
+    } else if (!nextProps.isLoading && nextProps.earingResponse.response
+      && isCalledEarningAPI
+      && (nextProps.earingResponse.status !== 200
+      || nextProps.earingResponse.response.status !== 1)) {
+      isCalledEarningAPI = false;
+      if (nextProps.earingResponse.response.message && typeof nextProps.earingResponse.response.message === 'string') {
+        showPopupAlert(nextProps.earingResponse.response.message);
+        return;
+      }
+      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
+    }
   }
 
   componentDidMount() {
+    this.getEarningDetails();
+    const utils = new Utils();
+    utils.getDriverID((response) => {
+      driverID = response;
+    });
     if (this.props.navigation.state.params && this.props.navigation.state.params.isFromAccount) {
       this.setState({ isFromAccount: this.props.navigation.state.params.isFromAccount });
     }
-    // const utils = new Utils();
-    // utils.isFlowFromCustomer((response) => {
-    //   if (response) {
-    //     isFromCustomer = true;
-    //     this.getCustomerDetails();
-    //   } 
-    // });
   }
 
-  getCustomerDetails() {
+  getEarningDetails() {
     const utils = new Utils();
-    utils.getCustomerid((response) => {
+    utils.getDriverID((response) => {
       utils.checkInternetConnectivity((reach) => {
         if (reach && response) {
-          isPendingOrderAPI = true;
-          isCompleteOrderAPI = true;
-          this.props.cutomerPendingOrdersRequest(response);
-          this.props.cutomerCompleteOrdersRequest(response);
+          isCalledEarningAPI = true;
+          this.props.earningDataRequest(response);
         } else {
           showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
         }
@@ -91,21 +81,26 @@ class EarningView extends Component {
     });
   }
   onInviteToFriends() {
-    Linking.openURL('https://www.google.co.in/');
+    if (earningData.invite_friends_link) {
+      Linking.openURL(earningData.invite_friends_link);
+    }
   }
 
   onHistryPress() {
   }
 
   onDailyPress() {
+    amount = earningData.weekly;
     this.setState({ selectedIndex: 1});
   }
 
   onWeeklyPress() {
+    amount = earningData.monthly;
     this.setState({ selectedIndex: 2});
   }
 
   onMonthlyPress() {
+    amount = earningData.yearly;
     this.setState({ selectedIndex: 3});
   }
 
@@ -133,6 +128,7 @@ class EarningView extends Component {
           getRenderRow={item => this.getRenderRow(item)}
           selectedIndex={this.state.selectedIndex}
           isFromAccount={this.state.isFromAccount}
+          amount={amount}
         />
         {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
       </View>
@@ -141,9 +137,8 @@ class EarningView extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLoading: state.customerOrderStatus.isLoading,
-  customerPendingOrdersResponse: state.customerOrderStatus.customerPendingOrdersResponse,
-  customerCompleteOrdersResponse: state.customerOrderStatus.customerCompleteOrdersResponse,
+  isLoading: state.earning.isLoading,
+  earingResponse: state.earning.earingResponse,
 });
 
 const mapDispatchToProps = () => UserActions;

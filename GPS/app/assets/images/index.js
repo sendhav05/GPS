@@ -37,6 +37,10 @@ const payment = require('./payment.png');
 const selectedPayment = require('./payment1.png');
 const setting = require('./setting.png');
 const selectedSetting = require('./setting1.png');
+const editIcon = require('./edit.png');
+const profileimg = require('./profileimg.png');
+const vlogo = require('./vlogo.png');
+const like = require('./like.png');
 
 const images = {
   logo,
@@ -76,6 +80,10 @@ const images = {
   selectedSetting,
   payment,
   selectedPayment,
+  editIcon,
+  profileimg,
+  vlogo,
+  like,
 };
 
 export default images;

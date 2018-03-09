@@ -95,21 +95,23 @@ class AccountView extends Component {
 
   onDocumentPress() {
     title = 'Document';
-    this.setState({ selectedIndex: 2});
+   // this.setState({ selectedIndex: 2});
     const { navigate } = this.props.navigation;
     navigate('UploadDocument');
   }
 
   onEarningPress() {
     title = 'Earnings';
-    this.setState({ selectedIndex: 3});
+   // this.setState({ selectedIndex: 3});
     const { navigate } = this.props.navigation;
-    navigate('Earning', { isFromAccount: true });
+    navigate('Earnings', { isFromAccount: true });
   }
 
   onSettingPress() {
     title = 'Settings';
-    this.setState({ selectedIndex: 4});
+  //  this.setState({ selectedIndex: 4});
+    const { navigate } = this.props.navigation;
+    navigate('Settings');
   }
 
   onLeftMenuPress() {

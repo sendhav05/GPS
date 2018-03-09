@@ -4,7 +4,8 @@ export const authenticationUrl = () => {
   return url;
 };
 
-const getBaseUrl = 'http://itinformatix.com/gpsapi/index.php/api/';
+// const getBaseUrl = 'http://itinformatix.com/gpsapi/index.php/api/'; // old url
+const getBaseUrl = 'http://www.grocdelivery.com/index.php/api/';
 
 export const loginUrl = (email, password, type, deviceToken, deviceType) => {
   const url = `${getBaseUrl}/login`;
@@ -452,6 +453,68 @@ export const uploadDeliveryDocumentUrl = (orderid) => {
   const url = `${getBaseUrl}/order/completeOrderAcknowledgement`;
   let param = '';
   if (orderid) { if (param) { param = `${param}&`; } param = `${param}order_id=${orderid}`; }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
+
+export const uploadVehiclePhotoUrl = (driverid) => {
+  const url = `${getBaseUrl}/customer/uploadVehiclePic`;
+  let param = '';
+  if (driverid) { if (param) { param = `${param}&`; } param = `${param}driver_id=${driverid}`; }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
+
+export const fetchProfileDataUrl = (driverid) => {
+  const url = `${getBaseUrl}/customer/driverProfile`;
+  let param = '';
+  if (driverid) { if (param) { param = `${param}&`; } param = `${param}driver_id=${driverid}`; }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
+
+export const uploadVDriverPhotoUrl = (driverid) => {
+  const url = `${getBaseUrl}/customer/driverProfile`;
+  let param = '';
+  if (driverid) { if (param) { param = `${param}&`; } param = `${param}driver_id=${driverid}`; }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
+
+export const updateProfileUrl = (userid, contact, email, address, pincode, city, state, ssn) => {
+  const url = `${getBaseUrl}/customer/updateUserProfile`;
+  let param = '';
+  if (userid) { if (param) { param = `${param}&`; } param = `${param}user_id=${userid}`; }
+  if (contact) { if (param) { param = `${param}&`; } param = `${param}contact=${contact}`; }
+  if (email) { if (param) { param = `${param}&`; } param = `${param}email=${email}`; }
+  if (address) { if (param) { param = `${param}&`; } param = `${param}address=${address}`; }
+  if (pincode) { if (param) { param = `${param}&`; } param = `${param}pin_code=${pincode}`; }
+  if (city) { if (param) { param = `${param}&`; } param = `${param}city=${city}`; }
+  if (state) { if (param) { param = `${param}&`; } param = `${param}state=${state}`; }
+  if (ssn) { if (param) { param = `${param}&`; } param = `${param}ssn=${ssn}`; }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
+
+export const earningDataURl = (driverid) => {
+  const url = `${getBaseUrl}/order/driverEarning`;
+  let param = '';
+  if (driverid) { if (param) { param = `${param}&`; } param = `${param}driver_id=${driverid}`; }
 
   if (param) {
     return `${url}?${param}`;

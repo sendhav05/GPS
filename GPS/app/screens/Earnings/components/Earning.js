@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     height: 40,
     flexDirection: 'row',
     marginTop: 10,
+    alignItems: 'center',
   },
   topView: {
     height: 120,
@@ -180,7 +181,7 @@ const Earning = props => (
         </Text>
       </TouchableOpacity>
     </View>
-    <View style={styles.headerView}>
+    <View style={[styles.headerView, { marginTop: 30 }]}>
     <TouchableOpacity
         >
           <View style={styles.bottomcellView}>
@@ -188,7 +189,7 @@ const Earning = props => (
               Estimate Payment
             </Text>
             <Text style={styles.amountText}>
-              220 $
+              {props.amount}
             </Text>
           </View>
         </TouchableOpacity>

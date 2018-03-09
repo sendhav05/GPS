@@ -15,6 +15,8 @@ import customerOrderStatus from './customerOrderStatus';
 import notification from './notification';
 import feedback from './feedback';
 import uploadDocument from './uploadDocument';
+import fetchProfile from './fetchProfile';
+import earning from './earning';
 
 const reducers = {
   login,
@@ -33,6 +35,8 @@ const reducers = {
   notification,
   feedback,
   uploadDocument,
+  fetchProfile,
+  earning,
 };
 
 export default combineReducers(reducers);

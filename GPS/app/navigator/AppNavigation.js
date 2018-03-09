@@ -30,8 +30,9 @@ import DriverDocumentScreen from '../screens/DriverDocument';
 import UploadDocumentScreen from '../screens/UploadDocument';
 import EarningsScreen from '../screens/Earnings';
 import AccountScreen from '../screens/Account';
+import SettingsScreen from '../screens/Settings';
+import MyProfileScreen from '../screens/MyProfile';
 
-// https://github.com/react-community/react-navigation/issues/1254
 const noTransitionConfig = () => ({
   transitionSpec: {
     duration: 0,
@@ -264,6 +265,22 @@ const DriverAccountStack = StackNavigator({
   Earnings: {
     screen: EarningsScreen,
     key: 'EarningsScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  Settings: {
+    screen: SettingsScreen,
+    key: 'SettingsScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  MyProfile: {
+    screen: MyProfileScreen,
+    key: 'MyProfileScreen',
     navigationOptions: {
       header: null,
       gesturesEnabled: false,

@@ -28,7 +28,14 @@ import { userLoginRequest,
   driverCompleteOrdersListRequest,
   uploadDocumentRequest,
   uploadDeliveryDocumentRequest,
-  fetchDriverDocRequest }
+  fetchDriverDocRequest,
+  uploadVehiclePhotoRequest,
+  fetchProfileDataUrl,
+  uploadPhotoRequest,
+  fetchPhotoRequest,
+  updateProfileRequest,
+  fetchProfileRequest,
+  earningDataRequest }
   from './Authentication';
 
 const actions = {
@@ -60,6 +67,13 @@ const actions = {
   uploadDocumentRequest,
   uploadDeliveryDocumentRequest,
   fetchDriverDocRequest,
+  uploadVehiclePhotoRequest,
+  fetchProfileDataUrl,
+  uploadPhotoRequest,
+  fetchPhotoRequest,
+  updateProfileRequest,
+  fetchProfileRequest,
+  earningDataRequest,
 };
 
 export default bindActionCreators(actions, store.dispatch);

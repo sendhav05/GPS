@@ -67,8 +67,8 @@ const Account = props => (
       isShowRightIcon={Boolean(false)}
       rightMenuIcon={Images.editOder}
     />
-    <View style={styles.bodyView}>
-    </View>
+      <View style={styles.bodyView}>
+      </View>
     <View style={styles.bottomView}>
       <TouchableOpacity
           style={[styles.tabStyle]}

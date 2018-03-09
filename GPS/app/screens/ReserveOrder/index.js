@@ -115,7 +115,9 @@ class OrderPlaceView extends Component {
         isCallPickupDoneAPI = false;
         this.setState({ deliveredBtnEnabled: true });
         showPopupAlert(nextProps.pickupedUpOrderResponse.response.message);
-        this.props.navigation.state.params.refreshDriverOrderData();
+        if (this.props.navigation.state.params && this.props.navigation.state.params.refreshDriverOrderData) {
+          this.props.navigation.state.params.refreshDriverOrderData();
+        }
         return;
       }
       showPopupAlert('Successfully pickedup orders.');
@@ -139,7 +141,9 @@ class OrderPlaceView extends Component {
       if (nextProps.completedOrderResponse.response.message && typeof nextProps.completedOrderResponse.response.message === 'string') {
         isCallCompletedAPI = false;
         // showPopupAlert(nextProps.completedOrderResponse.response.message);
-        this.props.navigation.state.params.refreshDriverOrderData();
+        if (this.props.navigation.state.params && this.props.navigation.state.params.refreshDriverOrderData) {
+          this.props.navigation.state.params.refreshDriverOrderData();
+        }
         // this.onBacnkPress();
         return;
       }
@@ -323,6 +327,8 @@ class OrderPlaceView extends Component {
     utils.checkInternetConnectivity((reach) => {
       if (reach) {
         isCallPickupDoneAPI = true;
+        console.log('************ warehouseDetails', warehouseDetails)
+
         this.props.pickedupOrderRequest(warehouseDetails.order_id);
       } else {
         showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
