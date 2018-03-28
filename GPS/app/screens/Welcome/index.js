@@ -62,14 +62,26 @@ class App extends Component {
     const { navigate } = this.props.navigation;
     const utils = new Utils();
     utils.setFlowFromCustomer(true);
-    navigate('Login', { isFromCustomer: true });
+    new Utils().getItemWithKey('CUSTOMER_USER_PASSWORD', (response) => {
+      if (response) {
+        navigate('VerifyOTP', { isFromCustomer: true });
+      } else {
+        navigate('Login', { isFromCustomer: true });
+      }
+    });
   }
 
   onBecomeDriverPress() {
     const { navigate } = this.props.navigation;
     const utils = new Utils();
     utils.setFlowFromCustomer(false);
-    navigate('Login', { isFromCustomer: false });
+    new Utils().getItemWithKey('DRIVER_USER_PASSWORD', (response) => {
+      if (response) {
+        navigate('VerifyOTP', { isFromCustomer: false });
+      } else {
+        navigate('Login', { isFromCustomer: false });
+      }
+    });
   }
 
   updateEmailPhoneNumber(value) {

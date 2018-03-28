@@ -96,6 +96,8 @@ class CustomerMenuView extends Component {
     if (selectedItem.name === 'Home') {
       navigate('WareHouseList');
     } else if (selectedItem.name === 'Logout') {
+      const utils = new Utils();
+      utils.setItemWithKeyAndValue('CUSTOMER_USER_PASSWORD', null );
       this.logout();
     } else if (selectedItem.name === 'Orders') {
       navigate('CustomerOrder');
@@ -110,6 +112,8 @@ class CustomerMenuView extends Component {
     if (selectedItem.name === 'Home') {
       navigate('DriverWareHouseList');
     } else if (selectedItem.name === 'Logout') {
+      const utils = new Utils();
+      utils.setItemWithKeyAndValue('DRIVER_USER_PASSWORD', null );
       this.logout();
     } else if (selectedItem.name === 'Orders') {
       navigate('CustomerOrder');

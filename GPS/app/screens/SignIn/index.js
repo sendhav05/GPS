@@ -47,12 +47,15 @@ class App extends Component {
       && nextProps.userLoginResponse.status === 200
       && nextProps.userLoginResponse.response.status === 1) {
       const utils = new Utils();
+      console.log('********** data', nextProps.userLoginResponse.response.data);
       if (this.props.navigation.state.params.isFromCustomer) {
         utils.setCustomerID(nextProps.userLoginResponse.response.data.user_id);
         utils.setItemWithKeyAndValue('CUSTOMER_USER_DETAILS', nextProps.userLoginResponse.response.data);
+        utils.setItemWithKeyAndValue('CUSTOMER_USER_PASSWORD', this.state.password );
       } else {
         utils.setDriverID(nextProps.userLoginResponse.response.data.user_id);
         utils.setItemWithKeyAndValue('DRIVER_USER_DETAILS', nextProps.userLoginResponse.response.data);
+        utils.setItemWithKeyAndValue('DRIVER_USER_PASSWORD', this.state.password );
       }
       const { navigate } = this.props.navigation;
       navigate('VerifyOTP', { isFromCustomer: this.props.navigation.state.params.isFromCustomer });
