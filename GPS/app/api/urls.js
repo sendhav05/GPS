@@ -5,7 +5,7 @@ export const authenticationUrl = () => {
 };
 
 // const getBaseUrl = 'http://itinformatix.com/gpsapi/index.php/api/'; // old url
-const getBaseUrl = 'http://www.grocdelivery.com/index.php/api/';
+const getBaseUrl = 'http://www.grocdelivery.com/api/';
 
 export const loginUrl = (email, password, type, deviceToken, deviceType) => {
   const url = `${getBaseUrl}/login`;
