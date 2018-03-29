@@ -23,6 +23,7 @@ import UserActions from '../../actions';
 import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
 import Utils from '../../utils/utils';
 import constant from '../../utils/constants';
+import Loader from '../../components/Loader';
 
 Geocoder.setApiKey('AIzaSyAaW89mTb3_GuMBIg2zd1XGm-GT0anAd0I'); // use a valid API key
 
@@ -159,7 +160,6 @@ class OrderPlaceView extends Component {
   }
 
   setDOBDate(newDate) {
-    console.log('********** isOpenDOBPicker', newDate);
     this.setState({ deliveryDatetime: newDate });
   }
 
@@ -171,7 +171,6 @@ class OrderPlaceView extends Component {
     new Utils().getItemWithKey('CUSTOMER_USER_DETAILS', (response) => {
       if (response) {
         customerDetails = response;
-        console.log('***** customerDetails ', customerDetails);
       }
     });
   }
@@ -352,25 +351,28 @@ class OrderPlaceView extends Component {
     const dateString = new Utils().convertDateToString(this.state.deliveryDatetime);
 
     return (
-      <OrderPlace
-        onChoosePaymentPress={() => this.onChoosePaymentPress()}
-        onDeliveryAddressPress={() => this.onDeliveryAddressPress()}
-        onBacnkPress={() => this.onBacnkPress()}
-        onEditOrderPress={() => this.onEditOrderPress()}
-        onOrderPress={() => this.onOrderPress()}
-        updateQuantity={quantity => this.updateQuantity(quantity)}
-        quantity={this.state.quantity}
-        selectedProductItem={this.props.navigation.state.params.selectedProductItem}
-        totalPrice={totalPrice}
-        price={price}
-        deliveryCharge={this.state.deliveryCharge}
-        distanceMiles={this.state.distanceMiles}
-        deliveryDatetime={isOpenDOBPicker ? dateString : 'Delivery Date Time'}
-        updateStateDOB={() => this.updateStateDOB()}
-        showDOBPicker={() => this.showDOBPicker()}
-        dismissKeyboard={() => this.dismissKeyboard()}
-        isShowDatePicker={this.state.isShowDatePicker}
-      />
+      <View style={{ flex: 1 }}>
+        <OrderPlace
+          onChoosePaymentPress={() => this.onChoosePaymentPress()}
+          onDeliveryAddressPress={() => this.onDeliveryAddressPress()}
+          onBacnkPress={() => this.onBacnkPress()}
+          onEditOrderPress={() => this.onEditOrderPress()}
+          onOrderPress={() => this.onOrderPress()}
+          updateQuantity={quantity => this.updateQuantity(quantity)}
+          quantity={this.state.quantity}
+          selectedProductItem={this.props.navigation.state.params.selectedProductItem}
+          totalPrice={totalPrice}
+          price={price}
+          deliveryCharge={this.state.deliveryCharge}
+          distanceMiles={this.state.distanceMiles}
+          deliveryDatetime={isOpenDOBPicker ? dateString : 'Delivery Date Time'}
+          updateStateDOB={() => this.updateStateDOB()}
+          showDOBPicker={() => this.showDOBPicker()}
+          dismissKeyboard={() => this.dismissKeyboard()}
+          isShowDatePicker={this.state.isShowDatePicker}
+        />
+        {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
+      </View>
     );
   }
 }

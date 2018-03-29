@@ -230,8 +230,6 @@ class ChooseAddressView extends Component {
   }
 
   render() {
-    console.log('*********** this.state.saddLineOne', this.state.saddLineOne);
-
     return (
       <View style={styles.container}>
         <KeyboardAwareScrollView>

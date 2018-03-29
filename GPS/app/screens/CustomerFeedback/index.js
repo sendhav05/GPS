@@ -16,7 +16,7 @@ import constant from '../../utils/constants';
 import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
 import call from 'react-native-phone-call'
-import { defaultLat, defaultLng } from '../../../utils/constants';
+import { defaultLat, defaultLng } from '../../utils/constants';
 
 let customerid = '';
 

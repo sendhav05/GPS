@@ -16,7 +16,7 @@ import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
 import constant from '../../utils/constants';
 import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
-import { defaultLat, defaultLng } from '../../../utils/constants';
+import { defaultLat, defaultLng } from '../../utils/constants';
 
 let selectedWareHouse = {};
 

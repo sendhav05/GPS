@@ -75,7 +75,7 @@ class App extends Component {
     const { navigate } = this.props.navigation;
     const utils = new Utils();
     utils.setFlowFromCustomer(true);
-    if (true) {
+    if (customerPassword) {
       const actionToDispatch = NavigationActions.reset({
         index: 0,
         key: null,
