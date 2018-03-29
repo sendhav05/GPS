@@ -4,8 +4,8 @@ export const authenticationUrl = () => {
   return url;
 };
 
-// const getBaseUrl = 'http://itinformatix.com/gpsapi/index.php/api/'; // old url
-const getBaseUrl = 'http://www.grocdelivery.com/api/';
+const getBaseUrl = 'http://itinformatix.com/gpsapi/index.php/api/'; // old url
+// const getBaseUrl = 'http://www.grocdelivery.com/api/';
 
 export const loginUrl = (email, password, type, deviceToken, deviceType) => {
   const url = `${getBaseUrl}/login`;
@@ -78,7 +78,7 @@ export const signupUrl = (email, password, type, phone, name) => {
   return url;
 };
 
-export const wareHoueUrl = 'http://itinformatix.com/gpsapi/index.php/api/warehouse';
+export const wareHoueUrl = `${getBaseUrl}/warehouse`;
 
 export const categoryListUrl = (id) => {
   const url = `${getBaseUrl}/category?warehouse_id=${id}`;

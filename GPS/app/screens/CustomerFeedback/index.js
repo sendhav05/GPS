@@ -16,6 +16,7 @@ import constant from '../../utils/constants';
 import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
 import call from 'react-native-phone-call'
+import { defaultLat, defaultLng } from '../../../utils/constants';
 
 let customerid = '';
 
@@ -26,8 +27,8 @@ class CustomerFeedbackView extends Component {
       feedbackMessage: '',
       starCount: 0,
       region: {
-        latitude: 22.862824,
-        longitude: 75.881695,
+        latitude: defaultLat,
+        longitude: defaultLng,
         latitudeDelta: 0.722,
         longitudeDelta: 0.421,
       },

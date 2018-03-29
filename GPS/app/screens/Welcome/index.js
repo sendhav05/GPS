@@ -10,6 +10,7 @@ import {
   AsyncStorage,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 import Welcome from './components/Welcome';
 import UserActions from '../../actions';
 import Utils from '../../utils/utils';
@@ -17,6 +18,9 @@ import NotificationsIOS, { NotificationsAndroid } from 'react-native-notificatio
 
 // Android Push Notification Screen
 let mainScreen;
+
+let customerPassword = '';
+let driverPassword = '';
 
 function onPushRegistered(deviceToken) {
   if (mainScreen) {
@@ -54,6 +58,15 @@ class App extends Component {
     }
   }
 
+  componentDidMount() {
+    new Utils().getItemWithKey('CUSTOMER_USER_PASSWORD', (response) => {
+      customerPassword = response;
+      console.log('********* pawword', response, customerPassword);
+    });
+    new Utils().getItemWithKey('DRIVER_USER_PASSWORD', (response) => {
+      driverPassword = response;
+    });
+  }
   onForgotPassowrdPress() {
     console.log('***** onForgotPassowrdPress ');
   }
@@ -62,26 +75,32 @@ class App extends Component {
     const { navigate } = this.props.navigation;
     const utils = new Utils();
     utils.setFlowFromCustomer(true);
-    new Utils().getItemWithKey('CUSTOMER_USER_PASSWORD', (response) => {
-      if (response) {
-        navigate('VerifyOTP', { isFromCustomer: true });
-      } else {
-        navigate('Login', { isFromCustomer: true });
-      }
-    });
+    if (true) {
+      const actionToDispatch = NavigationActions.reset({
+        index: 0,
+        key: null,
+        actions: [NavigationActions.navigate({ routeName: 'drawerStack' })],
+      });
+      this.props.navigation.dispatch(actionToDispatch);
+    } else {
+      navigate('Login', { isFromCustomer: true });
+    }
   }
 
   onBecomeDriverPress() {
     const { navigate } = this.props.navigation;
     const utils = new Utils();
     utils.setFlowFromCustomer(false);
-    new Utils().getItemWithKey('DRIVER_USER_PASSWORD', (response) => {
-      if (response) {
-        navigate('VerifyOTP', { isFromCustomer: false });
-      } else {
-        navigate('Login', { isFromCustomer: false });
-      }
-    });
+    if (driverPassword) {
+      const actionToDispatch = NavigationActions.reset({
+        index: 0,
+        key: null,
+        actions: [NavigationActions.navigate({ routeName: 'driverStack' })],
+      });
+      this.props.navigation.dispatch(actionToDispatch);
+    } else {
+      navigate('Login', { isFromCustomer: false });
+    }
   }
 
   updateEmailPhoneNumber(value) {

@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { NavigationActions } from 'react-navigation';
 import SignIn from './components/SignIn';
 import UserActions from '../../actions';
 import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
@@ -27,8 +28,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      emailPhoneNumber: '',
-      password: '',
+      emailPhoneNumber: 'N@gmail.com',
+      password: '123456',
     };
   }
 

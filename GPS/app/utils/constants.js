@@ -22,6 +22,11 @@ export const SmallFontSize = 11;
 export const FontFamilyName = 'Trebuchet MS';
 export const FontFamilyName11 = 'Tw Cen MT';
 
+
+//
+export const defaultLat = 33.1972;
+export const defaultLng = 96.6398;
+
 // Error Message
 
 const constant = {

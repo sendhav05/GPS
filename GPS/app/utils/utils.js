@@ -14,7 +14,6 @@ class Utils extends Component {
   onCallPress(phone) {
     const args = {
       number: phone, // String value with the number to call
-      prompt: false, // Optional boolean property. Determines if the user should be prompt prior to the call
     };
     call(args).catch(console.error);
   }

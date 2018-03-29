@@ -16,6 +16,7 @@ import constant from '../../utils/constants';
 import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
 import call from 'react-native-phone-call'
+import { defaultLat, defaultLng } from '../../../utils/constants';
 
 class OrderStatusView extends Component {
   constructor(props) {
@@ -23,8 +24,8 @@ class OrderStatusView extends Component {
     this.state = {
       dataArray: [],
       region: {
-        latitude: 22.862824,
-        longitude: 75.881695,
+        latitude: defaultLat,
+        longitude: defaultLng,
         latitudeDelta: 0.722,
         longitudeDelta: 0.421,
       },
@@ -92,8 +93,10 @@ class OrderStatusView extends Component {
     const deslng = navigationParams.selectedOrderItem.customer_lng ? parseFloat(navigationParams.selectedOrderItem.customer_lng) : 0.0
     const destination = {latitude: deslat, longitude: deslng};
 
-    // const origin = {latitude: 19.078194, longitude: 72.872471};
-    // const destination = {latitude: 22.731080, longitude: 75.860752};
+    let region = this.state.region;
+
+    region.latitude = origin.latitude;
+    region.longitude = origin.longitude;
 
     const GOOGLE_MAPS_APIKEY = 'AIzaSyA6lbmQw7CuM5Ziw02m97CjiNQ4ZzEmKvw';
 

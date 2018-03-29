@@ -16,6 +16,7 @@ import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
 import constant from '../../utils/constants';
 import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
+import { defaultLat, defaultLng } from '../../../utils/constants';
 
 let selectedWareHouse = {};
 
@@ -25,19 +26,19 @@ class WareHouseView extends Component {
     this.state = {
       dataArray: [],
       region: {
-        latitude: 22.862824,
-        longitude: 75.881695,
+        latitude: defaultLat,
+        longitude: defaultLng,
         latitudeDelta: 0.722,
         longitudeDelta: 0.421,
       },
       markers: [{
-        coordinate: { longitude: 75.881695, latitude: 22.862824 },
+        coordinate: { longitude: defaultLng, latitude: defaultLat },
         identifier: '11',
         title: 'Warehouse 1',
         description: 'Warehouse details wiil be here',
       },
       {
-        coordinate: { longitude: 75.965795, latitude: 22.736884 },
+        coordinate: { longitude: defaultLng, latitude: defaultLat },
         identifier: '12',
         title: 'Warehouse 2',
         description: 'Warehouse details wiil be here',
@@ -54,12 +55,14 @@ class WareHouseView extends Component {
       && nextProps.driverWareHouseResponse.response
       && nextProps.driverWareHouseResponse.status === 200) {
       // && nextProps.driverWareHouseResponse.response.status === 1) {
-      if (nextProps.driverWareHouseResponse.response.data.length > 0) {
+      if (nextProps.driverWareHouseResponse.response.data) {
         const arrayDatas = nextProps.driverWareHouseResponse.response.data;
         if (arrayDatas.length > 0) {
           arrayDatas.sort((obj1, obj2) => {
             return obj1.distance - obj2.distance;
           });
+        } else {
+          showPopupAlert(constant.EMPTY_RECORD_MESSAGE);
         }
         this.setState({ dataArray: arrayDatas });
       } else {
