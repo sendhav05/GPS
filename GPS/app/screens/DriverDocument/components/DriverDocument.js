@@ -151,15 +151,30 @@ const DriverDocument = props => (
             source={Images.logo}
           />
           <View style={[styles.bodyView, { marginTop: 25 }]}>
-            <Text style={styles.forgotPasswordText}>
-              Driver's License Number
-            </Text>
-            <Text style={styles.forgotPasswordText}>
-              SSN
-            </Text>
-            <Text style={styles.forgotPasswordText}>
-              Address
-            </Text>
+            <TextInput
+              style={styles.forgotPasswordText}
+              placeholder="Driver's License Number"
+              placeholderTextColor="rgba(70,64,172,1)"
+              onChangeText={dlNumber => props.updateDL(dlNumber)}
+              value={props.dlNumber}
+              underlineColorAndroid="transparent"
+            />
+            <TextInput
+              style={styles.forgotPasswordText}
+              placeholder="SSN"
+              placeholderTextColor="rgba(70,64,172,1)"
+              onChangeText={ssnNumber => props.updateSSN(ssnNumber)}
+              value={props.ssnNumber}
+              underlineColorAndroid="transparent"
+            />
+            <TextInput
+              style={styles.forgotPasswordText}
+              placeholder="Address"
+              placeholderTextColor="rgba(70,64,172,1)"
+              onChangeText={address => props.updateAddress(address)}
+              value={props.address}
+              underlineColorAndroid="transparent"
+            />
             <TouchableOpacity
               style={styles.uploadButton}
               onPress={() => props.onUploadPress()}

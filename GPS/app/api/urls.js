@@ -521,3 +521,17 @@ export const earningDataURl = (driverid) => {
   }
   return url;
 };
+
+export const updateDriverDocumentNumberUrl = (driverid, dlnumber, ssn, address) => {
+  const url = `${getBaseUrl}/customer/updateDriverDocument`;
+  let param = '';
+  if (driverid) { if (param) { param = `${param}&`; } param = `${param}driver_id=${driverid}`; }
+  if (dlnumber) { if (param) { param = `${param}&`; } param = `${param}dlnumber=${dlnumber}`; }
+  if (ssn) { if (param) { param = `${param}&`; } param = `${param}ssn=${ssn}`; }
+  if (address) { if (param) { param = `${param}&`; } param = `${param}address=${address}`; }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
