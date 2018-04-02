@@ -9,7 +9,8 @@ import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
   completedOrderUrl, driverCompleteOrdersURl,
   uploadDocumentUrl, fetchDriverDocURl, uploadDeliveryDocumentUrl,
   uploadVehiclePhotoUrl, uploadVDriverPhotoUrl, updateProfileUrl,
-  fetchProfileDataUrl, earningDataURl, updateDriverDocumentNumberUrl } from '../api/urls';
+  fetchProfileDataUrl, earningDataURl, updateDriverDocumentNumberUrl,
+  onlineStatusUrl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -118,6 +119,10 @@ export const EARNING_FAILURE = 'EARNING_FAILURE';
 export const UPDATE_DOCUMENT_NUM_REQUEST = 'UPDATE_DOCUMENT_NUM_REQUEST';
 export const UPDATE_DOCUMENT_NUM_SUCCESS = 'UPDATE_DOCUMENT_NUM_SUCCESS';
 export const UPDATE_DOCUMENT_NUM_FAILURE = 'UPDATE_DOCUMENT_NUM_FAILURE';
+
+export const ONLLINE_STATUS_REQUEST = 'ONLLINE_STATUS_REQUEST';
+export const ONLLINE_STATUS_SUCCESS = 'ONLLINE_STATUS_SUCCESS';
+export const ONLLINE_STATUS_FAILURE = 'ONLLINE_STATUS_FAILURE';
 
 export const userLoginRequest = (email, password, type, deviceToken, deviceType) => {
   const url = loginUrl(email, password, type, deviceToken, deviceType);
@@ -424,6 +429,14 @@ export const updateDriverDocumentNumberRequest = (driverid, dlnumber, ssn, addre
   const url = updateDriverDocumentNumberUrl(driverid, dlnumber, ssn, address);
   return getApiAction({
     types: [UPDATE_DOCUMENT_NUM_REQUEST, UPDATE_DOCUMENT_NUM_SUCCESS, UPDATE_DOCUMENT_NUM_FAILURE],
+    url,
+  });
+};
+
+export const onlineStatusRequest = (driverid, onlinestatus) => {
+  const url = onlineStatusUrl(driverid, onlinestatus);
+  return getApiAction({
+    types: [ONLLINE_STATUS_REQUEST, ONLLINE_STATUS_SUCCESS, ONLLINE_STATUS_FAILURE],
     url,
   });
 };

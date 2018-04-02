@@ -24,6 +24,7 @@ import Images from '../../assets/images';
 let isUploadDocumentAPI = false;
 let isCalledFetchDocAPI = false;
 let isCalledUpdateProfileAPI = false;
+let isCalledOnlineAPI = false;
 let driverID = '';
 let customerDetails = {};
 let userProfileData = {};
@@ -43,6 +44,7 @@ class MyProfileView extends Component {
       state: '',
       city: '',
       zipcode: '',
+      switchValue: true,
     };
   }
 
@@ -73,6 +75,7 @@ class MyProfileView extends Component {
         state: userProfileData.state,
         city: userProfileData.city,
         zipcode: userProfileData.zipcode,
+        switchValue: userProfileData.online_status,
       });
 
     } else {
@@ -100,6 +103,7 @@ class MyProfileView extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.manageProfileResponse(nextProps);
+    this.manageOnlineStatusResponse(nextProps);
     if (!nextProps.isLoading
       && isUploadDocumentAPI
       && nextProps.uploadDocumentResponse.response
@@ -157,6 +161,50 @@ class MyProfileView extends Component {
       // this.props.resetUserSignupData();
     }
   }
+
+  manageOnlineStatusResponse(nextProps) {
+    if (!nextProps.isLoading
+      && isCalledOnlineAPI
+      && nextProps.onlineStatusResponse.response
+      && nextProps.onlineStatusResponse.status === 200) {
+      isCalledOnlineAPI = false;
+      if (nextProps.onlineStatusResponse.response.message && typeof nextProps.onlineStatusResponse.response.message === 'string') {
+        showPopupAlert(nextProps.onlineStatusResponse.response.message);
+        isCalledOnlineAPI = false;
+        return;
+      }
+      showPopupAlert('You have successfully updated profile.');
+      isCalledOnlineAPI = false;
+    } else if (!nextProps.isLoading && nextProps.onlineStatusResponse.response
+      && isCalledOnlineAPI
+      && (nextProps.onlineStatusResponse.status !== 200)) {
+      if (nextProps.onlineStatusResponse.response.message && typeof nextProps.onlineStatusResponse.response.message === 'string') {
+        showPopupAlert(nextProps.onlineStatusResponse.response.message);
+        isCalledOnlineAPI = false;
+        return;
+      }
+      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
+      isCalledOnlineAPI = false;
+    }
+  }
+
+  toggleSwitch(value) {
+    this.setState({ switchValue: value }, this.updateOnlineStatus());
+  }
+
+  updateOnlineStatus() {
+    const utils = new Utils();
+    const onlineStats = this.state.switchValue ? 1 : 0;
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        isCalledOnlineAPI = true;
+        this.props.onlineStatusRequest(driverID, onlineStats);
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
+    });
+  }
+
 
   onLeftMenuPress() {
     const { goBack } = this.props.navigation;
@@ -270,6 +318,9 @@ class MyProfileView extends Component {
         
           updateEmail={email => this.updateEmail(email)}
           email={this.state.email}
+         
+          toggleSwitch={value => this.toggleSwitch(value)}
+          switchValue={this.state.switchValue}
 
           updatePhoneNumber={phoneNumber => this.updatePhoneNumber(phoneNumber)}
           phoneNumber={this.state.phoneNumber}
@@ -308,10 +359,11 @@ class MyProfileView extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLoading: state.uploadDocument.isLoading || state.signup.isLoading,
+  isLoading: state.uploadDocument.isLoading || state.signup.isLoading || state.onlineStatus.isLoading,
   uploadDocumentResponse: state.uploadDocument.uploadDocumentResponse,
   fetchDocumentResponse: state.uploadDocument.fetchDocumentResponse,
   userSignupResponse: state.signup.userSignupResponse,
+  onlineStatusResponse: state.onlineStatus.onlineStatusResponse,
 });
 
 const mapDispatchToProps = () => UserActions;

@@ -36,7 +36,8 @@ import { userLoginRequest,
   updateProfileRequest,
   fetchProfileRequest,
   earningDataRequest,
-  updateDriverDocumentNumberRequest }
+  updateDriverDocumentNumberRequest,
+  onlineStatusRequest }
   from './Authentication';
 
 const actions = {
@@ -76,6 +77,7 @@ const actions = {
   fetchProfileRequest,
   earningDataRequest,
   updateDriverDocumentNumberRequest,
+  onlineStatusRequest,
 };
 
 export default bindActionCreators(actions, store.dispatch);

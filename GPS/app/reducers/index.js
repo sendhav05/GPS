@@ -18,6 +18,7 @@ import uploadDocument from './uploadDocument';
 import fetchProfile from './fetchProfile';
 import earning from './earning';
 import updateDocData from './updateDocData';
+import onlineStatus from './onlineStatus';
 
 const reducers = {
   login,
@@ -39,6 +40,7 @@ const reducers = {
   fetchProfile,
   earning,
   updateDocData,
+  onlineStatus,
 };
 
 export default combineReducers(reducers);

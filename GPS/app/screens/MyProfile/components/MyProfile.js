@@ -9,6 +9,7 @@ import {
   FlatList,
   Dimensions,
   Keyboard,
+  Switch,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Images from '../../../assets/images';
@@ -41,6 +42,17 @@ const styles = StyleSheet.create({
     height: 150,
     backgroundColor: OrangeColor,
   },
+  subHeaderView: {
+    right: 20,
+    position: 'absolute',
+    flexDirection: 'row',
+    width: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    height: 50,
+    backgroundColor: OrangeColor,
+  },
   topView: {
     flex: 1,
     marginTop: 10,
@@ -64,6 +76,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     marginTop: 15
+  },
+  offlineText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '500',
+    left: 10,
   },
   rightNavBarIcon: {
     width: 22,
@@ -141,6 +159,15 @@ const MyProfile = props => (
         </TouchableOpacity>
         <Text style={styles.vehicleText}>
           {props.name}
+        </Text>
+      </View>
+      <View style={styles.subHeaderView}>
+        <Switch
+          onValueChange = {(value) => props.toggleSwitch(value)}
+          value = {props.switchValue}
+        />
+        <Text style={styles.offlineText}>
+          Offline
         </Text>
       </View>
      <View style={styles.topView}>

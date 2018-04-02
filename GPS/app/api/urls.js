@@ -535,3 +535,15 @@ export const updateDriverDocumentNumberUrl = (driverid, dlnumber, ssn, address) 
   }
   return url;
 };
+
+export const onlineStatusUrl = (driverid, onlinestatus) => {
+  const url = `${getBaseUrl}/customer/driverOnlineStatus`;
+  let param = '';
+  if (driverid) { if (param) { param = `${param}&`; } param = `${param}driver_id=${driverid}`; }
+  if (param) { param = `${param}&`; } param = `${param}online_status=${onlinestatus}`; 
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
