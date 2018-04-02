@@ -17,7 +17,7 @@ const { width } = Dimensions.get('window');
 const style = StyleSheet.create({
   user: {
     flex: 1,
-    height: 75,
+    height: 80,
   },
   userTitle: {
     fontFamily: FontFamilyName,
@@ -25,17 +25,25 @@ const style = StyleSheet.create({
     color: BlueColor,
     marginLeft: 10,
     marginRight: 10,
-    marginTop: 8,
+    marginTop: 4,
     position: 'absolute',
     fontWeight: '800'
-
+  },
+  datetime: {
+    fontFamily: FontFamilyName,
+    fontSize: SmallFontSize,
+    color: BlueColor,
+    right: 10,
+    marginTop: 6,
+    position: 'absolute',
+    fontWeight: '400'
   },
   time: {
     fontFamily: FontFamilyName,
     fontSize: SmallFontSize,
     color: 'black',
     marginLeft: 10,
-    marginTop: 28,
+    marginTop: 42,
     position: 'absolute',
 
   },
@@ -45,7 +53,7 @@ const style = StyleSheet.create({
     color: '#a9a9a8',
     marginLeft: 10,
     marginRight: 10,
-    marginTop: 44,
+    marginTop: 60,
     position: 'absolute',
   },
   dividerLine: {
@@ -65,6 +73,9 @@ const NotificationCell = props => (
     <View style={style.user}>
       <Text style={style.userTitle} numberOfLines={1} ellipsizeMode="tail" >
         {props.data.item.name}
+      </Text>
+      <Text style={style.datetime} numberOfLines={1} ellipsizeMode="tail" >
+        {props.data.item.create_date}
       </Text>
       <Text style={style.time}>
         {`${props.data.item.title}`}

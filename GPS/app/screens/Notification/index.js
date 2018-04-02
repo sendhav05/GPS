@@ -69,6 +69,7 @@ class NotificationListView extends Component {
   }
 
   getRenderRow(item) {
+    console.log('************ item', item);
     return (
       <NotificationCell
         data={item}
