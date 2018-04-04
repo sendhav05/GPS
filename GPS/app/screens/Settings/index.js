@@ -128,6 +128,8 @@ class SettingsView extends Component {
   }
 
   onHistryPress() {
+    const { navigate } = this.props.navigation;
+    navigate('Review', { isShowBackButton: true});
   }
 
   onLeftMenuPress() {

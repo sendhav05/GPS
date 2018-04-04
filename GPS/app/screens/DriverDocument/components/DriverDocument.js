@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     height: 57,
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
   },
   textInputView: {
     marginTop: 60,
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
 
     marginLeft: 50,
-    marginRight: 15,
+    marginRight: 50,
     height: 40,
     width: width - 100,
     borderRadius: 25,
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
   },
   bodyView: {
     flex: 1,
-    marginTop: 110,
+    marginTop: 80,
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: 'rgba(245,172,35,0)',
@@ -133,7 +134,6 @@ const DriverDocument = props => (
     onPress={() => Keyboard.dismiss()}
   >
     <View style={styles.container}>
-      <KeyboardAvoidingView behavior={keyboardBehavior}>
         {/* <TouchableOpacity
           style={styles.backButton}
           onPress={() => props.onBacnkPress()}
@@ -144,7 +144,9 @@ const DriverDocument = props => (
             source={Images.leftBlueArrow}
           />
         </TouchableOpacity> */}
+
         <View style={styles.bodyView}>
+        <KeyboardAvoidingView behavior={keyboardBehavior}>
           <Image
             style={styles.logo}
             resizeMode="contain"
@@ -192,8 +194,8 @@ const DriverDocument = props => (
               </Text>
             </TouchableOpacity>
           </View>
+          </KeyboardAvoidingView>
         </View>
-      </KeyboardAvoidingView>
     </View>
   </TouchableOpacity>
 );

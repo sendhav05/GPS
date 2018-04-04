@@ -87,6 +87,8 @@ class EarningView extends Component {
   }
 
   onHistryPress() {
+    const { navigate } = this.props.navigation;
+    navigate('History');
   }
 
   onDailyPress() {

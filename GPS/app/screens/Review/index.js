@@ -17,6 +17,8 @@ import constant from '../../utils/constants';
 import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
 
+let isShowBackButton = false;
+
 class NotificationListView extends Component {
   constructor(props) {
     super(props);
@@ -26,11 +28,12 @@ class NotificationListView extends Component {
   }
 
   componentDidMount() {
+    isShowBackButton = this.props.navigation.state.params.isShowBackButton;
     const utils = new Utils();
-    utils.getCustomerid((response) => {
+    utils.getDriverID((response) => {
       utils.checkInternetConnectivity((reach) => {
         if (reach && response) {
-          this.props.notificationListRequest(response);
+          this.props.driverReviewRequest('60');
         } else {
           showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
         }
@@ -41,19 +44,19 @@ class NotificationListView extends Component {
   componentWillReceiveProps(nextProps) {
 
     if (!nextProps.isLoading
-      && nextProps.notificationListResponse.response
-      && nextProps.notificationListResponse.status === 200) {
-      // && nextProps.notificationListResponse.response.status === 1) {
-      if (nextProps.notificationListResponse.response.data.length > 0) {
-        this.setState({ dataArray: nextProps.notificationListResponse.response.data });
+      && nextProps.reviewResponse.response
+      && nextProps.reviewResponse.status === 200) {
+      // && nextProps.reviewResponse.response.status === 1) {
+      if (nextProps.reviewResponse.response.data.length > 0) {
+        this.setState({ dataArray: nextProps.reviewResponse.response.data });
       } else {
         showPopupAlert(constant.EMPTY_RECORD_MESSAGE);
       }
-    } else if (!nextProps.isLoading && nextProps.notificationListResponse.response
-      && (nextProps.notificationListResponse.status !== 200
-      || nextProps.notificationListResponse.response.status !== 1)) {
-      if (nextProps.notificationListResponse.response.message && typeof nextProps.notificationListResponse.response.message === 'string') {
-        showPopupAlert(nextProps.notificationListResponse.response.message);
+    } else if (!nextProps.isLoading && nextProps.reviewResponse.response
+      && (nextProps.reviewResponse.status !== 200
+      || nextProps.reviewResponse.response.status !== 1)) {
+      if (nextProps.reviewResponse.response.message && typeof nextProps.reviewResponse.response.message === 'string') {
+        showPopupAlert(nextProps.reviewResponse.response.message);
         return;
       }
       showPopupAlert(constant.SERVER_ERROR_MESSAGE);
@@ -64,14 +67,21 @@ class NotificationListView extends Component {
    }
 
   onLeftMenuPress() {
-    const { navigate } = this.props.navigation;
-    navigate('DrawerOpen');
+    if (isShowBackButton) {
+      const { goBack } = this.props.navigation;
+      goBack(null);
+    } else {
+      const { navigate } = this.props.navigation;
+      navigate('DrawerOpen');
+    }
   }
 
   getRenderRow(item) {
+    const starCount = Number(item.item.rating);
     return (
       <NotificationCell
         data={item}
+        starCount={starCount}
         onCellSelectionPress={selectedItem => this.onCellSelectionPress(selectedItem)}
       />
 
@@ -85,6 +95,7 @@ class NotificationListView extends Component {
           onLeftMenuPress={() => this.onLeftMenuPress()}
           getRenderRow={item => this.getRenderRow(item)}
           dataArray={this.state.dataArray}
+          isShowBackButton={isShowBackButton}
         />
         {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
       </View>
@@ -94,8 +105,8 @@ class NotificationListView extends Component {
 
 
 const mapStateToProps = state => ({
-  isLoading: state.notification.isLoading,
-  notificationListResponse: state.notification.notificationListResponse,
+  isLoading: state.review.isLoading,
+  reviewResponse: state.review.reviewResponse,
 });
 
 const mapDispatchToProps = () => UserActions;

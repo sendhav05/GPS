@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { NavigationActions } from 'react-navigation';
 import DriverDocument from './components/DriverDocument';
 import UserActions from '../../actions';

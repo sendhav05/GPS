@@ -547,3 +547,14 @@ export const onlineStatusUrl = (driverid, onlinestatus) => {
   }
   return url;
 };
+
+export const driverReviewUrl = (driverid) => {
+  const url = `${getBaseUrl}/customer/userReview`;
+  let param = '';
+  if (driverid) { if (param) { param = `${param}&`; } param = `${param}driver_id=${driverid}`; }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};

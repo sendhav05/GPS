@@ -123,6 +123,8 @@ class CustomerMenuView extends Component {
       navigate('Earnings');
     } else if (selectedItem.name === 'Accounts') {
       navigate('Account');
+    } else if (selectedItem.name === 'Performance/Reviews') {
+      navigate('Review', { isShowBackButton: false});
     }
   }
 

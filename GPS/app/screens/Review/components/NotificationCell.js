@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
+import Stars from 'react-native-stars';
 
 import { BlueColor, OrangeColor, ButtonFontSize, GrayColor, HeaderFontSize, SmallFontSize, WhiteColor, FontFamilyName } from '../../../utils/constants';
 import Images from '../../../assets/images';
@@ -43,6 +44,7 @@ const style = StyleSheet.create({
     fontSize: SmallFontSize,
     color: 'black',
     marginLeft: 10,
+    marginRight: 10,
     marginTop: 28,
     position: 'absolute',
 
@@ -62,6 +64,13 @@ const style = StyleSheet.create({
     width,
     backgroundColor: 'black',
   },
+  bodyView: {
+    height: 50,
+    width: 150,
+    right: 0,
+    top: 5,
+    position: 'absolute',
+  },
 });
 
 const NotificationCell = props => (
@@ -74,14 +83,23 @@ const NotificationCell = props => (
       <Text style={style.userTitle} numberOfLines={1} ellipsizeMode="tail" >
         {props.data.item.name}
       </Text>
-      <Text style={style.datetime} numberOfLines={1} ellipsizeMode="tail" >
-        {props.data.item.create_date}
-      </Text>
+      <View style={style.bodyView}>
+        <Stars
+          half={false}
+          rating={props.starCount}
+          spacing={6}
+          starSize={20}
+          count={5}
+          fullStar={Images.selectedStart}
+          emptyStar={Images.unSelectedStart}
+          halfStar={Images.unSelectedStart}
+        />
+      </View>
       <Text style={style.time}>
-        {`${props.data.item.title}`}
+        {`${props.data.item.feedback}`}
       </Text>
       <Text style={style.address} numberOfLines={2} ellipsizeMode="tail" >
-        {`${props.data.item.message}`}
+        {`${props.data.item.create_date}`}
       </Text>
     </View>
     <View style={[style.dividerLine]} />

@@ -10,7 +10,7 @@ import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
   uploadDocumentUrl, fetchDriverDocURl, uploadDeliveryDocumentUrl,
   uploadVehiclePhotoUrl, uploadVDriverPhotoUrl, updateProfileUrl,
   fetchProfileDataUrl, earningDataURl, updateDriverDocumentNumberUrl,
-  onlineStatusUrl } from '../api/urls';
+  onlineStatusUrl, driverReviewUrl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -123,6 +123,10 @@ export const UPDATE_DOCUMENT_NUM_FAILURE = 'UPDATE_DOCUMENT_NUM_FAILURE';
 export const ONLLINE_STATUS_REQUEST = 'ONLLINE_STATUS_REQUEST';
 export const ONLLINE_STATUS_SUCCESS = 'ONLLINE_STATUS_SUCCESS';
 export const ONLLINE_STATUS_FAILURE = 'ONLLINE_STATUS_FAILURE';
+
+export const REVIEW_REQUEST = 'REVIEW_REQUEST';
+export const REVIEW_SUCCESS = 'REVIEW_SUCCESS';
+export const REVIEW_FAILURE = 'REVIEW_FAILURE';
 
 export const userLoginRequest = (email, password, type, deviceToken, deviceType) => {
   const url = loginUrl(email, password, type, deviceToken, deviceType);
@@ -437,6 +441,14 @@ export const onlineStatusRequest = (driverid, onlinestatus) => {
   const url = onlineStatusUrl(driverid, onlinestatus);
   return getApiAction({
     types: [ONLLINE_STATUS_REQUEST, ONLLINE_STATUS_SUCCESS, ONLLINE_STATUS_FAILURE],
+    url,
+  });
+};
+
+export const driverReviewRequest = (driverid) => {
+  const url = driverReviewUrl(driverid);
+  return getApiAction({
+    types: [REVIEW_REQUEST, REVIEW_SUCCESS, REVIEW_FAILURE],
     url,
   });
 };

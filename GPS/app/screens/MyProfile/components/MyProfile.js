@@ -216,10 +216,12 @@ const MyProfile = props => (
         </Text>
         <TextInput
           style={styles.phoneNumberTextInput}
+          multiline = {true}
           placeholder="Address"
           placeholderTextColor="rgba(70,64,172,1)"
           onChangeText={address => props.updatAddress(address)}
           value={props.address}
+          numberOfLines={2}
           underlineColorAndroid="transparent"
         />
       </View>

@@ -32,6 +32,8 @@ import EarningsScreen from '../screens/Earnings';
 import AccountScreen from '../screens/Account';
 import SettingsScreen from '../screens/Settings';
 import MyProfileScreen from '../screens/MyProfile';
+import ReviewScreen from '../screens/Review';
+import HistoryScreen from '../screens/History';
 
 const noTransitionConfig = () => ({
   transitionSpec: {
@@ -286,7 +288,40 @@ const DriverAccountStack = StackNavigator({
       gesturesEnabled: false,
     },
   },
- 
+  Review: {
+    screen: ReviewScreen,
+    key: 'ReviewScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+}, {
+  headerMode: 'float',
+  navigationOptions: {
+    headerStyle: { backgroundColor: 'red' },
+    title: 'You are not logged in',
+  },
+});
+
+
+const EarningsStack = StackNavigator({
+  Earnings: {
+    screen: EarningsScreen,
+    key: 'EarningsScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  History: {
+    screen: HistoryScreen,
+    key: 'HistoryScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
 }, {
   headerMode: 'float',
   navigationOptions: {
@@ -300,7 +335,8 @@ const DriverStack = DrawerNavigator({
   DriverWareHouseList: { screen: DriverAppStack },
   CustomerOrder: { screen: DriverOrderStack },
   Notification: { screen: NotificationScreen },
-  Earnings: { screen: EarningsScreen },
+  Review: { screen: ReviewScreen },
+  Earnings: { screen: EarningsStack },
   Account: { screen: DriverAccountStack },
 }, {
   gesturesEnabled: false,
