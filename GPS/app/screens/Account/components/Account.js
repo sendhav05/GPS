@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     marginTop: 3,
   },
-  rightNavBarIcon: {
-
+  flatListStyle: {
+    flex: 1,
   },
 });
 
@@ -68,6 +68,12 @@ const Account = props => (
       rightMenuIcon={Images.editOder}
     />
       <View style={styles.bodyView}>
+        <FlatList
+          style={styles.flatListStyle}
+          data={props.dataArray}
+          renderItem={data => props.getRenderRow(data)}
+          keyExtractor={item => item.id}
+        />
       </View>
     <View style={styles.bottomView}>
       <TouchableOpacity

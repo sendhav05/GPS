@@ -33,7 +33,7 @@ class NotificationListView extends Component {
     utils.getDriverID((response) => {
       utils.checkInternetConnectivity((reach) => {
         if (reach && response) {
-          this.props.driverReviewRequest('60');
+          this.props.driverReviewRequest(response);
         } else {
           showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
         }
@@ -77,7 +77,7 @@ class NotificationListView extends Component {
   }
 
   getRenderRow(item) {
-    const starCount = Number(item.item.rating);
+    const starCount = Number(item.item.user_rating);
     return (
       <NotificationCell
         data={item}

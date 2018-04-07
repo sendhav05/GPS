@@ -17,6 +17,7 @@ import Loader from '../../components/Loader';
 import Utils from '../../utils/utils';
 import { showPopupAlert, showPopupAlertWithTile } from '../../utils/showAlert';
 import constant from '../../utils/constants';
+import NotificationCell from './components/NotificationCell';
 
 let isCompleteOrderAPI = false;
 let isPendingOrderAPI = false;
@@ -31,60 +32,39 @@ class AccountView extends Component {
     super(props);
     this.state = {
       selectedIndex: 1,
+      dataArray: [],
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    // Pending Orders
-    // if (!nextProps.isLoading
-    //   && isPendingOrderAPI
-    //   && nextProps.customerPendingOrdersResponse.response
-    //   && nextProps.customerPendingOrdersResponse.status === 200) {
-    //   // && nextProps.customerPendingOrdersResponse.response.status === 1) {
-    //   isPendingOrderAPI = false;
-    //   if (nextProps.customerPendingOrdersResponse
-    //     && nextProps.customerPendingOrdersResponse.response.data) {
-    //     pedingOrders = nextProps.customerPendingOrdersResponse.response.data;
-    //     this.setState({ orderList: nextProps.customerPendingOrdersResponse.response.data });
-    //   } else {
-    //     showPopupAlert(constant.EMPTY_RECORD_MESSAGE);
-    //   }
-    // } else if (!nextProps.isLoading && nextProps.customerPendingOrdersResponse.response
-    //   && isPendingOrderAPI
-    //   && (nextProps.customerPendingOrdersResponse.status !== 200
-    //   || nextProps.customerPendingOrdersResponse.response.status !== 1)) {
-    //   isPendingOrderAPI = false;
-    //   if (nextProps.customerPendingOrdersResponse.response.message && typeof nextProps.customerPendingOrdersResponse.response.message === 'string') {
-    //     showPopupAlert(nextProps.customerPendingOrdersResponse.response.message);
-    //     return;
-    //   }
-    //   showPopupAlert(constant.SERVER_ERROR_MESSAGE);
-    // }
+    if (!nextProps.isLoading
+      && nextProps.helpResponse.response
+      && nextProps.helpResponse.status === 200) {
+      // && nextProps.helpResponse.response.status === 1) {
+      if (nextProps.helpResponse.response.data && nextProps.helpResponse.response.data.help.length > 0) {
+        this.setState({ dataArray: nextProps.helpResponse.response.data.help });
+      } else {
+        showPopupAlert(constant.EMPTY_RECORD_MESSAGE);
+      }
+    } else if (!nextProps.isLoading && nextProps.helpResponse.response
+      && (nextProps.helpResponse.status !== 200
+      || nextProps.helpResponse.response.status !== 1)) {
+      if (nextProps.helpResponse.response.message && typeof nextProps.helpResponse.response.message === 'string') {
+        showPopupAlert(nextProps.helpResponse.response.message);
+        return;
+      }
+      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
+    }
   }
 
   componentDidMount() {
-    // const utils = new Utils();
-    // utils.isFlowFromCustomer((response) => {
-    //   if (response) {
-    //     isFromCustomer = true;
-    //     this.getCustomerDetails();
-    //   } 
-    // });
-  }
-
-  getCustomerDetails() {
     const utils = new Utils();
-    utils.getCustomerid((response) => {
-      utils.checkInternetConnectivity((reach) => {
-        if (reach && response) {
-          isPendingOrderAPI = true;
-          isCompleteOrderAPI = true;
-          this.props.cutomerPendingOrdersRequest(response);
-          this.props.cutomerCompleteOrdersRequest(response);
-        } else {
-          showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
-        }
-      });
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        this.props.helpRequest();
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
     });
   }
 
@@ -119,6 +99,16 @@ class AccountView extends Component {
     navigate('DrawerOpen');
   }
 
+  getRenderRow(item) {
+    return (
+      <NotificationCell
+        data={item}
+        onCellSelectionPress={selectedItem => this.onCellSelectionPress(selectedItem)}
+      />
+
+    );
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -130,6 +120,8 @@ class AccountView extends Component {
           onSettingPress={() => this.onSettingPress()}
           selectedIndex={this.state.selectedIndex}
           title={title}
+          getRenderRow={item => this.getRenderRow(item)}
+          dataArray={this.state.dataArray}
         />
         {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
       </View>
@@ -138,9 +130,8 @@ class AccountView extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLoading: state.customerOrderStatus.isLoading,
-  customerPendingOrdersResponse: state.customerOrderStatus.customerPendingOrdersResponse,
-  customerCompleteOrdersResponse: state.customerOrderStatus.customerCompleteOrdersResponse,
+  isLoading: state.help.isLoading,
+  helpResponse: state.help.helpResponse,
 });
 
 const mapDispatchToProps = () => UserActions;

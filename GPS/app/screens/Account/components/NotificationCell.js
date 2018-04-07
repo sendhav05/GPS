@@ -17,13 +17,13 @@ const { width } = Dimensions.get('window');
 
 const style = StyleSheet.create({
   user: {
-    padding: 7,
+    padding: 10,
   },
   userTitle: {
     fontFamily: FontFamilyName,
     fontSize: ButtonFontSize,
     color: BlueColor,
-    fontWeight: '800'
+    fontWeight: '800',
   },
   time: {
     fontFamily: FontFamilyName,
@@ -35,7 +35,10 @@ const style = StyleSheet.create({
     fontFamily: FontFamilyName,
     fontSize: SmallFontSize,
     color: '#a9a9a8',
-    paddingTop: 7,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 45,
+    position: 'absolute',
   },
   dividerLine: {
     height: 0.5,
@@ -56,29 +59,13 @@ const NotificationCell = props => (
   <TouchableOpacity
     activeOpacity={1}
     style={{ flex: 1, justifyContent: 'center' }}
-    onPress={() => props.onCellSelectionPress(props.data.item)}
   >
     <View style={style.user}>
-      <Text style={style.userTitle} numberOfLines={1} ellipsizeMode="tail" >
-        {props.data.item.name}
+      <Text style={style.userTitle} numberOfLines={10} ellipsizeMode="tail" >
+        {props.data.item.question}
       </Text>
-      <View style={style.bodyView}>
-        <Stars
-          half={false}
-          rating={props.starCount}
-          spacing={6}
-          starSize={20}
-          count={5}
-          fullStar={Images.selectedStart}
-          emptyStar={Images.unSelectedStart}
-          halfStar={Images.unSelectedStart}
-        />
-      </View>
-      <Text style={style.time}>
-        {props.data.item.feedback ? props.data.item.feedback : ''}
-      </Text>
-      <Text style={style.address} numberOfLines={2} ellipsizeMode="tail" >
-        {`${props.data.item.create_date}`}
+      <Text style={style.time} numberOfLines={10} ellipsizeMode="tail" >
+        {props.data.item.answer ? props.data.item.answer : ''}
       </Text>
     </View>
     <View style={[style.dividerLine]} />

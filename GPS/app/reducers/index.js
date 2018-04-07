@@ -20,6 +20,7 @@ import earning from './earning';
 import updateDocData from './updateDocData';
 import onlineStatus from './onlineStatus';
 import review from './review';
+import help from './help';
 
 const reducers = {
   login,
@@ -43,6 +44,7 @@ const reducers = {
   updateDocData,
   onlineStatus,
   review,
+  help,
 };
 
 export default combineReducers(reducers);

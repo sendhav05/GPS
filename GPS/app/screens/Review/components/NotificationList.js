@@ -76,7 +76,7 @@ const NotificationList = props => (
         style={styles.flatListStyle}
         data={props.dataArray}
         renderItem={data => props.getRenderRow(data)}
-        keyExtractor={item => item.product_id}
+        keyExtractor={item => item.user_rating_id}
       />
     </View>
   </View>

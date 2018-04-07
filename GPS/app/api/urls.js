@@ -1,9 +1,4 @@
 
-export const authenticationUrl = () => {
-  const url = 'https://test.com';
-  return url;
-};
-
 const getBaseUrl = 'http://itinformatix.com/gpsapi/index.php/api/'; // old url
 // const getBaseUrl = 'http://www.grocdelivery.com/api/';
 
@@ -556,5 +551,10 @@ export const driverReviewUrl = (driverid) => {
   if (param) {
     return `${url}?${param}`;
   }
+  return url;
+};
+
+export const helpURl = () => {
+  const url = `${getBaseUrl}/help`;
   return url;
 };

@@ -10,7 +10,7 @@ import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
   uploadDocumentUrl, fetchDriverDocURl, uploadDeliveryDocumentUrl,
   uploadVehiclePhotoUrl, uploadVDriverPhotoUrl, updateProfileUrl,
   fetchProfileDataUrl, earningDataURl, updateDriverDocumentNumberUrl,
-  onlineStatusUrl, driverReviewUrl } from '../api/urls';
+  onlineStatusUrl, driverReviewUrl, helpURl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -127,6 +127,10 @@ export const ONLLINE_STATUS_FAILURE = 'ONLLINE_STATUS_FAILURE';
 export const REVIEW_REQUEST = 'REVIEW_REQUEST';
 export const REVIEW_SUCCESS = 'REVIEW_SUCCESS';
 export const REVIEW_FAILURE = 'REVIEW_FAILURE';
+
+export const HELP_REQUEST = 'HELP_REQUEST';
+export const HELP_SUCCESS = 'HELP_SUCCESS';
+export const HELP_FAILURE = 'HELP_FAILURE';
 
 export const userLoginRequest = (email, password, type, deviceToken, deviceType) => {
   const url = loginUrl(email, password, type, deviceToken, deviceType);
@@ -449,6 +453,14 @@ export const driverReviewRequest = (driverid) => {
   const url = driverReviewUrl(driverid);
   return getApiAction({
     types: [REVIEW_REQUEST, REVIEW_SUCCESS, REVIEW_FAILURE],
+    url,
+  });
+};
+
+export const helpRequest = () => {
+  const url = helpURl();
+  return getApiAction({
+    types: [HELP_REQUEST, HELP_SUCCESS, HELP_FAILURE],
     url,
   });
 };
