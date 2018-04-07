@@ -164,7 +164,7 @@ const MyProfile = props => (
       <View style={styles.subHeaderView}>
         <Switch
           onValueChange = {(value) => props.toggleSwitch(value)}
-          value = {props.switchValue}
+          value={props.switchValue ? true : false}
         />
         <Text style={styles.offlineText}>
           Offline

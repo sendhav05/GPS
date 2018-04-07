@@ -75,7 +75,7 @@ class MyProfileView extends Component {
         state: userProfileData.state,
         city: userProfileData.city,
         zipcode: userProfileData.zipcode,
-        switchValue: userProfileData.online_status,
+        switchValue: Number(userProfileData.online_status),
       });
 
     } else {
