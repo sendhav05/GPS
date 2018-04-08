@@ -88,7 +88,7 @@ export const productListUrl = (id) => {
 export const orderPlaceUrl = (
   name, contectno, email, pincode, state,
   city, address, landmark, paymentid, paymenttype, paymentstatus,
-  totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime
+  totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime, deliveryDistance
 ) => {
   const url = `${getBaseUrl}/order`;
   let param = '';
@@ -110,6 +110,7 @@ export const orderPlaceUrl = (
   if (lat) { if (param) { param = `${param}&`; } param = `${param}lat=${lat}`; }
   if (lng) { if (param) { param = `${param}&`; } param = `${param}lng=${lng}`; }
   if (deliverytime) { if (param) { param = `${param}&`; } param = `${param}delivery_time=${deliverytime}`; }
+  if (deliveryDistance) { if (param) { param = `${param}&`; } param = `${param}delivery_distance=${deliveryDistance}`; }
 
   if (param) {
     return `${url}?${param}`;

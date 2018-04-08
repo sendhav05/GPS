@@ -456,13 +456,26 @@ class OrderPlaceView extends Component {
   }
 
   render() {
+    console.log('******** warehouse', warehouseDetails);
     const navigationParams = this.props.navigation.state.params;
     let phoneNum = '';
+    let name = '';
+    let city = '';
+    let state = '';
+    let address = '';
     if (!this.state.isShowReserveOrderView) {
       if (this.state.deliveredBtnEnabled) {
         phoneNum = warehouseDetails.contact_no;
+        name = warehouseDetails.name;
+        city = warehouseDetails.city;
+        state = warehouseDetails.state;
+        address = warehouseDetails.address;
       } else {
         phoneNum = warehouseDetails.contact;
+        name = warehouseDetails.warehousename;
+        city = warehouseDetails.warehouse_locality;
+        state = warehouseDetails.warehouse_state;
+        address = warehouseDetails.warehouse_address;
       }
     }
 
@@ -490,6 +503,10 @@ class OrderPlaceView extends Component {
             warehouseDetails={warehouseDetails}
             deliveredBtnEnabled={this.state.deliveredBtnEnabled}
             phoneNum={phoneNum}
+            name={name}
+            city={city}
+            state={state}
+            address={address}
           />
           
           }

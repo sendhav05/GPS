@@ -126,7 +126,7 @@ const PendingPickupOrder = props => (
           {''}
         </Text>
         <Text style={styles.nameStyle}>
-          {props.warehouseDetails.warehousename}
+          {props.name}
         </Text>
         <TouchableOpacity
           onPress={() => props.showLocationOnMAp()}
@@ -141,13 +141,13 @@ const PendingPickupOrder = props => (
                 {'Pickup Address'}
               </Text>
               <Text style={[styles.deliveryTextStyle]}>
-                {props.warehouseDetails.address}
+                {props.address}
               </Text>
               <Text style={styles.deliveryTextStyle}>
-                {props.warehouseDetails.city}
+                {props.city}
               </Text>
               <Text style={styles.deliveryTextStyle}>
-                {props.warehouseDetails.state}
+                {props.state}
               </Text>
             </View>
           </View>

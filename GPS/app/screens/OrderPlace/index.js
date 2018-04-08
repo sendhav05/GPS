@@ -254,6 +254,7 @@ class OrderPlaceView extends Component {
     const itemiddata = { item_id: this.props.navigation.state.params.selectedProductItem.product_id, quantity: this.state.quantity, amount: totallamount };
     const itemid = encodeURIComponent(JSON.stringify(itemiddata));
     const deliverytime = new Utils().convertDateToString(this.state.deliveryDatetime);
+    const deliveryDistance = this.state.distanceMiles;
 
     const isValid = this.validateAllField();
     if (isValid) {
@@ -264,7 +265,7 @@ class OrderPlaceView extends Component {
           this.props.orderPlaceRequest(
             name, contectno, email, pincode, state,
             city, address, landmark, paymentid, paymenttype, paymentstatus,
-            totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime,
+            totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime, deliveryDistance
           );
         } else {
           showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
