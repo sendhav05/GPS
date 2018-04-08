@@ -96,7 +96,16 @@ class DriverDocumentView extends Component {
   }
 
   updateSSN(value) {
-    this.setState({ ssnNumber: value });
+    let tmpString = value;
+    const index1 = this.state.ssnNumber.endsWith(' ')
+    if (tmpString) {
+      if (tmpString.length === 3 && !index1) {
+        tmpString = `${tmpString} `
+      } else  if (tmpString.length === 6 && !index1) {
+        tmpString = `${tmpString} `
+      }
+    }
+    this.setState({ ssnNumber: tmpString });
   }
 
   updateDL(value) {

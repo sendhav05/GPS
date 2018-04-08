@@ -194,7 +194,7 @@ class MyProfileView extends Component {
 
   updateOnlineStatus() {
     const utils = new Utils();
-    const onlineStats = this.state.switchValue ? 1 : 0;
+    const onlineStats = this.state.switchValue ? 0 : 1;
     utils.checkInternetConnectivity((reach) => {
       if (reach) {
         isCalledOnlineAPI = true;
