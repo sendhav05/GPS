@@ -178,12 +178,12 @@ export const fetchProductRequest = (id) => {
 export const orderPlaceRequest = (
   name, contectno, email, pincode, state,
   city, address, landmark, paymentid, paymenttype, paymentstatus,
-  totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime, deliveryDistance
+  totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime, deliveryDistance, deliveryPayment
 ) => {
   const url = orderPlaceUrl(
     name, contectno, email, pincode, state,
     city, address, landmark, paymentid, paymenttype, paymentstatus,
-    totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime, deliveryDistance
+    totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime, deliveryDistance, deliveryPayment
   );
   console.log('********* order place', url);
   return postApiAction({

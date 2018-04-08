@@ -456,7 +456,6 @@ class OrderPlaceView extends Component {
   }
 
   render() {
-    console.log('******** warehouse', warehouseDetails);
     const navigationParams = this.props.navigation.state.params;
     let phoneNum = '';
     let name = '';

@@ -247,7 +247,10 @@ class OrderPlaceView extends Component {
     const name = customerDetails.name;
     const contectno = customerDetails.contect_no;
     const email = customerDetails.email;
-    const paymentid = Math.floor((Math.random() * 10000) + 1);
+    let  paymentid = Math.floor((Math.random() * 10000) + 1);;
+    if (this.state.token) {
+      paymentid = this.state.token;
+    }
     const paymenttype = 'online';
     const paymentstatus = 'confirm';
     const totallamount = totalPrice;
@@ -255,7 +258,7 @@ class OrderPlaceView extends Component {
     const itemid = encodeURIComponent(JSON.stringify(itemiddata));
     const deliverytime = new Utils().convertDateToString(this.state.deliveryDatetime);
     const deliveryDistance = this.state.distanceMiles;
-
+    const deliveryPayment = totalPrice;
     const isValid = this.validateAllField();
     if (isValid) {
       const utils = new Utils();
@@ -265,7 +268,7 @@ class OrderPlaceView extends Component {
           this.props.orderPlaceRequest(
             name, contectno, email, pincode, state,
             city, address, landmark, paymentid, paymenttype, paymentstatus,
-            totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime, deliveryDistance
+            totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime, deliveryDistance, deliveryPayment
           );
         } else {
           showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
@@ -324,9 +327,10 @@ class OrderPlaceView extends Component {
           },
         },
       });
-      console.log('stripe token', this.state.token);
-      this.setState({ token });
+      console.log('stripe token', token.tokenId);
+      this.setState({ token: token.tokenId });
     } catch (error) {
+      showPopupAlert('Your card was declined');
       console.log('stripe error');
     }
   }
