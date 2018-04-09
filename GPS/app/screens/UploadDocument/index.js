@@ -96,7 +96,7 @@ class DriverDocumentView extends Component {
         //this.setState({ docData: nextProps.fetchDocumentResponse.response.data.document_data })
         const docs = nextProps.fetchDocumentResponse.response.data.document_data;
         const path = nextProps.fetchDocumentResponse.response.data.imagepath;
-        console.log('************', docs, path);
+        console.log('************ data', nextProps.fetchDocumentResponse.response);
          for (let i = 0; i < docs.length; i++) {
             const object = docs[i];
             if (object.document_name === 'CertificateOfRegistration') {

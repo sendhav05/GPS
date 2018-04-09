@@ -16,17 +16,12 @@ const { width } = Dimensions.get('window');
 
 const style = StyleSheet.create({
   user: {
-    flex: 1,
-    height: 65,
+    padding: 6,
   },
   userTitle: {
     fontFamily: FontFamilyName,
     fontSize: ButtonFontSize,
     color: BlueColor,
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 4,
-    position: 'absolute',
     fontWeight: '800'
   },
   datetime: {
@@ -34,7 +29,7 @@ const style = StyleSheet.create({
     fontSize: SmallFontSize,
     color: BlueColor,
     right: 10,
-    marginTop: 6,
+    marginTop: 7,
     position: 'absolute',
     fontWeight: '400'
   },
@@ -42,19 +37,11 @@ const style = StyleSheet.create({
     fontFamily: FontFamilyName,
     fontSize: SmallFontSize,
     color: 'black',
-    marginLeft: 10,
-    marginTop: 28,
-    position: 'absolute',
-
   },
   address: {
     fontFamily: FontFamilyName,
     fontSize: SmallFontSize,
     color: '#a9a9a8',
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 45,
-    position: 'absolute',
   },
   dividerLine: {
     height: 0.5,

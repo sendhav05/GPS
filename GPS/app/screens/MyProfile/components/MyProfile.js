@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     height: 50,
-    backgroundColor: OrangeColor,
+    backgroundColor: 'transparent',
   },
   topView: {
     flex: 1,

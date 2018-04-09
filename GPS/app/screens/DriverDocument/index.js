@@ -36,6 +36,11 @@ class DriverDocumentView extends Component {
     utils.getDriverID((response) => {
       driverID = response;
     });
+    new Utils().getItemWithKey('DRIVER_USER_DETAILS', (response) => {
+      if (response) {
+        this.setState({ ssnNumber: response.ssn, address:response.address, dlNumber: response.dlnumber });
+      }
+    });
   }
 
   componentWillReceiveProps(nextProps) {
