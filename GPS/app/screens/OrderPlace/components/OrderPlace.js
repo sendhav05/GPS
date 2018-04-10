@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
   productPriceView: {
     height: 52,
-    width: 70,
+    width: 100,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   productCountText: {
     color: blueTextColor,
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '500',
   },
   bodyView: {
@@ -145,7 +145,7 @@ const CustomerHome = props => (
         </View>
         <View style={styles.productPriceView}>
           <Text style={styles.productCountText}>
-            {`${props.price} $`}
+            {`$ ${props.price}`}
           </Text>
         </View>
       </View>
@@ -163,7 +163,7 @@ const CustomerHome = props => (
             Delivery Payment
           </Text>
           <Text style={styles.productCountText}>
-            {`${props.deliveryCharge} $`}
+            {`$ ${props.deliveryCharge}`}
           </Text>
         </View>
         <View style={styles.cellView}>
@@ -171,7 +171,7 @@ const CustomerHome = props => (
             Total
           </Text>
           <Text style={[styles.productCountText, { fontSize: 24, color: brownOrangeColor }]}>
-            {`${props.totalPrice} $`}
+            {`$ ${props.totalPrice}`}
           </Text>
         </View>
         <TouchableOpacity

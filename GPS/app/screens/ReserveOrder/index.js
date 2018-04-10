@@ -88,6 +88,8 @@ class OrderPlaceView extends Component {
         showPopupAlert(nextProps.reserveOrderResponse.response.message);
         reserveID = nextProps.reserveOrderResponse.response.data.reserve_order_id;
         warehouseDetails = nextProps.reserveOrderResponse.response.data.warehouse_details;
+        console.log('***** nextProps.reserveOrderResponse.response.data ', nextProps.reserveOrderResponse.response.data);
+
         timerId = setInterval(() => this.setTimePassed(), 1000);
         isCallReserveAPI = false;
         return;
@@ -194,6 +196,7 @@ class OrderPlaceView extends Component {
   }
 
   onConfirmPress() {
+    clearInterval(timerId);
     const navigationParams = this.props.navigation.state.params;
     if (this.state.totalorder) {
       // let orderids = '';
@@ -327,8 +330,6 @@ class OrderPlaceView extends Component {
     utils.checkInternetConnectivity((reach) => {
       if (reach) {
         isCallPickupDoneAPI = true;
-        console.log('************ warehouseDetails', warehouseDetails)
-
         this.props.pickedupOrderRequest(warehouseDetails.order_id);
       } else {
         showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
