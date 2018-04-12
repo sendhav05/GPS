@@ -28,6 +28,7 @@ let isCalledOnlineAPI = false;
 let driverID = '';
 let customerDetails = {};
 let userProfileData = {};
+let onlineStats = 0;
 
 class MyProfileView extends Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class MyProfileView extends Component {
       state: '',
       city: '',
       zipcode: '',
-      switchValue: true,
+      switchValue: 0,
     };
   }
 
@@ -57,6 +58,11 @@ class MyProfileView extends Component {
    if (this.props.navigation.state.params && this.props.navigation.state.params.isFromAccount) {
     this.setState({ isFromAccount: this.props.navigation.state.params.isFromAccount });
     }
+    new Utils().getItemWithKey('DRIVER_USER_DETAILS', (response) => {
+      if (response) {
+        this.setState({ switchValue: Number(response.online_status) });
+      }
+    });
   }
 
   getCustomerDetails() {
@@ -75,7 +81,6 @@ class MyProfileView extends Component {
         state: userProfileData.state,
         city: userProfileData.city,
         zipcode: userProfileData.zipcode,
-        switchValue: Number(userProfileData.online_status),
       });
 
     } else {
@@ -171,6 +176,12 @@ class MyProfileView extends Component {
       if (nextProps.onlineStatusResponse.response.message && typeof nextProps.onlineStatusResponse.response.message === 'string') {
         showPopupAlert(nextProps.onlineStatusResponse.response.message);
         isCalledOnlineAPI = false;
+        new Utils().getItemWithKey('DRIVER_USER_DETAILS', (response) => {
+          if (response) {
+            response.online_status = onlineStats;
+            new Utils().setItemWithKeyAndValue('DRIVER_USER_DETAILS', response);
+          }
+        });
         return;
       }
       showPopupAlert('You have successfully updated profile.');
@@ -181,20 +192,24 @@ class MyProfileView extends Component {
       if (nextProps.onlineStatusResponse.response.message && typeof nextProps.onlineStatusResponse.response.message === 'string') {
         showPopupAlert(nextProps.onlineStatusResponse.response.message);
         isCalledOnlineAPI = false;
+      this.setState({ switchValue: !this.state.switchValue });
+        
         return;
       }
+      this.setState({ switchValue: !this.state.switchValue });
+      
       showPopupAlert(constant.SERVER_ERROR_MESSAGE);
       isCalledOnlineAPI = false;
     }
   }
 
   toggleSwitch(value) {
-    this.setState({ switchValue: value }, this.updateOnlineStatus());
+    onlineStats = value ? 1 : 0;
+    this.setState({ switchValue: onlineStats }, () => this.updateOnlineStatus());
   }
 
   updateOnlineStatus() {
     const utils = new Utils();
-    const onlineStats = this.state.switchValue ? 0 : 1;
     utils.checkInternetConnectivity((reach) => {
       if (reach) {
         isCalledOnlineAPI = true;
@@ -204,7 +219,6 @@ class MyProfileView extends Component {
       }
     });
   }
-
 
   onLeftMenuPress() {
     const { goBack } = this.props.navigation;

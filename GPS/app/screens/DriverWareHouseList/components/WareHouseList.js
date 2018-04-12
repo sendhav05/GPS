@@ -8,11 +8,11 @@ import {
   TextInput,
   FlatList,
   Dimensions,
+  Switch,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Images from '../../../assets/images';
-import NavBar from '../../../components/NavBar';
-import { BlueColor, OrangeColor, ButtonFontSize, GrayColor, HeaderFontSize, WhiteColor, FontFamilyName } from '../../../utils/constants';
+import { StatusBarHeight, BlueColor, OrangeColor, ButtonFontSize, GrayColor, HeaderFontSize, WhiteColor, FontFamilyName } from '../../../utils/constants';
 import MapView from 'react-native-maps';
 
 const { width, height } = Dimensions.get('window');
@@ -79,17 +79,75 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     backgroundColor: 'transparent',
   },
+  headrcontainer: {
+    backgroundColor: BlueColor,
+    height: 44,
+    width,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: StatusBarHeight,
+  },
+  leftNavBarIcon: {
+    width: 25,
+    height: 22,
+    alignSelf: 'center',
+    position: 'absolute',
+    left: 10,
+    top: 6,
+  },
+  rightNavBarIcon: {
+    width: 25,
+    height: 22,
+    alignSelf: 'center',
+  },
+  title: {
+    fontSize: HeaderFontSize,
+    color: WhiteColor,
+    alignSelf: 'center',
+    fontFamily: FontFamilyName,
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    left: 70,
+
+  },
+  subHeaderView: {
+    right: 0,
+    position: 'absolute',
+    flexDirection: 'row',
+    width: 130,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    height: 50,
+    backgroundColor: 'transparent',
+  },
+  offlineText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '500',
+    left: 10,
+  },
 });
 
 const WareHouseList = props => (
   <View style={styles.container}>
-    <NavBar
-      leftMenuIcon={Images.menu}
-      leftMenuPress={() => props.onLeftMenuPress()}
-      title="Pick Warehouse"
-      isShowRightIcon={Boolean(false)}
-      rightMenuIcon={Images.menu}
-    />
+  <View style={styles.headrcontainer}>
+    <TouchableOpacity style={styles.leftNavBarIcon} onPress={() => props.onLeftMenuPress()}>
+      <Image style={styles.leftNavBarIcon} source={Images.menu} />
+    </TouchableOpacity>
+    <Text style={styles.title}>Pick Warehouse</Text>
+    <View style={styles.subHeaderView}>
+        <Switch
+          onValueChange = {(value) => props.toggleSwitch(value)}
+          value={props.switchValue ? true : false}
+        />
+        <Text style={styles.offlineText}>
+          Offline
+        </Text>
+      </View>
+  </View>
     <View style={styles.bodyView}>
       <FlatList
         style={styles.flatListStyle}

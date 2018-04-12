@@ -19,11 +19,15 @@ import Utils from '../../utils/utils';
 import { defaultLat, defaultLng } from '../../utils/constants';
 
 let selectedWareHouse = {};
+let driverID = '';
+let isCalledOnlineAPI = false;
+let onlineStats = 0;
 
 class WareHouseView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      switchValue: 0,
       dataArray: [],
       region: {
         latitude: defaultLat,
@@ -44,13 +48,58 @@ class WareHouseView extends Component {
         description: 'Warehouse details wiil be here',
       }],
     };
+    this.toggleSwitch = this.toggleSwitch.bind(this);
   }
 
   componentDidMount() {
     this.fetchCurrentLocation();
+    new Utils().getItemWithKey('DRIVER_USER_DETAILS', (response) => {
+      if (response) {
+        this.setState({ switchValue: Number(response.online_status) });
+      }
+    });
+    const utils = new Utils();
+    utils.getDriverID((response) => {
+      driverID = response;
+    });
+  }
+
+  manageOnlineStatusResponse(nextProps) {
+    if (!nextProps.isLoading
+      && isCalledOnlineAPI
+      && nextProps.onlineStatusResponse.response
+      && nextProps.onlineStatusResponse.status === 200) {
+      isCalledOnlineAPI = false;
+      if (nextProps.onlineStatusResponse.response.message && typeof nextProps.onlineStatusResponse.response.message === 'string') {
+        showPopupAlert(nextProps.onlineStatusResponse.response.message);
+        isCalledOnlineAPI = false;
+        new Utils().getItemWithKey('DRIVER_USER_DETAILS', (response) => {
+          if (response) {
+            response.online_status = onlineStats;
+            new Utils().setItemWithKeyAndValue('DRIVER_USER_DETAILS', response);
+          }
+        });
+        return;
+      }
+      showPopupAlert('You have successfully updated profile.');
+      isCalledOnlineAPI = false;
+    } else if (!nextProps.isLoading && nextProps.onlineStatusResponse.response
+      && isCalledOnlineAPI
+      && (nextProps.onlineStatusResponse.status !== 200)) {
+      if (nextProps.onlineStatusResponse.response.message && typeof nextProps.onlineStatusResponse.response.message === 'string') {
+        showPopupAlert(nextProps.onlineStatusResponse.response.message);
+        isCalledOnlineAPI = false;
+        this.setState({ switchValue: !this.state.switchValue });
+        return;
+      }
+      this.setState({ switchValue: !this.state.switchValue });
+      showPopupAlert(constant.SERVER_ERROR_MESSAGE);
+      isCalledOnlineAPI = false;
+    }
   }
 
   componentWillReceiveProps(nextProps) {
+    this.manageOnlineStatusResponse(nextProps);
     if (!nextProps.isLoading
       && nextProps.driverWareHouseResponse.response
       && nextProps.driverWareHouseResponse.status === 200) {
@@ -80,7 +129,6 @@ class WareHouseView extends Component {
   }
 
   compare(a, b) {
-    console.log('********** data aaa', a, a.distance);
     if (a.distance < b.distance)
       {return -1;}
     if (a.distance > b.distance)
@@ -109,7 +157,6 @@ class WareHouseView extends Component {
   }
 
   onCalloutPress(e) {
-    console.log('****', selectedWareHouse);
     const { navigate } = this.props.navigation;
     // navigate('DriverOrder', { selectedWareHouse, lat: this.state.region.latitude, lng: this.state.region.longitude });
     navigate('ReserveOrder', {
@@ -132,6 +179,23 @@ class WareHouseView extends Component {
   onCallPress(phone) {
     const utils = new Utils();
     utils.onCallPress(phone);
+  }
+
+  toggleSwitch(value) {
+    onlineStats = value ? 1 : 0;
+    this.setState({ switchValue: onlineStats }, () => this.updateOnlineStatus());
+  }
+
+  updateOnlineStatus() {
+    const utils = new Utils();
+    utils.checkInternetConnectivity((reach) => {
+      if (reach) {
+        isCalledOnlineAPI = true;
+        this.props.onlineStatusRequest(driverID, onlineStats);
+      } else {
+        showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+      }
+    });
   }
 
   getRenderRow(item) {
@@ -191,6 +255,8 @@ class WareHouseView extends Component {
           region={this.state.region}
           dataArray={this.state.dataArray}
           markers={this.state.markers}
+          toggleSwitch={value => this.toggleSwitch(value)}
+          switchValue={this.state.switchValue}
         />
         {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
       </View>
@@ -200,8 +266,9 @@ class WareHouseView extends Component {
 
 
 const mapStateToProps = state => ({
-  isLoading: state.driverWareHouse.isLoading,
+  isLoading: state.driverWareHouse.isLoading || state.onlineStatus.isLoading,
   driverWareHouseResponse: state.driverWareHouse.driverWareHouseResponse,
+  onlineStatusResponse: state.onlineStatus.onlineStatusResponse,
 });
 
 const mapDispatchToProps = () => UserActions;

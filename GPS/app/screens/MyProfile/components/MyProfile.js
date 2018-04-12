@@ -14,7 +14,7 @@ import {
 import PropTypes from 'prop-types';
 import Images from '../../../assets/images';
 import NavBar from '../../../components/NavBar';
-import { BlueColor, OrangeColor, ButtonFontSize, GrayColor, HeaderFontSize, WhiteColor, FontFamilyName } from '../../../utils/constants';
+import { StatusBarHeight, BlueColor, OrangeColor, ButtonFontSize, GrayColor, HeaderFontSize, WhiteColor, FontFamilyName } from '../../../utils/constants';
 import images from '../../../assets/images';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -129,17 +129,65 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     backgroundColor: 'transparent',
   },
+  headrcontainer: {
+    backgroundColor: BlueColor,
+    height: 44,
+    width,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: StatusBarHeight,
+  },
+  leftNavBarIcon: {
+    width: 25,
+    height: 22,
+    alignSelf: 'center',
+    position: 'absolute',
+    left: 10,
+    top: 6,
+  },
+  rightNavBarIcon: {
+    width: 25,
+    height: 22,
+    alignSelf: 'center',
+  },
+  title: {
+    fontSize: HeaderFontSize,
+    color: WhiteColor,
+    alignSelf: 'center',
+    fontFamily: FontFamilyName,
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    left: 70,
+
+  },
 });
 
 const MyProfile = props => (
   <View style={styles.container}>
-    <NavBar
+    <View style={styles.headrcontainer}>
+    <TouchableOpacity style={styles.leftNavBarIcon} onPress={() => props.onLeftMenuPress()}>
+      <Image style={styles.leftNavBarIcon} source={Images.backArrow} />
+    </TouchableOpacity>
+    <Text style={styles.title}></Text>
+    <View style={styles.subHeaderView}>
+        <Switch
+          onValueChange = {(value) => props.toggleSwitch(value)}
+          value={props.switchValue ? true : false}
+        />
+        <Text style={styles.offlineText}>
+          Offline
+        </Text>
+      </View>
+  </View>
+    {/* <NavBar
       leftMenuIcon={Images.backArrow}
       leftMenuPress={() => props.onLeftMenuPress()}
       title="My Profile"
       isShowRightIcon={Boolean(false)}
       rightMenuIcon={Images.editOder}
-    />
+    /> */}
     <TouchableOpacity
     activeOpacity={1}
     style={{ flex: 1, justifyContent: 'center' }}
@@ -161,7 +209,7 @@ const MyProfile = props => (
           {props.name}
         </Text>
       </View>
-      <View style={styles.subHeaderView}>
+      {/* <View style={styles.subHeaderView}>
         <Switch
           onValueChange = {(value) => props.toggleSwitch(value)}
           value={props.switchValue ? true : false}
@@ -169,7 +217,7 @@ const MyProfile = props => (
         <Text style={styles.offlineText}>
           Offline
         </Text>
-      </View>
+      </View> */}
      <View style={styles.topView}>
       <View style={styles.cellView}>
         <Text style={styles.productCountText}>
