@@ -112,7 +112,7 @@ class Utils extends Component {
     if (month.length < 2) month = `0${month}`;
     if (day.length < 2) day = `0${day}`;
     let hours = date.getHours();
-    let strDate = [month, day, year].join('/');
+    let strDate = [month, day, year].join('-');
     var ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
