@@ -313,19 +313,20 @@ class OrderPlaceView extends Component {
       const token = await stripe.paymentRequestWithCardForm({
         // Only iOS support this options
         smsAutofillDisabled: true,
-        requiredBillingAddressFields: 'full',
-        prefilledInformation: {
-          billingAddress: {
-            name: 'Gunilla Haugeh',
-            line1: 'Canary Place',
-            line2: '3',
-            city: 'Macon',
-            state: 'Georgia',
-            country: 'US',
-            postalCode: '31217',
-            email: 'ghaugeh0@printfriendly.com',
-          },
-        },
+        
+       // requiredBillingAddressFields: 'zip',
+        // prefilledInformation: {
+        //   billingAddress: {
+        //     name: 'Gunilla Haugeh',
+        //     line1: 'Canary Place',
+        //     line2: '3',
+        //     city: 'Macon',
+        //     state: 'Georgia',
+        //     country: 'US',
+        //     postalCode: '31217',
+        //     email: 'ghaugeh0@printfriendly.com',
+        //   },
+        // },
       });
       console.log('stripe token', token.tokenId);
       this.setState({ token: token.tokenId });

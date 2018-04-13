@@ -60,7 +60,7 @@ class MyProfileView extends Component {
     }
     new Utils().getItemWithKey('DRIVER_USER_DETAILS', (response) => {
       if (response) {
-        this.setState({ switchValue: Number(response.online_status) });
+        this.setState({ switchValue: !Number(response.online_status) });
       }
     });
   }
@@ -204,8 +204,8 @@ class MyProfileView extends Component {
   }
 
   toggleSwitch(value) {
-    onlineStats = value ? 1 : 0;
-    this.setState({ switchValue: onlineStats }, () => this.updateOnlineStatus());
+    onlineStats = value ? 0 : 1;
+    this.setState({ switchValue: !onlineStats }, () => this.updateOnlineStatus());
   }
 
   updateOnlineStatus() {
