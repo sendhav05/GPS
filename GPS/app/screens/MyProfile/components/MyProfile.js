@@ -142,10 +142,15 @@ const styles = StyleSheet.create({
   leftNavBarIcon: {
     width: 25,
     height: 22,
+  },
+  leftNavBarTochable: {
+    width: 35,
+    height: 44,
     alignSelf: 'center',
     position: 'absolute',
+    justifyContent: 'center',
     left: 10,
-    top: 6,
+    backgroundColor: 'transparent',
   },
   rightNavBarIcon: {
     width: 25,
@@ -167,7 +172,7 @@ const styles = StyleSheet.create({
 const MyProfile = props => (
   <View style={styles.container}>
     <View style={styles.headrcontainer}>
-    <TouchableOpacity style={styles.leftNavBarIcon} onPress={() => props.onLeftMenuPress()}>
+    <TouchableOpacity style={styles.leftNavBarTochable} onPress={() => props.onLeftMenuPress()}>
       <Image style={styles.leftNavBarIcon} source={Images.backArrow} />
     </TouchableOpacity>
     <Text style={styles.title}></Text>

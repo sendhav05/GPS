@@ -92,10 +92,15 @@ const styles = StyleSheet.create({
   leftNavBarIcon: {
     width: 25,
     height: 22,
+  },
+  leftNavBarTochable: {
+    width: 35,
+    height: 44,
     alignSelf: 'center',
     position: 'absolute',
+    justifyContent: 'center',
     left: 10,
-    top: 6,
+    backgroundColor: 'transparent',
   },
   rightNavBarIcon: {
     width: 25,
@@ -133,21 +138,21 @@ const styles = StyleSheet.create({
 
 const WareHouseList = props => (
   <View style={styles.container}>
-  <View style={styles.headrcontainer}>
-    <TouchableOpacity style={styles.leftNavBarIcon} onPress={() => props.onLeftMenuPress()}>
-      <Image style={styles.leftNavBarIcon} source={Images.menu} />
-    </TouchableOpacity>
-    <Text style={styles.title}>Pick Warehouse</Text>
-    <View style={styles.subHeaderView}>
+    <View style={styles.headrcontainer}>
+      <TouchableOpacity style={styles.leftNavBarTochable} onPress={() => props.onLeftMenuPress()}>
+        <Image style={styles.leftNavBarIcon} source={Images.menu} />
+      </TouchableOpacity>
+      <Text style={styles.title}>Pick Warehouse</Text>
+      <View style={styles.subHeaderView}>
         <Switch
-          onValueChange = {(value) => props.toggleSwitch(value)}
-          value={props.switchValue ? true : false}
+          onValueChange={value => props.toggleSwitch(value)}
+          value={!!props.switchValue}
         />
         <Text style={styles.offlineText}>
           Offline
         </Text>
       </View>
-  </View>
+    </View>
     <View style={styles.bodyView}>
       <FlatList
         style={styles.flatListStyle}
