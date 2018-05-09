@@ -11,7 +11,7 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Images from '../../../assets/images';
 import { BlueColor } from '../../../utils/constants';
 
@@ -135,6 +135,7 @@ const SignIn = props => (
               onChangeText={emailPhoneNumber => props.updateEmailPhoneNumber(emailPhoneNumber)}
               value={props.emailPhoneNumber}
               underlineColorAndroid="transparent"
+              autoCapitalize="none"
             />
             <TextInput
               style={styles.phoneNumberTextInput}
@@ -144,6 +145,7 @@ const SignIn = props => (
               value={props.password}
               underlineColorAndroid="transparent"
               secureTextEntry={Boolean(true)}
+              autoCapitalize="none"
             />
             <TouchableOpacity
               style={styles.forgotPasswordButton}

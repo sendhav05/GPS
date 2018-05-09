@@ -30,11 +30,14 @@ class CustomerOrderView extends Component {
     super(props);
     this.state = {
       orderList: [],
+      isRefreshView: false,
     };
     this.refreshDriverOrderData = this.refreshDriverOrderData.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
+    this.onCompletedOrderPres();
+    this.onPendingOrderPress();
     // Pending Orders
     if (!nextProps.isLoading
       && isPendingOrderAPI
@@ -45,7 +48,8 @@ class CustomerOrderView extends Component {
       if (nextProps.customerPendingOrdersResponse
         && nextProps.customerPendingOrdersResponse.response.data) {
         pedingOrders = nextProps.customerPendingOrdersResponse.response.data;
-        this.setState({ orderList: nextProps.customerPendingOrdersResponse.response.data });
+        this.onPendingOrderPress();
+        this.setState({ isRefreshView: !this.state.isRefreshView });
       } else {
         showPopupAlert(constant.EMPTY_RECORD_MESSAGE);
       }
@@ -88,6 +92,9 @@ class CustomerOrderView extends Component {
   }
 
   componentDidMount() {
+    pedingOrders = [];
+    completeOrders = [];
+
     const utils = new Utils();
     utils.isFlowFromCustomer((response) => {
       if (response) {
@@ -197,6 +204,7 @@ class CustomerOrderView extends Component {
           onCompletedOrderPres={() => this.onCompletedOrderPres()}
           getRenderRow={item => this.getRenderRow(item)}
           leftMenuItems={this.state.orderList}
+          extraData={this.state}
         />
         {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
       </View>

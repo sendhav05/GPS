@@ -9,14 +9,13 @@ import {
   TextInput,
   Keyboard,
   Dimensions,
-  KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Images from '../../../assets/images';
 import { BlueColor } from '../../../utils/constants';
 
 const { width } = Dimensions.get('window');
-const keyboardBehavior = (Platform.OS === 'ios' ? 'position' : null);
 
 const styles = StyleSheet.create({
   container: {
@@ -45,12 +44,12 @@ const styles = StyleSheet.create({
   },
   forgotPasswordText: {
     color: 'rgba(1,130,168,1)',
-    fontSize: 11,
-    fontWeight: '400',
+    fontSize: 12,
+    fontWeight: '500',
   },
   bodyView: {
     flex: 1,
-    marginTop: 25,
+    marginTop: 10,
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: 'rgba(245,172,35,0)',
@@ -60,7 +59,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
     height: 40,
     width: width - 60,
-    marginTop: 30,
+    marginTop: 15,
     fontSize: 14,
     color: BlueColor,
     borderWidth: 1,
@@ -73,7 +72,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,101,70,1)',
     marginLeft: 40,
     marginRight: 40,
-    marginTop: 30,
+    marginTop: 15,
     height: 40,
     width: width - 80,
     alignItems: 'center',
@@ -103,14 +102,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const VerifyOTP = props => (
+
+const SignIn = props => (
   <TouchableOpacity
     activeOpacity={1}
     style={{ flex: 1, justifyContent: 'center' }}
     onPress={() => Keyboard.dismiss()}
   >
     <View style={styles.container}>
-      <KeyboardAvoidingView behavior={keyboardBehavior}>
+      <KeyboardAwareScrollView>
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => props.onBacnkPress()}
@@ -127,49 +127,63 @@ const VerifyOTP = props => (
             resizeMode="contain"
             source={Images.logo}
           />
-          <View style={[styles.bodyView, { marginTop: 85 }]}>
-            <Text style={styles.forgotPasswordText}>
-              Mobile Number Verification
-            </Text>
+          <View style={styles.textInputView}>
             <TextInput
               style={styles.phoneNumberTextInput}
-              placeholder="Enter OTP"
+              placeholder="Email or Phone"
               placeholderTextColor="rgba(70,64,172,1)"
-              onChangeText={otpNumber => props.updateOTPNumber(otpNumber)}
-              value={props.otpNumber}
-              keyboardType="number-pad"
+              onChangeText={emailPhoneNumber => props.updateEmailPhoneNumber(emailPhoneNumber)}
+              value={props.emailPhoneNumber}
               underlineColorAndroid="transparent"
-              secureTextEntry={Boolean(false)}
+            />
+            {/* <TextInput
+              style={styles.phoneNumberTextInput}
+              placeholder="Password"
+              placeholderTextColor="rgba(70,64,172,1)"
+              onChangeText={password => props.updatePassword(password)}
+              value={props.password}
+              underlineColorAndroid="transparent"
+              secureTextEntry={Boolean(true)}
             />
             <TouchableOpacity
-              style={styles.loginButton}
-              onPress={() => props.onVerifyOTPPress()}
+              style={styles.forgotPasswordButton}
+              onPress={() => props.onForgotPassowrdPress()}
             >
-              <Text style={styles.buttonText}>
-                Verify
+              <Text style={styles.forgotPasswordText}>
+                forgot password?
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+          </View>
+          <View style={[styles.bodyView, { marginTop: 50 }]}>
             <TouchableOpacity
-              style={[styles.loginButton, { marginTop: 20 }]}
-              onPress={() => props.onResendOTPPress()}
+              style={styles.loginButton}
+              onPress={() => props.onLoginPress()}
             >
               <Text style={styles.buttonText}>
-                Resend OTP
+                Login
               </Text>
             </TouchableOpacity>
+            {/* <TouchableOpacity
+              style={styles.loginButton}
+              onPress={() => props.onBecomeDriverPress()}
+            >
+              <Text style={styles.buttonText}>
+                { props.isFromCustomer ? 'Register' : 'Become a Driver' }
+              </Text>
+            </TouchableOpacity> */}
           </View>
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </View>
   </TouchableOpacity>
 );
 
-VerifyOTP.propTypes = {
-  onVerifyOTPPress: PropTypes.func,
+SignIn.propTypes = {
+  onForgotPassowrdPress: PropTypes.func,
 };
 
-VerifyOTP.defaultProps = {
-  onVerifyOTPPress: () => {},
+SignIn.defaultProps = {
+  onForgotPassowrdPress: () => {},
 };
 
-export default VerifyOTP;
+export default SignIn;

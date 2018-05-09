@@ -10,7 +10,8 @@ import { loginUrl, signupUrl, wareHoueUrl, categoryListUrl,
   uploadDocumentUrl, fetchDriverDocURl, uploadDeliveryDocumentUrl,
   uploadVehiclePhotoUrl, uploadVDriverPhotoUrl, updateProfileUrl,
   fetchProfileDataUrl, earningDataURl, updateDriverDocumentNumberUrl,
-  onlineStatusUrl, driverReviewUrl, helpURl } from '../api/urls';
+  onlineStatusUrl, driverReviewUrl, helpURl, verifyOTPUrl,
+  resendOTPUrl, forgotPasswordUrl } from '../api/urls';
 import { postApiAction, getApiAction } from '../api/actions/apiActions';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
@@ -132,6 +133,18 @@ export const HELP_REQUEST = 'HELP_REQUEST';
 export const HELP_SUCCESS = 'HELP_SUCCESS';
 export const HELP_FAILURE = 'HELP_FAILURE';
 
+export const VERIFY_OTP_REQUEST = 'VERIFY_OTP_REQUEST';
+export const VERIFY_OTP_SUCCESS = 'VERIFY_OTP_SUCCESS';
+export const VERIFY_OTP_FAILURE = 'VERIFY_OTP_FAILURE';
+
+export const RESEND_OTP_REQUEST = 'RESEND_OTP_REQUEST';
+export const RESEND_OTP_SUCCESS = 'RESEND_OTP_SUCCESS';
+export const RESEND_OTP_FAILURE = 'RESEND_OTP_FAILURE';
+
+export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST';
+export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
+export const FORGOT_PASSWORD_FAILURE = 'FORGOT_PASSWORD_FAILURE';
+
 export const userLoginRequest = (email, password, type, deviceToken, deviceType) => {
   const url = loginUrl(email, password, type, deviceToken, deviceType);
   return postApiAction({
@@ -178,12 +191,12 @@ export const fetchProductRequest = (id) => {
 export const orderPlaceRequest = (
   name, contectno, email, pincode, state,
   city, address, landmark, paymentid, paymenttype, paymentstatus,
-  totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime, deliveryDistance, deliveryPayment
+  totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime, deliveryDistance, deliveryPayment, Itemprice,
 ) => {
   const url = orderPlaceUrl(
     name, contectno, email, pincode, state,
     city, address, landmark, paymentid, paymenttype, paymentstatus,
-    totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime, deliveryDistance, deliveryPayment
+    totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime, deliveryDistance, deliveryPayment, Itemprice,
   );
   console.log('********* order place', url);
   return postApiAction({
@@ -449,6 +462,15 @@ export const onlineStatusRequest = (driverid, onlinestatus) => {
   });
 };
 
+export const helpRequest = () => {
+  const url = helpURl();
+  return getApiAction({
+    types: [HELP_REQUEST, HELP_SUCCESS, HELP_FAILURE],
+    url,
+  });
+};
+
+
 export const driverReviewRequest = (driverid) => {
   const url = driverReviewUrl(driverid);
   return getApiAction({
@@ -457,10 +479,27 @@ export const driverReviewRequest = (driverid) => {
   });
 };
 
-export const helpRequest = () => {
-  const url = helpURl();
+export const verifyOTPRequest = (userid, otp) => {
+  const url = verifyOTPUrl(userid, otp);
   return getApiAction({
-    types: [HELP_REQUEST, HELP_SUCCESS, HELP_FAILURE],
+    types: [VERIFY_OTP_REQUEST, VERIFY_OTP_SUCCESS, VERIFY_OTP_FAILURE],
     url,
   });
 };
+
+export const resendOTPRequest = (emailPhone) => {
+  const url = resendOTPUrl(emailPhone);
+  return getApiAction({
+    types: [RESEND_OTP_REQUEST, RESEND_OTP_SUCCESS, RESEND_OTP_FAILURE],
+    url,
+  });
+};
+
+export const forgotPasswordRequest = (emailPhone) => {
+  const url = forgotPasswordUrl(emailPhone);
+  return getApiAction({
+    types: [FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE],
+    url,
+  });
+};
+

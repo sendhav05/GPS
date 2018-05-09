@@ -88,7 +88,8 @@ export const productListUrl = (id) => {
 export const orderPlaceUrl = (
   name, contectno, email, pincode, state,
   city, address, landmark, paymentid, paymenttype, paymentstatus,
-  totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime, deliveryDistance, deliveryPayment
+  totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime, deliveryDistance,
+  deliveryPayment, Itemprice,
 ) => {
   const url = `${getBaseUrl}/order`;
   let param = '';
@@ -112,6 +113,7 @@ export const orderPlaceUrl = (
   if (deliverytime) { if (param) { param = `${param}&`; } param = `${param}delivery_time=${deliverytime}`; }
   if (deliveryDistance) { if (param) { param = `${param}&`; } param = `${param}delivery_distance=${deliveryDistance}`; }
   if (deliveryPayment) { if (param) { param = `${param}&`; } param = `${param}delivery_payment=${deliveryPayment}`; }
+  if (Itemprice) { if (param) { param = `${param}&`; } param = `${param}Item_price=${Itemprice}`; }
 
   if (param) {
     return `${url}?${param}`;
@@ -558,5 +560,37 @@ export const driverReviewUrl = (driverid) => {
 
 export const helpURl = () => {
   const url = `${getBaseUrl}/help`;
+  return url;
+};
+
+export const verifyOTPUrl = (userid, otp) => {
+  const url = `${getBaseUrl}/Registration/confirmotp`;
+  let param = '';
+  if (userid) { if (param) { param = `${param}&`; } param = `${param}user_id=${userid}`; }
+  if (otp) { if (param) { param = `${param}&`; } param = `${param}otp=${otp}`; }
+
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
+
+export const resendOTPUrl = (emailPhone) => {
+  const url = `${getBaseUrl}/Registration/resendotp`;
+  let param = '';
+  if (emailPhone) { if (param) { param = `${param}&`; } param = `${param}emailphone=${emailPhone}`; }
+  if (param) {
+    return `${url}?${param}`;
+  }
+  return url;
+};
+
+export const forgotPasswordUrl = (emailPhone) => {
+  const url = `${getBaseUrl}/Registration/forgotpassword`;
+  let param = '';
+  if (emailPhone) { if (param) { param = `${param}&`; } param = `${param}emailphone=${emailPhone}`; }
+  if (param) {
+    return `${url}?${param}`;
+  }
   return url;
 };

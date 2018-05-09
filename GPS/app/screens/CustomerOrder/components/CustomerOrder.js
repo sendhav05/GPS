@@ -95,6 +95,7 @@ const CustomerOrder = props => (
         data={props.leftMenuItems}
         renderItem={data => props.getRenderRow(data)}
         keyExtractor={item => item.order_id}
+        extraData={props.extraData}
       />
     </View>
   </View>

@@ -21,6 +21,8 @@ import updateDocData from './updateDocData';
 import onlineStatus from './onlineStatus';
 import review from './review';
 import help from './help';
+import verifyOTP from './verifyOTP';
+import forgotPassword from './forgotPassword';
 
 const reducers = {
   login,
@@ -45,6 +47,8 @@ const reducers = {
   onlineStatus,
   review,
   help,
+  verifyOTP,
+  forgotPassword,
 };
 
 export default combineReducers(reducers);

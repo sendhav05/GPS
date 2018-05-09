@@ -34,6 +34,7 @@ import SettingsScreen from '../screens/Settings';
 import MyProfileScreen from '../screens/MyProfile';
 import ReviewScreen from '../screens/Review';
 import HistoryScreen from '../screens/History';
+import ForgotPasswordScreen from '../screens/ForgotPassword';
 
 const noTransitionConfig = () => ({
   transitionSpec: {
@@ -385,6 +386,14 @@ const LoginStack = StackNavigator({
   VerifyOTP: {
     screen: VerifyOTPScreen,
     key: 'VerifyOTPScreen',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  ForgotPassword: {
+    screen: ForgotPasswordScreen,
+    key: 'ForgotPasswordScreen',
     navigationOptions: {
       header: null,
       gesturesEnabled: false,

@@ -258,8 +258,9 @@ class OrderPlaceView extends Component {
     const itemid = encodeURIComponent(JSON.stringify(itemiddata));
     const deliverytime = new Utils().convertDateToString(this.state.deliveryDatetime);
     const deliveryDistance = this.state.distanceMiles;
-    const deliveryPayment = totalPrice;
+    const deliveryPayment = this.state.deliveryCharge;
     const isValid = this.validateAllField();
+    const Itemprice = oneItemPrice;
     if (isValid) {
       const utils = new Utils();
       utils.checkInternetConnectivity((reach) => {
@@ -268,7 +269,8 @@ class OrderPlaceView extends Component {
           this.props.orderPlaceRequest(
             name, contectno, email, pincode, state,
             city, address, landmark, paymentid, paymenttype, paymentstatus,
-            totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime, deliveryDistance, deliveryPayment
+            totallamount, customerid, itemid, warehouseid, lat, lng, deliverytime, deliveryDistance,
+            deliveryPayment, Itemprice,
           );
         } else {
           showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);

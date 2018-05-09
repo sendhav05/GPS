@@ -49,6 +49,7 @@ class OrderPlaceView extends Component {
     if (!this.state.isShowReserveOrderView) {
       const navigationParams = this.props.navigation.state.params;
       warehouseDetails = navigationParams.warehouseDetails;
+      console.log('***** warehouseDetails ', warehouseDetails);
 
       if (Number(warehouseDetails.order_status) === 5) {
         this.setState({ deliveredBtnEnabled: true });
@@ -197,27 +198,33 @@ class OrderPlaceView extends Component {
 
   onConfirmPress() {
     clearInterval(timerId);
-    const navigationParams = this.props.navigation.state.params;
-    if (this.state.totalorder) {
-      // let orderids = '';
-      // const datas = [];
+    new Utils().getItemWithKey('DRIVER_USER_DETAILS', (response) => {
+      if (response && response.online_status) {
+        const navigationParams = this.props.navigation.state.params;
+        if (this.state.totalorder) {
+          // let orderids = '';
+          // const datas = [];
 
-      // for (let i = 0; i < navigationParams.confirmOrders.length; i++) {
-      //   datas.push(navigationParams.confirmOrders[i].order_id);
-      // }
-      // orderids = datas.toString();
-      const utils = new Utils();
-      utils.checkInternetConnectivity((reach) => {
-        if (reach) {
-          isCallReserveAPI = true;
-          this.props.reserveOrderRequest(driverID, this.state.totalorder, navigationParams.selectedWareHouse.warehouse_id);
+          // for (let i = 0; i < navigationParams.confirmOrders.length; i++) {
+          //   datas.push(navigationParams.confirmOrders[i].order_id);
+          // }
+          // orderids = datas.toString();
+          const utils = new Utils();
+          utils.checkInternetConnectivity((reach) => {
+            if (reach) {
+              isCallReserveAPI = true;
+              this.props.reserveOrderRequest(driverID, this.state.totalorder, navigationParams.selectedWareHouse.warehouse_id);
+            } else {
+              showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+            }
+          });
         } else {
-          showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
+          showPopupAlert('Please add reserve order.');
         }
-      });
-    } else {
-      showPopupAlert('Please add reserve order.');
-    }
+      } else {
+        showPopupAlert('You are in offline mode.');
+      }
+    });
   }
 
   onBacnkPress() {
