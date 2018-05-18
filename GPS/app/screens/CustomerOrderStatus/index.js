@@ -61,13 +61,13 @@ class OrderStatusView extends Component {
   }
 
   onCallPress() {
+    console.log('******** data');
     const navigationParams = this.props.navigation.state.params;
+    console.log('******** navigationParams', navigationParams.selectedOrderItem);
 
-    const args = {
-      number: navigationParams.selectedOrderItem.contact, // String value with the number to call
-      prompt: false // Optional boolean property. Determines if the user should be prompt prior to the call 
+    if (navigationParams && navigationParams.selectedOrderItem && navigationParams.selectedOrderItem.contact) {
+      new Utils().onCallPress();
     }
-    call(args).catch(console.error)
   }
 
   cancelOrderPress() {

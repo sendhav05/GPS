@@ -13,9 +13,10 @@ class Utils extends Component {
   }
 
   onCallPress(phone) {
-    if (phone) {
+    const mobile = Number(phone);
+    if (mobile) {
       const args = {
-        number: phone, // String value with the number to call
+        number: mobile, // String value with the number to call
       };
       call(args).catch(console.error);
     } else {
