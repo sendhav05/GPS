@@ -3,6 +3,7 @@
 import { Component } from 'react';
 import { AsyncStorage, NetInfo } from 'react-native';
 import call from 'react-native-phone-call';
+import { showOptionAlert, showPopupAlert } from './showAlert';
 
 
 class Utils extends Component {
@@ -12,10 +13,14 @@ class Utils extends Component {
   }
 
   onCallPress(phone) {
-    const args = {
-      number: phone, // String value with the number to call
-    };
-    call(args).catch(console.error);
+    if (phone) {
+      const args = {
+        number: phone, // String value with the number to call
+      };
+      call(args).catch(console.error);
+    } else {
+      showPopupAlert('Mobile number not found');
+    }
   }
 
   setCustomerID(value) {

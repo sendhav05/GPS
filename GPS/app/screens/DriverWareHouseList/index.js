@@ -49,13 +49,14 @@ class WareHouseView extends Component {
       }],
     };
     this.toggleSwitch = this.toggleSwitch.bind(this);
+    this.refreshData = this.refreshData.bind(this);
   }
 
   componentDidMount() {
     this.fetchCurrentLocation();
     new Utils().getItemWithKey('DRIVER_USER_DETAILS', (response) => {
       if (response) {
-        this.setState({ switchValue: !Number(response.online_status) });
+        this.setState({ switchValue: Number(response.online_status) });
       }
     });
     const utils = new Utils();
@@ -148,6 +149,7 @@ class WareHouseView extends Component {
       selectedWareHouse: selectedItem,
       lat: this.state.region.latitude,
       lng: this.state.region.longitude,
+      refreshData: this.refreshData,
     });
   }
 
@@ -164,6 +166,7 @@ class WareHouseView extends Component {
       selectedWareHouse,
       lat: this.state.region.latitude,
       lng: this.state.region.longitude,
+      refreshData: this.refreshData,
     });
   }
 
@@ -182,8 +185,8 @@ class WareHouseView extends Component {
   }
 
   toggleSwitch(value) {
-    onlineStats = value ? 0 : 1;
-    this.setState({ switchValue: !onlineStats }, () => this.updateOnlineStatus());
+    onlineStats = value ? 1 : 0;
+    this.setState({ switchValue: onlineStats }, () => this.updateOnlineStatus());
   }
 
   updateOnlineStatus() {
@@ -242,6 +245,9 @@ class WareHouseView extends Component {
     });
   }
 
+  refreshData() {
+    this.getWareHouseDataFromServer();
+  }
 
   render() {
     return (

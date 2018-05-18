@@ -192,7 +192,6 @@ class OrderPlaceView extends Component {
 
 
   onCancelPress() {
-    console.log('***** onChoosePaymentPress ');
     this.cancelOrder();
   }
 
@@ -200,6 +199,7 @@ class OrderPlaceView extends Component {
     clearInterval(timerId);
     new Utils().getItemWithKey('DRIVER_USER_DETAILS', (response) => {
       if (response && response.online_status) {
+
         const navigationParams = this.props.navigation.state.params;
         if (this.state.totalorder) {
           // let orderids = '';
@@ -228,6 +228,7 @@ class OrderPlaceView extends Component {
   }
 
   onBacnkPress() {
+    this.props.navigation.state.params.refreshData();
     const { goBack } = this.props.navigation;
     goBack(null);
   }
@@ -386,11 +387,16 @@ class OrderPlaceView extends Component {
       if (position.coords.latitude && position.coords.longitude) {
         driverLat = position.coords.latitude;
         driverLng = position.coords.longitude;
+        console.log('********** postion', position);
       } else {
         // showPopupAlert('Not Found Location.');
+        console.log('********** rroror');
+
       }
     }, (error) => {
       // showPopupAlert(JSON.stringify(error));
+      console.log('********** error', error);
+
     }, {
       enableHighAccuracy: false,
       timeout: 20000,
