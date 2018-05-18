@@ -182,7 +182,7 @@ const MyProfile = props => (
           value={props.switchValue ? true : false}
         />
         <Text style={styles.offlineText}>
-          Offline
+          { !props.switchValue ? 'Offline' : 'Online'}
         </Text>
       </View>
   </View>

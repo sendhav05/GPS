@@ -48,16 +48,29 @@ class App extends Component {
       && nextProps.userLoginResponse.response
       && nextProps.userLoginResponse.response.status_code === 200) {
       const utils = new Utils();
-      if (this.props.navigation.state.params.isFromCustomer) {
-        utils.setCustomerID(nextProps.userLoginResponse.response.data.user_id);
-        utils.setItemWithKeyAndValue('CUSTOMER_USER_DETAILS', nextProps.userLoginResponse.response.data);
-        // utils.setItemWithKeyAndValue('CUSTOMER_USER_PASSWORD', this.state.password );
+      if (nextProps.userLoginResponse.response.status) {
+        if (this.props.navigation.state.params.isFromCustomer) {
+          utils.setCustomerID(nextProps.userLoginResponse.response.data.user_id);
+          utils.setItemWithKeyAndValue('CUSTOMER_USER_DETAILS', nextProps.userLoginResponse.response.data);
+          utils.setItemWithKeyAndValue('CUSTOMER_USER_PASSWORD', this.state.password );
+        } else {
+          utils.setDriverID(nextProps.userLoginResponse.response.data.user_id);
+          utils.setItemWithKeyAndValue('DRIVER_USER_DETAILS', nextProps.userLoginResponse.response.data);
+          utils.setItemWithKeyAndValue('DRIVER_USER_PASSWORD', this.state.password );
+        }
+        this.navigateTOScreen(Number(nextProps.userLoginResponse.response.data.status));
       } else {
-        utils.setDriverID(nextProps.userLoginResponse.response.data.user_id);
-        utils.setItemWithKeyAndValue('DRIVER_USER_DETAILS', nextProps.userLoginResponse.response.data);
-        // utils.setItemWithKeyAndValue('DRIVER_USER_PASSWORD', this.state.password );
+        if (this.props.navigation.state.params.isFromCustomer) {
+          utils.setCustomerID(nextProps.userLoginResponse.response.data.user_id);
+          utils.setItemWithKeyAndValue('CUSTOMER_USER_DETAILS', nextProps.userLoginResponse.response.data);
+          // utils.setItemWithKeyAndValue('CUSTOMER_USER_PASSWORD', this.state.password );
+        } else {
+          utils.setDriverID(nextProps.userLoginResponse.response.data.user_id);
+          utils.setItemWithKeyAndValue('DRIVER_USER_DETAILS', nextProps.userLoginResponse.response.data);
+          // utils.setItemWithKeyAndValue('DRIVER_USER_PASSWORD', this.state.password );
+        }
+        this.navigateTOScreen(Number(0));
       }
-      this.navigateTOScreen(Number(nextProps.userLoginResponse.response.data.status));
     } else if (!nextProps.isLoading && nextProps.userLoginResponse.response
       && nextProps.userLoginResponse.response.status_code !== 200) {
       if (nextProps.userLoginResponse.response.message && typeof nextProps.userLoginResponse.response.message === 'string') {

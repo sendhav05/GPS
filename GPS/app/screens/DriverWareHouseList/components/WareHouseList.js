@@ -149,7 +149,7 @@ const WareHouseList = props => (
           value={!!props.switchValue}
         />
         <Text style={styles.offlineText}>
-          Offline
+          { !props.switchValue ? 'Offline' : 'Online'}
         </Text>
       </View>
     </View>

@@ -133,6 +133,7 @@ const Signup = props => (
               onChangeText={name => props.updateName(name)}
               value={props.name}
               underlineColorAndroid="transparent"
+              autoCapitalize="none"
             />
             <TextInput
               style={styles.phoneNumberTextInput}
@@ -142,6 +143,7 @@ const Signup = props => (
               onChangeText={email => props.updateEmail(email)}
               value={props.email}
               underlineColorAndroid="transparent"
+              autoCapitalize="none"
             />
             <TextInput
               style={styles.phoneNumberTextInput}
@@ -151,6 +153,7 @@ const Signup = props => (
               onChangeText={phone => props.updatePhone(phone)}
               value={props.phone}
               underlineColorAndroid="transparent"
+              autoCapitalize="none"
             />  
             <TextInput
               style={styles.phoneNumberTextInput}
@@ -160,6 +163,7 @@ const Signup = props => (
               value={props.password}
               underlineColorAndroid="transparent"
               secureTextEntry={Boolean(true)}
+              autoCapitalize="none"
             />  
             <TextInput
               style={styles.phoneNumberTextInput}
@@ -169,6 +173,7 @@ const Signup = props => (
               value={props.confirmPassowrd}
               underlineColorAndroid="transparent"
               secureTextEntry={Boolean(true)}
+              autoCapitalize="none"
             />
           </View>
           <View style={[styles.bodyView, { marginTop: 100 }]}>
