@@ -72,7 +72,7 @@ class WareHouseView extends Component {
       && nextProps.onlineStatusResponse.status === 200) {
       isCalledOnlineAPI = false;
       if (nextProps.onlineStatusResponse.response.message && typeof nextProps.onlineStatusResponse.response.message === 'string') {
-        showPopupAlert(nextProps.onlineStatusResponse.response.message);
+        // showPopupAlert(nextProps.onlineStatusResponse.response.message);
         isCalledOnlineAPI = false;
         new Utils().getItemWithKey('DRIVER_USER_DETAILS', (response) => {
           if (response) {
