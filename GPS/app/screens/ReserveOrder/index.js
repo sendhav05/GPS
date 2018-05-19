@@ -289,12 +289,12 @@ class OrderPlaceView extends Component {
 
     const data = {
       source: {
-        latitude: navigationParams.selectedWareHouse.lat,
-        longitude: navigationParams.selectedWareHouse.lng,
+        latitude: driverLat,
+        longitude: driverLng,
       },
       destination: {
-        latitude: navigationParams.lat,
-        longitude: navigationParams.lng,
+        latitude: navigationParams.selectedWareHouse.lat,
+        longitude: navigationParams.selectedWareHouse.lng,
       },
       params: [
         {
