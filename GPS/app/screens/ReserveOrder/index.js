@@ -31,10 +31,13 @@ let isCallPickupDoneAPI = false;
 let isCallCompletedAPI = false;
 let isCallReserveAPI = false;
 let isUploadDocumentAPI = false;
+let isCalledRefresh = false;
 
 class OrderPlaceView extends Component {
   constructor(props) {
     super(props);
+    const navigationParams = this.props.navigation.state.params;
+    isCalledRefresh = (navigationParams && navigationParams.isCalledRefresh) ? true : false;
     this.state = {
       isShowImagePopup: false,
       totalorder: 1,
@@ -49,8 +52,6 @@ class OrderPlaceView extends Component {
     if (!this.state.isShowReserveOrderView) {
       const navigationParams = this.props.navigation.state.params;
       warehouseDetails = navigationParams.warehouseDetails;
-      console.log('***** warehouseDetails ', warehouseDetails);
-
       if (Number(warehouseDetails.order_status) === 5) {
         this.setState({ deliveredBtnEnabled: true });
       }
@@ -89,8 +90,6 @@ class OrderPlaceView extends Component {
         showPopupAlert(nextProps.reserveOrderResponse.response.message);
         reserveID = nextProps.reserveOrderResponse.response.data.reserve_order_id;
         warehouseDetails = nextProps.reserveOrderResponse.response.data.warehouse_details;
-        console.log('***** nextProps.reserveOrderResponse.response.data ', nextProps.reserveOrderResponse.response.data);
-
         timerId = setInterval(() => this.setTimePassed(), 1000);
         isCallReserveAPI = false;
         return;
@@ -228,7 +227,9 @@ class OrderPlaceView extends Component {
   }
 
   onBacnkPress() {
-    this.props.navigation.state.params.refreshData();
+    if (isCalledRefresh) {
+      this.props.navigation.state.params.refreshData();
+    }
     const { goBack } = this.props.navigation;
     goBack(null);
   }
@@ -369,15 +370,12 @@ class OrderPlaceView extends Component {
   onPlusPress() {
     const navigationParams = this.props.navigation.state.params;
     const maxOrder = Number(navigationParams.selectedWareHouse.totalorder);
-    console.log('********** wae',this.state.totalorder, maxOrder);
     if (this.state.totalorder < 3 && this.state.totalorder < maxOrder) {
       this.setState({ totalorder: this.state.totalorder + 1 });
     }
   }
 
   onCallPress(phone) {
-    console.log('@@@@@@@@@@ phone', phone);
-
     const utils = new Utils();
     utils.onCallPress(phone);
   }
@@ -387,16 +385,11 @@ class OrderPlaceView extends Component {
       if (position.coords.latitude && position.coords.longitude) {
         driverLat = position.coords.latitude;
         driverLng = position.coords.longitude;
-        console.log('********** postion', position);
       } else {
         // showPopupAlert('Not Found Location.');
-        console.log('********** rroror');
-
       }
     }, (error) => {
       // showPopupAlert(JSON.stringify(error));
-      console.log('********** error', error);
-
     }, {
       enableHighAccuracy: false,
       timeout: 20000,

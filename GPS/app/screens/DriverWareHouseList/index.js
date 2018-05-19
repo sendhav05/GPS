@@ -150,6 +150,7 @@ class WareHouseView extends Component {
       lat: this.state.region.latitude,
       lng: this.state.region.longitude,
       refreshData: this.refreshData,
+      isCalledRefresh: true,
     });
   }
 
@@ -167,6 +168,7 @@ class WareHouseView extends Component {
       lat: this.state.region.latitude,
       lng: this.state.region.longitude,
       refreshData: this.refreshData,
+      isCalledRefresh: true,
     });
   }
 

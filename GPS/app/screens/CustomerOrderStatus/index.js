@@ -61,12 +61,9 @@ class OrderStatusView extends Component {
   }
 
   onCallPress() {
-    console.log('******** data');
     const navigationParams = this.props.navigation.state.params;
-    console.log('******** navigationParams', navigationParams.selectedOrderItem);
-
     if (navigationParams && navigationParams.selectedOrderItem && navigationParams.selectedOrderItem.contact) {
-      new Utils().onCallPress();
+      new Utils().onCallPress(navigationParams.selectedOrderItem.contact);
     }
   }
 
