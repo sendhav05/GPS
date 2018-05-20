@@ -21,8 +21,11 @@ import { defaultLat, defaultLng } from '../../utils/constants';
 class OrderStatusView extends Component {
   constructor(props) {
     super(props);
+    const navigationParams = props.navigation.state.params;
+    const selectedOrder = navigationParams ? navigationParams.selectedOrderItem : null;
     this.state = {
       dataArray: [],
+      orderStatus: selectedOrder ? selectedOrder.order_status : 0,
       region: {
         latitude: defaultLat,
         longitude: defaultLng,
@@ -107,6 +110,7 @@ class OrderStatusView extends Component {
           destination={destination}
           mapKey={GOOGLE_MAPS_APIKEY}
           region={this.state.region}
+          orderStatus={this.state.orderStatus}
         />
         {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />}
       </View>

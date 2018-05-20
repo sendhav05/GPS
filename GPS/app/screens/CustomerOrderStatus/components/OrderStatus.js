@@ -17,6 +17,7 @@ import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 
 const { width } = Dimensions.get('window');
+const defultColor = 'rgba(54, 56, 58, 1.0)';
 
 const styles = StyleSheet.create({
   container: {
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderTopWidth: 5,
-    borderColor: OrangeColor
+    borderColor: OrangeColor,
   },
   pickedText: {
     color: BlueColor,
@@ -107,17 +108,17 @@ const NotificationList = props => (
       rightMenuIcon={Images.menu}
     />
     <View style={styles.headerView}>
-      <View style={styles.pickedView}>
+      <View style={[styles.pickedView, { borderColor: (Number(props.orderStatus) === 5 || Number(props.orderStatus) === 2 || Number(props.orderStatus) === 3) ? OrangeColor : defultColor }]}>
         <Text style={styles.pickedText}>
           Order Picked
         </Text>
       </View>
-      <View style={styles.orderWayView}>
+      <View style={[styles.orderWayView, { borderColor: (Number(props.orderStatus) === 3 || Number(props.orderStatus) === 2) ? OrangeColor : defultColor }]}>
         <Text style={styles.deliveredText}>
           Order On the Way
         </Text>
       </View>
-      <View style={styles.deliveredView}>
+      <View style={[styles.deliveredView, { borderColor: (Number(props.orderStatus) === 3) ? OrangeColor : defultColor }]}>
         <Text style={styles.deliveredText}>
           Delivered
         </Text>
