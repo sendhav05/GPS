@@ -18,6 +18,7 @@ import { OrangeColor } from '../../../utils/constants';
 const { width } = Dimensions.get('window');
 const brownOrangeColor = 'rgba(255,101,70,1)';
 const blueTextColor = 'rgba(97,90,188,1)';
+const disbaledBrownOrangeColor = 'rgba(255,101,70,0.6)';
 
 const styles = StyleSheet.create({
   container: {
@@ -198,7 +199,9 @@ const CustomerHome = props => (
                 -
           </Text>
         </TouchableOpacity>
-        <Text style={[styles.buttonText, { color: OrangeColor, marginLeft: 15, marginRight: 15, marginTop: 10 }]}>
+        <Text style={[styles.buttonText, {
+ color: OrangeColor, marginLeft: 15, marginRight: 15, marginTop: 10 
+}]}>
           {props.totalorder}
         </Text>
         <TouchableOpacity
@@ -244,8 +247,10 @@ const CustomerHome = props => (
       </Text>
       <View style={{ flex: 1, marginTop: 30 }}>
         <TouchableOpacity
-          style={styles.orderButton}
-          onPress={() => props.onGoToPickupPress()}
+          style={[styles.orderButton, { backgroundColor: props.isEnabledGotoPickupButton ? brownOrangeColor : disbaledBrownOrangeColor }]}
+          disabled={!props.isEnabledGotoPickupButton}
+          activeOpacity={props.isEnabledGotoPickupButton ? 0.3 : 1}
+          onPress={() => (props.isEnabledGotoPickupButton ? props.onGoToPickupPress() : {})}
         >
           <Text style={styles.buttonText}>
             Go to Pickup

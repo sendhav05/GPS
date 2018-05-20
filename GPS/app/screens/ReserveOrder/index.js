@@ -39,6 +39,7 @@ class OrderPlaceView extends Component {
     const navigationParams = this.props.navigation.state.params;
     isCalledRefresh = (navigationParams && navigationParams.isCalledRefresh) ? true : false;
     this.state = {
+      isEnabledGotoPickupButton: false,
       isShowImagePopup: false,
       totalorder: 1,
       currentSecond: '60',
@@ -92,6 +93,7 @@ class OrderPlaceView extends Component {
         warehouseDetails = nextProps.reserveOrderResponse.response.data.warehouse_details;
         timerId = setInterval(() => this.setTimePassed(), 1000);
         isCallReserveAPI = false;
+        this.setState({ isEnabledGotoPickupButton: true });
         return;
       }
       showPopupAlert('Successfully delivered orders.');
@@ -265,6 +267,7 @@ class OrderPlaceView extends Component {
     const utils = new Utils();
     utils.checkInternetConnectivity((reach) => {
       if (reach) {
+        this.setState({ isEnabledGotoPickupButton: false });
         this.props.orderPutBackRequest(driverID, navigationParams.selectedWareHouse.warehouse_id);
       } else {
         showPopupAlertWithTile(constant.OFFLINE_TITLE, constant.OFFLINE_MESSAGE);
@@ -497,6 +500,7 @@ class OrderPlaceView extends Component {
             totalorder={this.state.totalorder}
             currentSecond={this.state.currentSecond}
             isShowReserveOrderView={this.state.isShowReserveOrderView}
+            isEnabledGotoPickupButton={this.state.isEnabledGotoPickupButton}
           />
      :
           <PendingPickupOrder
