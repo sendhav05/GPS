@@ -160,7 +160,7 @@ const SignIn = props => (
               onPress={() => props.onLoginPress()}
             >
               <Text style={styles.buttonText}>
-                Login
+                Forgot Password
               </Text>
             </TouchableOpacity>
             {/* <TouchableOpacity

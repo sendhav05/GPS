@@ -29,7 +29,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      emailPhoneNumber: 'N1@gmail.com',
+      emailPhoneNumber: '',
     };
   }
 
