@@ -91,7 +91,7 @@ const OrderCell = props => (
         {`Contact: ${props.data.item.contact_no}`}
       </Text>
       <Text style={style.address} numberOfLines={1} ellipsizeMode="tail" >
-        {`${props.data.item.address}, ${props.data.item.city}, ${props.data.item.state}`}
+        {props.finalAddress}
       </Text>
     </View>
     <View style={[style.dividerLine]} />
@@ -99,9 +99,13 @@ const OrderCell = props => (
 );
 
 OrderCell.propTypes = {
+  contact_no: PropTypes.string,
+  name: PropTypes.string,
 };
 
 OrderCell.defaultProps = {
+  contact_no: '',
+  name: '',
 };
 
 export default OrderCell;

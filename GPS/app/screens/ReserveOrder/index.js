@@ -6,9 +6,7 @@
 /* eslint-disable react/sort-comp, react/prop-types */
 
 import React, { Component } from 'react';
-import {
-  View,
-} from 'react-native';
+import {View,} from 'react-native';
 import { connect } from 'react-redux';
 import getDirections from 'react-native-google-maps-directions';
 import OrderPlace from './components/OrderPlace';
@@ -37,7 +35,7 @@ class OrderPlaceView extends Component {
   constructor(props) {
     super(props);
     const navigationParams = this.props.navigation.state.params;
-    isCalledRefresh = (navigationParams && navigationParams.isCalledRefresh) ? true : false;
+    isCalledRefresh = !!((navigationParams && navigationParams.isCalledRefresh));
     this.state = {
       isEnabledGotoPickupButton: false,
       isShowImagePopup: false,
@@ -200,7 +198,6 @@ class OrderPlaceView extends Component {
     clearInterval(timerId);
     new Utils().getItemWithKey('DRIVER_USER_DETAILS', (response) => {
       if (response && response.online_status) {
-
         const navigationParams = this.props.navigation.state.params;
         if (this.state.totalorder) {
           // let orderids = '';
@@ -300,8 +297,12 @@ class OrderPlaceView extends Component {
       },
       params: [
         {
-          key: 'dirflg',
-          value: 'w',
+          key: 'travelmode',
+          value: 'driving', // may be "walking", "bicycling" or "transit" as well
+        },
+        {
+          key: 'dir_action',
+          value: 'navigate', // this instantly initializes navigation using the given travel mode
         },
       ],
     };
@@ -411,8 +412,12 @@ class OrderPlaceView extends Component {
       },
       params: [
         {
-          key: 'dirflg',
-          value: 'w',
+          key: "travelmode",
+          value: "driving"        // may be "walking", "bicycling" or "transit" as well
+        },
+        {
+          key: "dir_action",
+          value: "navigate"       // this instantly initializes navigation using the given travel mode 
         },
       ],
     };
@@ -431,8 +436,12 @@ class OrderPlaceView extends Component {
       },
       params: [
         {
-          key: 'dirflg',
-          value: 'w',
+          key: "travelmode",
+          value: "driving"        // may be "walking", "bicycling" or "transit" as well
+        },
+        {
+          key: "dir_action",
+          value: "navigate"       // this instantly initializes navigation using the given travel mode 
         },
       ],
     };
@@ -448,8 +457,8 @@ class OrderPlaceView extends Component {
 
   setAvaterSource(uri, multipartBody) {
     if (uri && uri.length > 0 && multipartBody) {
-      this.uploadDocumentReq(multipartBody)
-    } 
+      this.uploadDocumentReq(multipartBody);
+    }
   }
 
   uploadDocumentReq(multipartBody) {
@@ -517,10 +526,10 @@ class OrderPlaceView extends Component {
             state={state}
             address={address}
           />
-          
+
           }
-      {/* {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />} */}
-      {
+        {/* {this.props.isLoading && <Loader isAnimating={this.props.isLoading} />} */}
+        {
               this.state.isShowImagePopup &&
               <ChooseImagePopup
                 isHaveImage={false}

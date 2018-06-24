@@ -99,12 +99,7 @@ class App extends Component {
         });
       }
     } else if (status) {
-      const actionToDispatch = NavigationActions.reset({
-        index: 0,
-        key: null,
-        actions: [NavigationActions.navigate({ routeName: 'driverStack' })],
-      });
-      this.props.navigation.dispatch(actionToDispatch);
+      navigate('DriverDocument', { isFromCustomer: true });
     } else {
       navigate('VerifyOTP', {
         isFromCustomer: this.props.navigation.state.params.isFromCustomer,

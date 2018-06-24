@@ -85,13 +85,13 @@ const WareHouseListCell = props => (
         style={style.rightArrow}
       />
       <Text style={style.userTitle} numberOfLines={1} ellipsizeMode="tail" >
-        {props.data.item.warehousename}
+        {props.data.item.warehousename ? props.data.item.warehousename : ''}
       </Text>
       <Text style={style.time}>
-        {`Contact: ${props.data.item.contact}`}
+        {`Contact: ${props.data.item.contact ? props.data.item.contact : ''}`}
       </Text>
       <Text style={style.address} numberOfLines={1} ellipsizeMode="tail" >
-        {`${props.data.item.address}, ${props.data.item.city}, ${props.data.item.state}`}
+        {props.finalAddress}
       </Text>
     </View>
     <View style={[style.dividerLine]} />
@@ -99,9 +99,19 @@ const WareHouseListCell = props => (
 );
 
 WareHouseListCell.propTypes = {
+  warehousename: PropTypes.string,
+  contact: PropTypes.string,
+  address: PropTypes.string,
+  city: PropTypes.string,
+  state: PropTypes.string,
 };
 
 WareHouseListCell.defaultProps = {
+  warehousename: '',
+  contact: '',
+  address: '',
+  city: '',
+  state: '',
 };
 
 export default WareHouseListCell;

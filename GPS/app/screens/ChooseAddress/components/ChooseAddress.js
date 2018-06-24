@@ -12,6 +12,7 @@ import {
 import PropTypes from 'prop-types';
 import Images from '../../../assets/images';
 import NavBar from '../../../components/NavBar';
+import TouchableHold from '../../../components/TouchableHold';
 import { BlueColor, OrangeColor, ButtonFontSize, GrayColor, HeaderFontSize, WhiteColor } from '../../../utils/constants';
 
 const { width } = Dimensions.get('window');
@@ -140,7 +141,7 @@ const ChooseAddress = props => (
         autoCapitalize="characters"
         autoCorrect={Boolean(true)}
       />
-      <TextInput
+      {/* <TextInput
         style={styles.textInput}
         placeholder="Landmark"
         placeholderTextColor={BlueColor}
@@ -149,7 +150,7 @@ const ChooseAddress = props => (
         underlineColorAndroid="transparent"
         autoCapitalize="characters"
         autoCorrect={Boolean(true)}
-      />
+      /> */}
       <TextInput
         style={styles.textInput}
         placeholder="City"
@@ -172,7 +173,7 @@ const ChooseAddress = props => (
       />
       <TextInput
         style={styles.textInput}
-        placeholder="Pin Code"
+        placeholder="Zip Code"
         placeholderTextColor={BlueColor}
         onChangeText={pinCode => props.updatePinCode(pinCode)}
         value={props.pinCode}
@@ -207,7 +208,7 @@ const ChooseAddress = props => (
         autoCapitalize="characters"
         autoCorrect={Boolean(true)}
       />
-      <TextInput
+      {/* <TextInput
         style={styles.textInputNewAddress}
         placeholder="Landmark"
         placeholderTextColor="rgb(97,97,97)"
@@ -216,7 +217,7 @@ const ChooseAddress = props => (
         underlineColorAndroid="transparent"
         autoCapitalize="characters"
         autoCorrect={Boolean(true)}
-      />
+      /> */}
       <TextInput
         style={styles.textInputNewAddress}
         placeholder="City"
@@ -239,7 +240,7 @@ const ChooseAddress = props => (
       />
       <TextInput
         style={styles.textInputNewAddress}
-        placeholder="Pin Code"
+        placeholder="Zip Code"
         placeholderTextColor="rgb(97,97,97)"
         onChangeText={pinCode => props.supdatePinCode(pinCode)}
         value={props.isDefaultAddressSelected ? props.pinCode : props.spinCode}
@@ -249,14 +250,14 @@ const ChooseAddress = props => (
     </View>
       }
     <View style={{ flex: 1, marginTop: 15, marginBottom: 10 }}>
-      <TouchableOpacity
+      <TouchableHold
         style={styles.orderButton}
         onPress={() => props.onAddButtonPress()}
       >
         <Text style={styles.buttonText}>
           Save
         </Text>
-      </TouchableOpacity>
+      </TouchableHold>
     </View>
   </View>
 );

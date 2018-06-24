@@ -3,6 +3,7 @@
  * https://github.com/facebook/react-native
  * @flow
  */
+/* eslint-disable react/sort-comp, react/prop-types */
 
 import React, { Component } from 'react';
 import {
@@ -32,28 +33,66 @@ class SignupUser extends Component {
   componentWillReceiveProps(nextProps) {
     if (!nextProps.isLoading
       && nextProps.userSignupResponse.response
-      && nextProps.userSignupResponse.status === 200
-      && (nextProps.userSignupResponse.response.status === 1 || nextProps.userSignupResponse.response.status === 'success')) {
-      console.log('*********** nextProps.userSignupResponse', nextProps.userSignupResponse);
-      const { goBack } = this.props.navigation;
-      goBack(null);
-      if (nextProps.userSignupResponse.response.message && typeof nextProps.userSignupResponse.response.message === 'string') {
-        showPopupAlert(nextProps.userSignupResponse.response.message);
-        return;
+      && nextProps.userSignupResponse.response.status_code === 200) {
+      const utils = new Utils();
+      if (nextProps.userSignupResponse.response.status) {
+        if (this.props.navigation.state.params.isFromCustomer) {
+          utils.setCustomerID(nextProps.userSignupResponse.response.data.user_id);
+          utils.setItemWithKeyAndValue('CUSTOMER_USER_DETAILS', nextProps.userSignupResponse.response.data);
+          utils.setItemWithKeyAndValue('CUSTOMER_USER_PASSWORD', this.state.password );
+        } else {
+          utils.setDriverID(nextProps.userSignupResponse.response.data.user_id);
+          utils.setItemWithKeyAndValue('DRIVER_USER_DETAILS', nextProps.userSignupResponse.response.data);
+          utils.setItemWithKeyAndValue('DRIVER_USER_PASSWORD', this.state.password );
+        }
+        this.navigateTOScreen(Number(nextProps.userSignupResponse.response.data.status));
+      } else {
+        if (this.props.navigation.state.params.isFromCustomer) {
+          utils.setCustomerID(nextProps.userSignupResponse.response.data.user_id);
+          utils.setItemWithKeyAndValue('CUSTOMER_USER_DETAILS', nextProps.userSignupResponse.response.data);
+          // utils.setItemWithKeyAndValue('CUSTOMER_USER_PASSWORD', this.state.password );
+        } else {
+          utils.setDriverID(nextProps.userSignupResponse.response.data.user_id);
+          utils.setItemWithKeyAndValue('DRIVER_USER_DETAILS', nextProps.userSignupResponse.response.data);
+          // utils.setItemWithKeyAndValue('DRIVER_USER_PASSWORD', this.state.password );
+        }
+        this.navigateTOScreen(Number(0));
       }
-      showPopupAlert('You have successfully registered in');
-      // const { navigate } = this.props.navigation;
-      // navigate('VerifyOTP', { isFromCustomer: this.props.navigation.state.params.isFromCustomer });
-      // this.props.resetUserSignupData();
     } else if (!nextProps.isLoading && nextProps.userSignupResponse.response
-      && (nextProps.userSignupResponse.status !== 200
-      || nextProps.userSignupResponse.response.status !== 1)) {
+      && nextProps.userSignupResponse.response.status_code !== 200) {
       if (nextProps.userSignupResponse.response.message && typeof nextProps.userSignupResponse.response.message === 'string') {
         showPopupAlert(nextProps.userSignupResponse.response.message);
         return;
       }
       showPopupAlert(constant.SERVER_ERROR_MESSAGE);
-      // this.props.resetUserSignupData();
+    }
+  }
+
+  navigateTOScreen(status) {
+    const { navigate } = this.props.navigation;
+    if (this.props.navigation.state.params.isFromCustomer) {
+      if (status) {
+        const actionToDispatch = NavigationActions.reset({
+          index: 0,
+          key: null,
+          actions: [NavigationActions.navigate({ routeName: 'drawerStack' })],
+        });
+        this.props.navigation.dispatch(actionToDispatch);
+      } else {
+        navigate('VerifyOTP', {
+          isFromCustomer: this.props.navigation.state.params.isFromCustomer,
+          emailPhoneNumber: this.state.emailPhoneNumber,
+          password: this.state.password,
+        });
+      }
+    } else if (status) {
+      navigate('DriverDocument', { isFromCustomer: true });
+    } else {
+      navigate('VerifyOTP', {
+        isFromCustomer: this.props.navigation.state.params.isFromCustomer,
+        emailPhoneNumber: this.state.emailPhoneNumber,
+        password: this.state.password,
+      });
     }
   }
 

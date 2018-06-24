@@ -187,9 +187,26 @@ class CustomerOrderView extends Component {
   }
 
   getRenderRow(item) {
+    let finalAddress = '';
+    if (item.item.address) {
+      finalAddress = item.item.address;
+    } else if (item.item.city) {
+      if (finalAddress && finalAddress !== '') {
+        finalAddress = `${finalAddress}, ${item.item.city}`;
+      } else {
+        finalAddress = `${item.item.city}`;
+      }
+    } else if (item.item.state) {
+      if (finalAddress && finalAddress !== '') {
+        finalAddress = `${finalAddress}, ${item.item.state}`;
+      } else {
+        finalAddress = `${item.item.state}`;
+      }
+    }
     return (
       <OrderCell
         data={item}
+        finalAddress={finalAddress}
         onCellSelectionPress={selectedItem => this.onCellSelectionPress(selectedItem)}
       />
     );

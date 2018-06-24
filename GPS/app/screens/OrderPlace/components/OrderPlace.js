@@ -13,6 +13,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import PropTypes from 'prop-types';
 import Images from '../../../assets/images';
 import NavBar from '../../../components/NavBar';
+import TouchableHold from '../../../components/TouchableHold';
 
 const { width } = Dimensions.get('window');
 const brownOrangeColor = 'rgba(255,101,70,1)';
@@ -211,14 +212,14 @@ const CustomerHome = props => (
           </View>
         </TouchableOpacity>
         <View style={{ flex: 1 }}>
-          <TouchableOpacity
+          <TouchableHold
             style={styles.orderButton}
             onPress={() => props.onOrderPress()}
           >
             <Text style={styles.buttonText}>
               Order
             </Text>
-          </TouchableOpacity>
+          </TouchableHold>
         </View>
       </View>
       {
